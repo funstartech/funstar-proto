@@ -1,0 +1,11 @@
+type: google.api.Service
+config_version: 3
+
+http:
+  rules:
+    - selector: funstar.server.auth.AuthSvr.Login
+      post: /auth/login
+      body: "*"
+    - selector: funstar.server.todo.TodoSvr.CreateTodo
+      post: /todo
+      body: "*"

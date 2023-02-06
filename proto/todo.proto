@@ -1,0 +1,14 @@
+syntax = "proto3";
+package funstar.server.todo;
+option go_package = "server/todo";
+
+message CreateTodoReq {
+  string title = 1;
+}
+
+message CreateTodoRsp {
+}
+
+service TodoSvr {
+  rpc CreateTodo (CreateTodoReq) returns (CreateTodoRsp);
+}

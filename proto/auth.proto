@@ -1,0 +1,17 @@
+syntax = "proto3";
+package funstar.server.auth;
+option go_package = "server/auth";
+
+message LoginReq {
+  string code = 1;
+}
+
+message LoginRsp {
+  string access_token = 1;
+  int32 expires_in = 2;
+}
+
+service AuthSvr {
+  // 登录鉴权
+  rpc Login (LoginReq) returns (LoginRsp);
+}
