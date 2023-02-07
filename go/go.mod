@@ -1,4 +1,4 @@
-module github.com/funstartech/funstar-proto
+module github.com/funstartech/funstar-proto/go
 
 go 1.16
 
