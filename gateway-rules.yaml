@@ -4,9 +4,9 @@ config_version: 3
 http:
   rules:
     - selector: funstar.server.auth.AuthSvr.Login
-      post: /auth/login
+      post: /auth/Login
       body: "*"
 
     - selector: funstar.server.userinfo.UserInfoSvr.GetUserInfo
-      post: /getUserInfo
+      post: /userinfo/GetUserInfo
       body: "*"
