@@ -79,7 +79,7 @@ func RegisterUserInfoSvrHandlerServer(ctx context.Context, mux *runtime.ServeMux
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/funstar.server.userinfo.UserInfoSvr/GetUserInfo", runtime.WithHTTPPathPattern("/getUserInfo"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/funstar.server.userinfo.UserInfoSvr/GetUserInfo", runtime.WithHTTPPathPattern("/userinfo/GetUserInfo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -143,7 +143,7 @@ func RegisterUserInfoSvrHandlerClient(ctx context.Context, mux *runtime.ServeMux
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/funstar.server.userinfo.UserInfoSvr/GetUserInfo", runtime.WithHTTPPathPattern("/getUserInfo"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/funstar.server.userinfo.UserInfoSvr/GetUserInfo", runtime.WithHTTPPathPattern("/userinfo/GetUserInfo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -163,7 +163,7 @@ func RegisterUserInfoSvrHandlerClient(ctx context.Context, mux *runtime.ServeMux
 }
 
 var (
-	pattern_UserInfoSvr_GetUserInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"getUserInfo"}, ""))
+	pattern_UserInfoSvr_GetUserInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"userinfo", "GetUserInfo"}, ""))
 )
 
 var (
