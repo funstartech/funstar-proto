@@ -6,6 +6,7 @@ http:
     - selector: funstar.server.auth.AuthSvr.Login
       post: /auth/login
       body: "*"
-    - selector: funstar.server.todo.TodoSvr.CreateTodo
-      post: /todo
+
+    - selector: funstar.server.userinfo.UserInfoSvr.GetUserInfo
+      post: /getUserInfo
       body: "*"

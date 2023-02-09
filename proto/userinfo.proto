@@ -1,0 +1,32 @@
+syntax = "proto3";
+package funstar.server.userinfo;
+option go_package = "server/userinfo";
+
+message UserInfo {
+  string openid = 1;
+  string avatar = 2;
+  string nickname = 3;
+}
+
+message GetUserInfoReq {
+  string share_id = 1;
+}
+
+message GetUserInfoRsp {
+    UserInfo userinfo = 1;
+}
+
+message UpdateUserInfoReq {
+  string avatar = 1;
+  string nickname = 2;
+}
+
+message UpdateUserInfoRsp {
+}
+
+service UserInfoSvr {
+  // 获取用户信息
+  rpc GetUserInfo (GetUserInfoReq) returns (GetUserInfoRsp);
+  // 更新用户信息
+  rpc UpdateUserInfo (UpdateUserInfoReq) returns (UpdateUserInfoRsp);
+}
