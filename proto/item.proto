@@ -1,0 +1,57 @@
+syntax = "proto3";
+package funstar.server.item;
+option go_package = "server/item";
+
+// 商品等级
+enum ProductLevel {
+  PRODUCT_LEVEL_UNKNOWN = 0; // 未知等级
+  PRODUCT_LEVEL_L1 = 1; // 普通款
+  PRODUCT_LEVEL_L2 = 2; // 稀有款
+  PRODUCT_LEVEL_L3 = 3; // 欧皇款
+  PRODUCT_LEVEL_L4 = 4; // 超神款
+}
+
+// 商品结构
+message ProductBasic {
+  uint32 pid = 1; // 商品id
+  string cover = 2; // 封面图
+  string title = 3; // 标题
+  string desc = 4; // 描述
+  uint32 price = 5; // 价格
+  uint32 product_level = 6; // 商品等级 ProductLevel
+}
+
+// 赏结构
+message CollectionBasic {
+  uint32 cid = 1; // 赏id
+  string cover = 2; // 封面图
+  string title = 3; // 标题
+  string desc = 4; // 描述
+  uint32 price = 5; // 价格
+  uint32 product_count = 6; // 商品数量
+}
+
+message GetCollectionListReq {
+  uint32 page = 1;
+}
+
+message GetCollectionListRsp {
+  repeated CollectionBasic collections = 1;
+}
+
+message GetCollectionDetailReq {
+  uint32 cid = 1;
+}
+
+message GetCollectionDetailRsp {
+  CollectionBasic collection_basic = 1;
+  repeated ProductBasic products = 2; // 商品列表
+  map<uint32, float> lottery_probability = 3; // 抽奖概率 key:ProductLevel
+}
+
+service CollectionSvr {
+  // 拉取赏列表
+  rpc GetCollectionList (GetCollectionListReq) returns (GetCollectionListRsp);
+  // 拉取赏详情
+  rpc GetCollectionDetail (GetCollectionDetailReq) returns (GetCollectionDetailRsp);
+}

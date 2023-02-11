@@ -10,3 +10,11 @@ http:
     - selector: funstar.server.userinfo.UserInfoSvr.GetUserInfo
       post: /userinfo/GetUserInfo
       body: "*"
+
+    - selector: funstar.server.item.CollectionSvr.GetCollectionList
+      post: /item/GetCollectionList
+      body: "*"
+
+    - selector: funstar.server.item.CollectionSvr.GetCollectionDetail
+      post: /item/GetCollectionDetail
+      body: "*"
