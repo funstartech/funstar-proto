@@ -18,8 +18,10 @@ message GetUserInfoRsp {
 }
 
 message UpdateUserInfoReq {
-  string avatar = 1;
-  string nickname = 2;
+  UserInfo user = 1;
+
+  bool update_avatar = 11;
+  bool update_nickname = 12;
 }
 
 message UpdateUserInfoRsp {
