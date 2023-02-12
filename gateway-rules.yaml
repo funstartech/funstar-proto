@@ -16,13 +16,15 @@ http:
       post: /userinfo/UpdateUserInfo
       body: "*"
 
-      # 商品服务 item
-    - selector: funstar.server.item.CollectionSvr.GetCollectionList
-      post: /item/collection/GetCollectionList
+      # 赏服务 collection
+    - selector: funstar.server.collection.CollectionSvr.GetCollectionList
+      post: /collection/GetCollectionList
       body: "*"
-    - selector: funstar.server.item.CollectionSvr.GetCollectionDetail
-      post: /item/collection/GetCollectionDetail
+    - selector: funstar.server.collection.CollectionSvr.GetCollectionDetail
+      post: /collection/GetCollectionDetail
       body: "*"
-    - selector: funstar.server.item.ProductSvr.GetProductDetail
-      post: /item/product/GetProductDetail
+
+      # 商品服务 product
+    - selector: funstar.server.product.ProductSvr.GetProductDetail
+      post: /product/GetProductDetail
       body: "*"

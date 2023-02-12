@@ -1,6 +1,6 @@
 syntax = "proto3";
-package funstar.server.item;
-option go_package = "server/item";
+package funstar.server.product;
+option go_package = "server/product";
 
 // 商品等级
 enum ProductLevel {
@@ -47,51 +47,6 @@ message ProductDetail {
   repeated string images = 8; // 详情图片
 }
 
-// 赏基础信息结构
-message CollectionBasic {
-  uint32 cid = 1; // 赏id
-  string cover = 2; // 封面图
-  string title = 3; // 标题
-  string desc = 4; // 描述
-  uint32 price = 5; // 价格
-  uint32 product_count = 6; // 商品数量
-}
-
-message GetCollectionListReq {
-  uint32 page = 1;
-}
-
-message GetCollectionListRsp {
-  repeated CollectionBasic collections = 1;
-}
-
-message GetCollectionDetailReq {
-  uint32 cid = 1;
-}
-
-message GetCollectionDetailRsp {
-  CollectionBasic collection_basic = 1;
-  repeated ProductBasic products = 2; // 商品列表
-  map<uint32, float> lottery_probability = 3; // 抽奖概率 key:ProductLevel
-}
-
-message BatchGetCollectionBasicReq {
-  repeated uint32 cid = 1;
-}
-message BatchGetCollectionBasicRsp {
-  repeated CollectionBasic collections = 1;
-}
-
-service CollectionSvr {
-  // 拉取赏列表
-  rpc GetCollectionList (GetCollectionListReq) returns (GetCollectionListRsp);
-  // 批量拉取赏基础信息
-  rpc BatchGetCollectionBasic (BatchGetCollectionBasicReq) returns (BatchGetCollectionBasicRsp);
-  // 拉取赏详情
-  rpc GetCollectionDetail (GetCollectionDetailReq) returns (GetCollectionDetailRsp);
-}
-
-///////////////////////////////////////////////
 message BatchGetProductBasicReq {
   repeated uint32 pid = 1;
 }

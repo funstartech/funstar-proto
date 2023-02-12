@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.21.8
-// source: proto/userinfo.proto
+// source: userinfo.proto
 
 package userinfo
 
@@ -141,5 +141,5 @@ var UserInfoSvr_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/userinfo.proto",
+	Metadata: "userinfo.proto",
 }
