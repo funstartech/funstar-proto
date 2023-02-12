@@ -4,14 +4,14 @@ option go_package = "server/item";
 
 // 商品等级
 enum ProductLevel {
-  PRODUCT_LEVEL_UNKNOWN = 0; // 未知等级
+  PRODUCT_LEVEL_UNKNOWN = 0; // 未知
   PRODUCT_LEVEL_L1 = 1; // 普通款
   PRODUCT_LEVEL_L2 = 2; // 稀有款
   PRODUCT_LEVEL_L3 = 3; // 欧皇款
   PRODUCT_LEVEL_L4 = 4; // 超神款
 }
 
-// 商品结构
+// 商品基础信息结构
 message ProductBasic {
   uint32 pid = 1; // 商品id
   string cover = 2; // 封面图
@@ -21,7 +21,33 @@ message ProductBasic {
   uint32 product_level = 6; // 商品等级 ProductLevel
 }
 
-// 赏结构
+// 出售状态
+enum SaleStatus {
+  SALE_STATUS_UNKNOWN = 0; // 未知
+  SALE_STATUS_AVAILABLE = 1; // 现货
+  SALE_STATUS_UNAVAILABLE = 2; // 非现货
+}
+
+// 退货条款
+enum ReturnPolicy {
+  STATEMENT_UNKNOWN = 0; // 未知
+  STATEMENT_SUPPORT_7DAY = 1; // 支持7天无理由退货
+  STATEMENT_UNSUPPORT_7DAY = 2; // 不支持7天无理由退货
+}
+
+// 商品详情结构
+message ProductDetail {
+  uint32 pid = 1; // 商品id
+  string brand = 2; // 品牌
+  string pcode = 3; // 商品编号
+  string material = 4; // 材质
+  uint32 use_age = 5;// 使用年龄
+  uint32 sale_status = 6; // 出售状态 SaleStatus
+  uint32 return_policy = 7; // 退货条款 ReturnPolicy
+  repeated string images = 8; // 详情图片
+}
+
+// 赏基础信息结构
 message CollectionBasic {
   uint32 cid = 1; // 赏id
   string cover = 2; // 封面图
@@ -49,9 +75,42 @@ message GetCollectionDetailRsp {
   map<uint32, float> lottery_probability = 3; // 抽奖概率 key:ProductLevel
 }
 
+message BatchGetCollectionBasicReq {
+  repeated uint32 cid = 1;
+}
+message BatchGetCollectionBasicRsp {
+  repeated CollectionBasic collections = 1;
+}
+
 service CollectionSvr {
   // 拉取赏列表
   rpc GetCollectionList (GetCollectionListReq) returns (GetCollectionListRsp);
+  // 批量拉取赏基础信息
+  rpc BatchGetCollectionBasic (BatchGetCollectionBasicReq) returns (BatchGetCollectionBasicRsp);
   // 拉取赏详情
   rpc GetCollectionDetail (GetCollectionDetailReq) returns (GetCollectionDetailRsp);
+}
+
+///////////////////////////////////////////////
+message BatchGetProductBasicReq {
+  repeated uint32 pid = 1;
+}
+
+message BatchGetProductBasicRsp {
+  repeated ProductBasic products = 1;
+}
+
+message GetProductDetailReq {
+  uint32 pid = 1;
+}
+
+message GetProductDetailRsp {
+  ProductBasic product_basic = 1; // 基础信息
+  ProductDetail product_detail = 2; // 详情
+}
+service ProductSvr {
+  // 批量拉取商品基础信息
+  rpc BatchGetProductBasic (BatchGetProductBasicReq) returns (BatchGetProductBasicRsp);
+  // 拉取商品详情
+  rpc GetProductDetail (GetProductDetailReq) returns (GetProductDetailRsp);
 }

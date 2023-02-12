@@ -24,6 +24,8 @@ const _ = grpc.SupportPackageIsVersion7
 type CollectionSvrClient interface {
 	// 拉取赏列表
 	GetCollectionList(ctx context.Context, in *GetCollectionListReq, opts ...grpc.CallOption) (*GetCollectionListRsp, error)
+	// 批量拉取赏基础信息
+	BatchGetCollectionBasic(ctx context.Context, in *BatchGetCollectionBasicReq, opts ...grpc.CallOption) (*BatchGetCollectionBasicRsp, error)
 	// 拉取赏详情
 	GetCollectionDetail(ctx context.Context, in *GetCollectionDetailReq, opts ...grpc.CallOption) (*GetCollectionDetailRsp, error)
 }
@@ -45,6 +47,15 @@ func (c *collectionSvrClient) GetCollectionList(ctx context.Context, in *GetColl
 	return out, nil
 }
 
+func (c *collectionSvrClient) BatchGetCollectionBasic(ctx context.Context, in *BatchGetCollectionBasicReq, opts ...grpc.CallOption) (*BatchGetCollectionBasicRsp, error) {
+	out := new(BatchGetCollectionBasicRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.item.CollectionSvr/BatchGetCollectionBasic", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *collectionSvrClient) GetCollectionDetail(ctx context.Context, in *GetCollectionDetailReq, opts ...grpc.CallOption) (*GetCollectionDetailRsp, error) {
 	out := new(GetCollectionDetailRsp)
 	err := c.cc.Invoke(ctx, "/funstar.server.item.CollectionSvr/GetCollectionDetail", in, out, opts...)
@@ -60,6 +71,8 @@ func (c *collectionSvrClient) GetCollectionDetail(ctx context.Context, in *GetCo
 type CollectionSvrServer interface {
 	// 拉取赏列表
 	GetCollectionList(context.Context, *GetCollectionListReq) (*GetCollectionListRsp, error)
+	// 批量拉取赏基础信息
+	BatchGetCollectionBasic(context.Context, *BatchGetCollectionBasicReq) (*BatchGetCollectionBasicRsp, error)
 	// 拉取赏详情
 	GetCollectionDetail(context.Context, *GetCollectionDetailReq) (*GetCollectionDetailRsp, error)
 	mustEmbedUnimplementedCollectionSvrServer()
@@ -71,6 +84,9 @@ type UnimplementedCollectionSvrServer struct {
 
 func (UnimplementedCollectionSvrServer) GetCollectionList(context.Context, *GetCollectionListReq) (*GetCollectionListRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCollectionList not implemented")
+}
+func (UnimplementedCollectionSvrServer) BatchGetCollectionBasic(context.Context, *BatchGetCollectionBasicReq) (*BatchGetCollectionBasicRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchGetCollectionBasic not implemented")
 }
 func (UnimplementedCollectionSvrServer) GetCollectionDetail(context.Context, *GetCollectionDetailReq) (*GetCollectionDetailRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCollectionDetail not implemented")
@@ -106,6 +122,24 @@ func _CollectionSvr_GetCollectionList_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CollectionSvr_BatchGetCollectionBasic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchGetCollectionBasicReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CollectionSvrServer).BatchGetCollectionBasic(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.item.CollectionSvr/BatchGetCollectionBasic",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CollectionSvrServer).BatchGetCollectionBasic(ctx, req.(*BatchGetCollectionBasicReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _CollectionSvr_GetCollectionDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetCollectionDetailReq)
 	if err := dec(in); err != nil {
@@ -136,8 +170,138 @@ var CollectionSvr_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CollectionSvr_GetCollectionList_Handler,
 		},
 		{
+			MethodName: "BatchGetCollectionBasic",
+			Handler:    _CollectionSvr_BatchGetCollectionBasic_Handler,
+		},
+		{
 			MethodName: "GetCollectionDetail",
 			Handler:    _CollectionSvr_GetCollectionDetail_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "proto/item.proto",
+}
+
+// ProductSvrClient is the client API for ProductSvr service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type ProductSvrClient interface {
+	// 批量拉取商品基础信息
+	BatchGetProductBasic(ctx context.Context, in *BatchGetProductBasicReq, opts ...grpc.CallOption) (*BatchGetProductBasicRsp, error)
+	// 拉取商品详情
+	GetProductDetail(ctx context.Context, in *GetProductDetailReq, opts ...grpc.CallOption) (*GetProductDetailRsp, error)
+}
+
+type productSvrClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewProductSvrClient(cc grpc.ClientConnInterface) ProductSvrClient {
+	return &productSvrClient{cc}
+}
+
+func (c *productSvrClient) BatchGetProductBasic(ctx context.Context, in *BatchGetProductBasicReq, opts ...grpc.CallOption) (*BatchGetProductBasicRsp, error) {
+	out := new(BatchGetProductBasicRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.item.ProductSvr/BatchGetProductBasic", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productSvrClient) GetProductDetail(ctx context.Context, in *GetProductDetailReq, opts ...grpc.CallOption) (*GetProductDetailRsp, error) {
+	out := new(GetProductDetailRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.item.ProductSvr/GetProductDetail", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// ProductSvrServer is the server API for ProductSvr service.
+// All implementations must embed UnimplementedProductSvrServer
+// for forward compatibility
+type ProductSvrServer interface {
+	// 批量拉取商品基础信息
+	BatchGetProductBasic(context.Context, *BatchGetProductBasicReq) (*BatchGetProductBasicRsp, error)
+	// 拉取商品详情
+	GetProductDetail(context.Context, *GetProductDetailReq) (*GetProductDetailRsp, error)
+	mustEmbedUnimplementedProductSvrServer()
+}
+
+// UnimplementedProductSvrServer must be embedded to have forward compatible implementations.
+type UnimplementedProductSvrServer struct {
+}
+
+func (UnimplementedProductSvrServer) BatchGetProductBasic(context.Context, *BatchGetProductBasicReq) (*BatchGetProductBasicRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchGetProductBasic not implemented")
+}
+func (UnimplementedProductSvrServer) GetProductDetail(context.Context, *GetProductDetailReq) (*GetProductDetailRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetProductDetail not implemented")
+}
+func (UnimplementedProductSvrServer) mustEmbedUnimplementedProductSvrServer() {}
+
+// UnsafeProductSvrServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ProductSvrServer will
+// result in compilation errors.
+type UnsafeProductSvrServer interface {
+	mustEmbedUnimplementedProductSvrServer()
+}
+
+func RegisterProductSvrServer(s grpc.ServiceRegistrar, srv ProductSvrServer) {
+	s.RegisterService(&ProductSvr_ServiceDesc, srv)
+}
+
+func _ProductSvr_BatchGetProductBasic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchGetProductBasicReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductSvrServer).BatchGetProductBasic(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.item.ProductSvr/BatchGetProductBasic",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductSvrServer).BatchGetProductBasic(ctx, req.(*BatchGetProductBasicReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProductSvr_GetProductDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetProductDetailReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductSvrServer).GetProductDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.item.ProductSvr/GetProductDetail",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductSvrServer).GetProductDetail(ctx, req.(*GetProductDetailReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// ProductSvr_ServiceDesc is the grpc.ServiceDesc for ProductSvr service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var ProductSvr_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "funstar.server.item.ProductSvr",
+	HandlerType: (*ProductSvrServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "BatchGetProductBasic",
+			Handler:    _ProductSvr_BatchGetProductBasic_Handler,
+		},
+		{
+			MethodName: "GetProductDetail",
+			Handler:    _ProductSvr_GetProductDetail_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
