@@ -1,6 +1,6 @@
 syntax = "proto3";
 package funstar.server.collection;
-option go_package = "server/collection";
+option go_package = "github.com/funstartech/funstar-proto/go/server/collection";
 
 import "product.proto";
 

@@ -1,3 +1,5 @@
-protoc --go_out=go --proto_path=proto proto/*.proto
-protoc --go-grpc_out=go --proto_path=proto proto/*.proto
-protoc --grpc-gateway_out=grpc_api_configuration=gateway-rules.yaml:go --proto_path=proto proto/*.proto
+PREFIX=github.com/funstartech/funstar-proto/go
+
+protoc -Iproto --go_out=module=${PREFIX}:go proto/*.proto
+protoc -Iproto --go-grpc_out=module=${PREFIX}:go proto/*.proto
+protoc -Iproto --grpc-gateway_out=module=${PREFIX},grpc_api_configuration=gateway-rules.yaml:go proto/*.proto

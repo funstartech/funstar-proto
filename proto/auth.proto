@@ -1,6 +1,6 @@
 syntax = "proto3";
 package funstar.server.auth;
-option go_package = "server/auth";
+option go_package = "github.com/funstartech/funstar-proto/go/server/auth";
 
 message LoginReq {
   string code = 1;

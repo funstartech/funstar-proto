@@ -1,6 +1,6 @@
 syntax = "proto3";
 package funstar.server.product;
-option go_package = "server/product";
+option go_package = "github.com/funstartech/funstar-proto/go/server/product";
 
 // 商品等级
 enum ProductLevel {

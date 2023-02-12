@@ -1,6 +1,6 @@
 syntax = "proto3";
 package funstar.server.userinfo;
-option go_package = "server/userinfo";
+option go_package = "github.com/funstartech/funstar-proto/go/server/userinfo";
 
 message UserInfo {
   string openid = 1;
