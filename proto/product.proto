@@ -17,7 +17,7 @@ message ProductBasic {
   string cover = 2; // 封面图
   string title = 3; // 标题
   string desc = 4; // 描述
-  uint32 price = 5; // 价格
+  float price = 5; // 价格
   uint32 product_level = 6; // 商品等级 ProductLevel
 }
 
@@ -39,13 +39,15 @@ enum ReturnPolicy {
 message ProductDetail {
   string pid = 1; // 商品id
   string brand = 2; // 品牌
-  string pcode = 3; // 商品编号
-  string material = 4; // 材质
-  string size = 5; // 尺寸
-  uint32 use_age = 6;// 适用年龄
-  uint32 sale_status = 7; // 出售状态 SaleStatus
-  uint32 return_policy = 8; // 退货条款 ReturnPolicy
-  repeated string images = 9; // 详情图片
+  string pcode = 3; // 条形码
+  string sku_code = 4; // 商品编码
+
+  string material = 101; // 材质
+  string size = 102; // 尺寸
+  uint32 use_age = 103;// 适用年龄
+  uint32 sale_status = 104; // 出售状态 SaleStatus
+  uint32 return_policy = 105; // 退货条款 ReturnPolicy
+  repeated string images = 106; // 详情图片
 }
 
 message BatchGetProductBasicReq {

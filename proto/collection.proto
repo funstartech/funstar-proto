@@ -10,8 +10,9 @@ message CollectionBasic {
   string cover = 2; // 封面图
   string title = 3; // 标题
   string desc = 4; // 描述
-  uint32 price = 5; // 价格
-  uint32 product_count = 6; // 商品数量
+  float price = 5; // 价格
+  float discount_price = 6; // 折扣价
+  uint32 product_count = 7; // 商品数量
 }
 
 message GetCollectionListReq {
@@ -35,6 +36,7 @@ message GetCollectionDetailRsp {
 message BatchGetCollectionBasicReq {
   repeated string cids = 1;
 }
+
 message BatchGetCollectionBasicRsp {
   repeated CollectionBasic collections = 1;
 }
