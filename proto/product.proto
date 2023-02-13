@@ -13,7 +13,7 @@ enum ProductLevel {
 
 // 商品基础信息结构
 message ProductBasic {
-  uint32 pid = 1; // 商品id
+  string pid = 1; // 商品id
   string cover = 2; // 封面图
   string title = 3; // 标题
   string desc = 4; // 描述
