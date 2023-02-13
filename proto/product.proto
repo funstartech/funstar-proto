@@ -41,10 +41,11 @@ message ProductDetail {
   string brand = 2; // 品牌
   string pcode = 3; // 商品编号
   string material = 4; // 材质
-  uint32 use_age = 5;// 适用年龄
-  uint32 sale_status = 6; // 出售状态 SaleStatus
-  uint32 return_policy = 7; // 退货条款 ReturnPolicy
-  repeated string images = 8; // 详情图片
+  string size = 5; // 尺寸
+  uint32 use_age = 6;// 适用年龄
+  uint32 sale_status = 7; // 出售状态 SaleStatus
+  uint32 return_policy = 8; // 退货条款 ReturnPolicy
+  repeated string images = 9; // 详情图片
 }
 
 message BatchGetProductBasicReq {
