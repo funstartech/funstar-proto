@@ -49,7 +49,7 @@ message ProductDetail {
 }
 
 message BatchGetProductBasicReq {
-  repeated string pid = 1;
+  repeated string pids = 1;
 }
 
 message BatchGetProductBasicRsp {
