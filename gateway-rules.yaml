@@ -3,12 +3,12 @@ config_version: 3
 
 http:
   rules:
-      # 鉴权服务 auth
+      # auth 鉴权服务
     - selector: funstar.server.auth.AuthSvr.Login
       post: /auth/Login
       body: "*"
 
-      # 用户服务 userinfo
+      # userinfo 用户服务
     - selector: funstar.server.userinfo.UserInfoSvr.GetUserInfo
       post: /userinfo/GetUserInfo
       body: "*"
@@ -16,7 +16,7 @@ http:
       post: /userinfo/UpdateUserInfo
       body: "*"
 
-      # 赏服务 collection
+      # collection 赏服务
     - selector: funstar.server.collection.CollectionSvr.GetCollectionList
       post: /collection/GetCollectionList
       body: "*"
@@ -24,7 +24,7 @@ http:
       post: /collection/GetCollectionDetail
       body: "*"
 
-      # 商品服务 product
+      # product 商品服务
     - selector: funstar.server.product.ProductSvr.GetProductDetail
       post: /product/GetProductDetail
       body: "*"
