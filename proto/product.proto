@@ -40,8 +40,7 @@ message ProductDetail {
   string pid = 1; // 商品id
   string brand = 2; // 品牌
   string pcode = 3; // 条形码
-  string sku_code = 4; // 商品编码
-  uint32 stock = 5; // 库存数量
+  uint32 stock = 4; // 库存数量
 
   string material = 101; // 材质
   string size = 102; // 尺寸
