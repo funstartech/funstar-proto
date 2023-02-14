@@ -1,0 +1,107 @@
+syntax = "proto3";
+package funstar.server.order;
+option go_package = "github.com/funstartech/funstar-proto/go/server/order";
+
+enum OrderStatus {
+  ORDER_STATUS_WAIT_PAY = 0; // 待支付
+  ORDER_STATUS_FINISHED = 1; // 已完成
+  ORDER_STATUS_CANCEL = 2; // 已取消
+}
+
+message OrderBasicInfo {
+  uint64 order_id = 1;
+  int64 create_time = 2;
+  uint32 order_status = 3; // 订单状态 OrderStatus
+  uint32 total_price = 4;
+}
+
+message Collection {
+  string cid = 1;
+  uint32 count = 2;
+  uint32 price = 3;    // 请求方无需填写
+  uint32 discount = 4; // 请求方无需填写
+  repeated string hit_pid_list = 5; // 命中的产品id列表，结果可展示时填入
+}
+
+message Product {
+  string pid = 1;
+  uint32 count = 2;
+  uint32 price = 3;    // 请求方无需填写
+  uint32 discount = 4; // 请求方无需填写
+}
+
+message Coupon {
+  string coupon_id = 1;
+  uint32 count = 2;
+}
+
+enum OrderRes {
+  ORDER_RES_OK = 0; // 订单状态符合预期
+  ORDER_RES_NO_ENOUGH_COUNT = 1; // 部分商品数量不足
+  ORDER_RES_HAS_INELIGIBLE_COUPON = 2; // 部分优惠券不可用
+
+  ORDER_RES_NO_SALE = 100; // 订单内所有商品都不可出售了
+}
+
+message OrderInfo {
+  OrderBasicInfo order_basic_info = 1; // 订单基础信息
+  repeated Collection collection_list = 2;
+  repeated Product product_list = 3;
+  repeated Coupon coupon_list = 4;  // 使用的优惠券列表
+}
+
+message CreateOrderReq {
+  repeated Collection collection_list = 1;
+  repeated Product product_list = 2;
+  repeated Coupon coupon_list = 3;  // 申请使用的优惠券列表
+}
+
+message CreateOrderRsp {
+  OrderInfo order_info = 1;
+
+  uint32 res = 20; // 下单结果 OrderRes
+}
+
+message PreviewOrderReq {
+  repeated Collection collection_list = 1;
+  repeated Product product_list = 2;
+  repeated Coupon coupon_list = 3;  // 申请使用的优惠券列表
+}
+
+message PreviewOrderRsp {
+  uint64 res = 1; // 同 OrderRes
+  repeated Collection collection_list = 2;
+  repeated Product product_list = 3;
+  repeated Coupon coupon_list = 4;  // 可使用的优惠券列表
+  uint32 total_price = 5;
+}
+
+message GetOrderInfoReq {
+  uint64 order_id = 1;
+}
+
+message GetOrderInfoRsp {
+  OrderInfo order_info = 1;
+}
+
+message GetUserOrderListReq {
+  string openid = 1;
+  uint32 seq = 2;   // 拉取第一页时填0，后续页信息填返回的next_seq
+  uint32 count = 3;
+}
+
+message GetUserOrderListRsp {
+  repeated OrderInfo order_info = 1;
+  uint32 next_seq = 2; // 后续页面带下
+}
+
+service OrderSvr {
+  // 正式创建订单
+  rpc CreateOrder (CreateOrderReq) returns (CreateOrderRsp);
+  // 订单预览
+  rpc PreviewOrder (PreviewOrderReq) returns (PreviewOrderRsp);
+  // 查询订单信息
+  rpc GetOrderInfo (GetOrderInfoReq) returns (GetOrderInfoRsp);
+  // 查询用户指定序号之前指定数量的订单
+  rpc GetUserOrderList (GetUserOrderListReq) returns (GetUserOrderListRsp);
+}
