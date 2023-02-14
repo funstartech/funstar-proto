@@ -15,6 +15,13 @@ message CollectionBasic {
   uint32 product_count = 7; // 商品数量
 }
 
+// 赏详情结构
+message CollectionDetail {
+  string cid = 1; // 赏id
+  map<uint32, float> lottery_probability = 2; // 抽奖概率 key:ProductLevel
+  repeated funstar.server.product.ProductBasic products = 3; // 商品列表
+}
+
 message GetCollectionListReq {
   uint32 page = 1;
 }
@@ -28,9 +35,8 @@ message GetCollectionDetailReq {
 }
 
 message GetCollectionDetailRsp {
-  CollectionBasic collection_basic = 1;
-  repeated funstar.server.product.ProductBasic products = 2; // 商品列表
-  map<uint32, float> lottery_probability = 3; // 抽奖概率 key:ProductLevel
+  CollectionBasic basic = 1; // 基础信息
+  CollectionDetail detail = 2; // 详情
 }
 
 message BatchGetCollectionBasicReq {
@@ -42,7 +48,7 @@ message BatchGetCollectionBasicRsp {
 }
 
 service CollectionSvr {
-  // 拉取赏列表
+  // 拉取赏排序流列表
   rpc GetCollectionList (GetCollectionListReq) returns (GetCollectionListRsp);
   // 批量拉取赏基础信息
   rpc BatchGetCollectionBasic (BatchGetCollectionBasicReq) returns (BatchGetCollectionBasicRsp);

@@ -64,8 +64,8 @@ message GetProductDetailReq {
 }
 
 message GetProductDetailRsp {
-  ProductBasic product_basic = 1; // 基础信息
-  ProductDetail product_detail = 2; // 详情
+  ProductBasic basic = 1; // 基础信息
+  ProductDetail detail = 2; // 详情
 }
 service ProductSvr {
   // 批量拉取商品基础信息

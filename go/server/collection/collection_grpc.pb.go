@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CollectionSvrClient interface {
-	// 拉取赏列表
+	// 拉取赏排序流列表
 	GetCollectionList(ctx context.Context, in *GetCollectionListReq, opts ...grpc.CallOption) (*GetCollectionListRsp, error)
 	// 批量拉取赏基础信息
 	BatchGetCollectionBasic(ctx context.Context, in *BatchGetCollectionBasicReq, opts ...grpc.CallOption) (*BatchGetCollectionBasicRsp, error)
@@ -69,7 +69,7 @@ func (c *collectionSvrClient) GetCollectionDetail(ctx context.Context, in *GetCo
 // All implementations must embed UnimplementedCollectionSvrServer
 // for forward compatibility
 type CollectionSvrServer interface {
-	// 拉取赏列表
+	// 拉取赏排序流列表
 	GetCollectionList(context.Context, *GetCollectionListReq) (*GetCollectionListRsp, error)
 	// 批量拉取赏基础信息
 	BatchGetCollectionBasic(context.Context, *BatchGetCollectionBasicReq) (*BatchGetCollectionBasicRsp, error)
