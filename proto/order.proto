@@ -9,10 +9,11 @@ enum OrderStatus {
 }
 
 message OrderBasicInfo {
-  uint64 order_id = 1;
+  uint64 id = 1;
   int64 create_time = 2;
-  uint32 order_status = 3; // 订单状态 OrderStatus
+  uint32 status = 3; // 订单状态 OrderStatus
   uint32 total_price = 4;
+  string openid = 5;
 }
 
 message Collection {
