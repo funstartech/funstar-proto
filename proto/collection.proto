@@ -13,12 +13,12 @@ message CollectionBasic {
   float price = 5; // 价格
   float discount_price = 6; // 折扣价
   uint32 product_count = 7; // 商品数量
+  map<uint32, float> lottery_probability = 8; // 抽奖概率 key:ProductLevel
 }
 
 // 赏详情结构
 message CollectionDetail {
   string cid = 1; // 赏id
-  map<uint32, float> lottery_probability = 2; // 抽奖概率 key:ProductLevel
   repeated funstar.server.product.ProductBasic products = 3; // 商品列表
 }
 
