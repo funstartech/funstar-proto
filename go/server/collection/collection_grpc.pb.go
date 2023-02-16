@@ -28,6 +28,8 @@ type CollectionSvrClient interface {
 	BatchGetCollectionBasic(ctx context.Context, in *BatchGetCollectionBasicReq, opts ...grpc.CallOption) (*BatchGetCollectionBasicRsp, error)
 	// 拉取赏详情
 	GetCollectionDetail(ctx context.Context, in *GetCollectionDetailReq, opts ...grpc.CallOption) (*GetCollectionDetailRsp, error)
+	// 抽奖（支持多抽）
+	Lottery(ctx context.Context, in *LotteryReq, opts ...grpc.CallOption) (*LotteryRsp, error)
 }
 
 type collectionSvrClient struct {
@@ -65,6 +67,15 @@ func (c *collectionSvrClient) GetCollectionDetail(ctx context.Context, in *GetCo
 	return out, nil
 }
 
+func (c *collectionSvrClient) Lottery(ctx context.Context, in *LotteryReq, opts ...grpc.CallOption) (*LotteryRsp, error) {
+	out := new(LotteryRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.collection.CollectionSvr/Lottery", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CollectionSvrServer is the server API for CollectionSvr service.
 // All implementations must embed UnimplementedCollectionSvrServer
 // for forward compatibility
@@ -75,6 +86,8 @@ type CollectionSvrServer interface {
 	BatchGetCollectionBasic(context.Context, *BatchGetCollectionBasicReq) (*BatchGetCollectionBasicRsp, error)
 	// 拉取赏详情
 	GetCollectionDetail(context.Context, *GetCollectionDetailReq) (*GetCollectionDetailRsp, error)
+	// 抽奖（支持多抽）
+	Lottery(context.Context, *LotteryReq) (*LotteryRsp, error)
 	mustEmbedUnimplementedCollectionSvrServer()
 }
 
@@ -90,6 +103,9 @@ func (UnimplementedCollectionSvrServer) BatchGetCollectionBasic(context.Context,
 }
 func (UnimplementedCollectionSvrServer) GetCollectionDetail(context.Context, *GetCollectionDetailReq) (*GetCollectionDetailRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCollectionDetail not implemented")
+}
+func (UnimplementedCollectionSvrServer) Lottery(context.Context, *LotteryReq) (*LotteryRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Lottery not implemented")
 }
 func (UnimplementedCollectionSvrServer) mustEmbedUnimplementedCollectionSvrServer() {}
 
@@ -158,6 +174,24 @@ func _CollectionSvr_GetCollectionDetail_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CollectionSvr_Lottery_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LotteryReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CollectionSvrServer).Lottery(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.collection.CollectionSvr/Lottery",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CollectionSvrServer).Lottery(ctx, req.(*LotteryReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CollectionSvr_ServiceDesc is the grpc.ServiceDesc for CollectionSvr service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -176,6 +210,10 @@ var CollectionSvr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetCollectionDetail",
 			Handler:    _CollectionSvr_GetCollectionDetail_Handler,
+		},
+		{
+			MethodName: "Lottery",
+			Handler:    _CollectionSvr_Lottery_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

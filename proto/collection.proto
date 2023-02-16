@@ -3,6 +3,7 @@ package funstar.server.collection;
 option go_package = "github.com/funstartech/funstar-proto/go/server/collection";
 
 import "product.proto";
+import "order.proto";
 
 // 赏基础信息结构
 message CollectionBasic {
@@ -47,6 +48,14 @@ message BatchGetCollectionBasicRsp {
   repeated CollectionBasic collections = 1;
 }
 
+message LotteryReq {
+  funstar.server.order.Collection collection = 1;
+}
+
+message LotteryRsp {
+  funstar.server.order.Collection collection = 1;
+}
+
 service CollectionSvr {
   // 拉取赏排序流列表
   rpc GetCollectionList (GetCollectionListReq) returns (GetCollectionListRsp);
@@ -54,4 +63,6 @@ service CollectionSvr {
   rpc BatchGetCollectionBasic (BatchGetCollectionBasicReq) returns (BatchGetCollectionBasicRsp);
   // 拉取赏详情
   rpc GetCollectionDetail (GetCollectionDetailReq) returns (GetCollectionDetailRsp);
+  // 抽奖（支持多抽）
+  rpc Lottery (LotteryReq) returns (LotteryRsp);
 }
