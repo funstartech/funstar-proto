@@ -49,11 +49,11 @@ message BatchGetCollectionBasicRsp {
 }
 
 message LotteryReq {
-  repeated funstar.server.order.Collection collection = 1;
+  repeated funstar.server.order.Collection collections = 1;
 }
 
 message LotteryRsp {
-  repeated funstar.server.order.Collection collection = 1;
+  repeated funstar.server.order.Collection collections = 1;
 }
 
 service CollectionSvr {
