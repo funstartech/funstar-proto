@@ -43,12 +43,13 @@ enum ReturnPolicy {
 // 商品详情结构
 message ProductDetail {
   string pid = 1; // 商品id
-  repeated string images = 10; // 详情图片
 
-  string pcode = 101; // 条形码
-  string material = 102; // 材质
-  string size = 103; // 尺寸
-  uint32 use_age = 104;// 适用年龄
+  string pcode = 11; // 条形码
+  string material = 12; // 材质
+  string size = 13; // 尺寸
+  uint32 use_age = 14;// 适用年龄
+
+  repeated string images = 15; // 详情图片
 }
 
 message BatchGetProductBasicReq {
