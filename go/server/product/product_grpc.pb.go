@@ -26,6 +26,8 @@ type ProductSvrClient interface {
 	BatchGetProductBasic(ctx context.Context, in *BatchGetProductBasicReq, opts ...grpc.CallOption) (*BatchGetProductBasicRsp, error)
 	// 拉取商品详情
 	GetProductDetail(ctx context.Context, in *GetProductDetailReq, opts ...grpc.CallOption) (*GetProductDetailRsp, error)
+	// 设置商品库存
+	SetProductStock(ctx context.Context, in *SetProductStockReq, opts ...grpc.CallOption) (*SetProductStockRsp, error)
 }
 
 type productSvrClient struct {
@@ -54,6 +56,15 @@ func (c *productSvrClient) GetProductDetail(ctx context.Context, in *GetProductD
 	return out, nil
 }
 
+func (c *productSvrClient) SetProductStock(ctx context.Context, in *SetProductStockReq, opts ...grpc.CallOption) (*SetProductStockRsp, error) {
+	out := new(SetProductStockRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.product.ProductSvr/SetProductStock", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProductSvrServer is the server API for ProductSvr service.
 // All implementations must embed UnimplementedProductSvrServer
 // for forward compatibility
@@ -62,6 +73,8 @@ type ProductSvrServer interface {
 	BatchGetProductBasic(context.Context, *BatchGetProductBasicReq) (*BatchGetProductBasicRsp, error)
 	// 拉取商品详情
 	GetProductDetail(context.Context, *GetProductDetailReq) (*GetProductDetailRsp, error)
+	// 设置商品库存
+	SetProductStock(context.Context, *SetProductStockReq) (*SetProductStockRsp, error)
 	mustEmbedUnimplementedProductSvrServer()
 }
 
@@ -74,6 +87,9 @@ func (UnimplementedProductSvrServer) BatchGetProductBasic(context.Context, *Batc
 }
 func (UnimplementedProductSvrServer) GetProductDetail(context.Context, *GetProductDetailReq) (*GetProductDetailRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProductDetail not implemented")
+}
+func (UnimplementedProductSvrServer) SetProductStock(context.Context, *SetProductStockReq) (*SetProductStockRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetProductStock not implemented")
 }
 func (UnimplementedProductSvrServer) mustEmbedUnimplementedProductSvrServer() {}
 
@@ -124,6 +140,24 @@ func _ProductSvr_GetProductDetail_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProductSvr_SetProductStock_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetProductStockReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductSvrServer).SetProductStock(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.product.ProductSvr/SetProductStock",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductSvrServer).SetProductStock(ctx, req.(*SetProductStockReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProductSvr_ServiceDesc is the grpc.ServiceDesc for ProductSvr service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -138,6 +172,10 @@ var ProductSvr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetProductDetail",
 			Handler:    _ProductSvr_GetProductDetail_Handler,
+		},
+		{
+			MethodName: "SetProductStock",
+			Handler:    _ProductSvr_SetProductStock_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
