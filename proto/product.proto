@@ -2,15 +2,6 @@ syntax = "proto3";
 package funstar.server.product;
 option go_package = "github.com/funstartech/funstar-proto/go/server/product";
 
-// 商品等级
-enum ProductLevel {
-  PRODUCT_LEVEL_UNKNOWN = 0; // 未知
-  PRODUCT_LEVEL_L1 = 1; // 普通款
-  PRODUCT_LEVEL_L2 = 2; // 稀有款
-  PRODUCT_LEVEL_L3 = 3; // 欧皇款
-  PRODUCT_LEVEL_L4 = 4; // 超神款
-}
-
 // 商品基础信息结构
 message ProductBasic {
   string pid = 1; // 商品id
@@ -18,9 +9,8 @@ message ProductBasic {
   string title = 3; // 标题
   string desc = 4; // 描述
   float price = 5; // 价格
-  uint32 level = 7; // 商品等级 ProductLevel
-  string brand = 8; // 品牌
-  uint32 stock = 9; // 库存数量
+  string brand = 6; // 品牌
+  uint32 stock = 7; // 库存数量
 
   uint32 sale_status = 101; // 出售状态 SaleStatus
   uint32 return_policy = 102; // 退货条款 ReturnPolicy
@@ -47,7 +37,7 @@ message ProductDetail {
   string pcode = 11; // 条形码
   string material = 12; // 材质
   string size = 13; // 尺寸
-  uint32 use_age = 14;// 适用年龄
+  uint32 use_age = 14; // 适用年龄
 
   repeated string images = 15; // 详情图片
 }

@@ -5,6 +5,15 @@ option go_package = "github.com/funstartech/funstar-proto/go/server/collection";
 import "product.proto";
 import "order.proto";
 
+// 商品等级
+enum CollectionProductLevel {
+  PRODUCT_LEVEL_UNKNOWN = 0; // 未知
+  PRODUCT_LEVEL_L1 = 1; // 普通款
+  PRODUCT_LEVEL_L2 = 2; // 稀有款
+  PRODUCT_LEVEL_L3 = 3; // 欧皇款
+  PRODUCT_LEVEL_L4 = 4; // 超神款
+}
+
 // 赏基础信息结构
 message CollectionBasic {
   string cid = 1; // 赏id
@@ -14,13 +23,23 @@ message CollectionBasic {
   float price = 5; // 价格
   float discount_price = 6; // 折扣价
   uint32 product_count = 7; // 商品数量
-  map<uint32, float> lottery_probability = 8; // 抽奖概率 key:ProductLevel
+  repeated LotteryProbability lottery_probability = 8; // 抽奖概率
+}
+
+message LotteryProbability {
+  uint32 level = 1; // CollectionProductLevel
+  float probability = 2;
+}
+
+message CollectionDetailProducts {
+  uint32 level = 1; // CollectionProductLevel
+  repeated funstar.server.product.ProductBasic products = 2;
 }
 
 // 赏详情结构
 message CollectionDetail {
   string cid = 1; // 赏id
-  repeated funstar.server.product.ProductBasic products = 3; // 商品列表
+  repeated CollectionDetailProducts detail_products = 2; // 商品列表
 }
 
 message GetCollectionListReq {
