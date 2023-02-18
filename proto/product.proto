@@ -47,7 +47,7 @@ message BatchGetProductBasicReq {
 }
 
 message BatchGetProductBasicRsp {
-  map<string, ProductBasic> products = 1;
+  repeated ProductBasic products = 1;
 }
 
 message GetProductDetailReq {
