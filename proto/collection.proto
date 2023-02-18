@@ -64,7 +64,7 @@ message BatchGetCollectionBasicReq {
 }
 
 message BatchGetCollectionBasicRsp {
-  repeated CollectionBasic collections = 1;
+  map<string, CollectionBasic> collections = 1;
 }
 
 message LotteryReq {
