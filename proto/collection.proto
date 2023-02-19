@@ -23,7 +23,6 @@ message CollectionBasic {
   float price = 5; // 价格
   float discount_price = 6; // 折扣价
   uint32 product_count = 7; // 商品数量
-  repeated LotteryProbability lottery_probability = 8; // 抽奖概率
 }
 
 message LotteryProbability {
@@ -34,6 +33,7 @@ message LotteryProbability {
 message CollectionDetailProducts {
   uint32 level = 1; // CollectionProductLevel
   repeated funstar.server.product.ProductBasic products = 2;
+  repeated LotteryProbability lottery_probability = 3; // 抽奖概率
 }
 
 // 赏详情结构
