@@ -64,6 +64,14 @@ message ProductStock {
   uint32 stock = 2;
 }
 
+message GetProductStockReq {
+  repeated string pid = 1;
+}
+
+message GetProductStockRsp {
+  repeated ProductStock stocks = 1;
+}
+
 message SetProductStockReq {
   repeated ProductStock stocks = 1;
 }
@@ -76,6 +84,8 @@ service ProductSvr {
   rpc BatchGetProductBasic (BatchGetProductBasicReq) returns (BatchGetProductBasicRsp);
   // 拉取商品详情
   rpc GetProductDetail (GetProductDetailReq) returns (GetProductDetailRsp);
+  // 获取商品库存
+  rpc GetProductStock (GetProductStockReq) returns (GetProductStockRsp);
   // 设置商品库存
   rpc SetProductStock (SetProductStockReq) returns (SetProductStockRsp);
 }
