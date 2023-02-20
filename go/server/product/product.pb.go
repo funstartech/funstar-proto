@@ -126,15 +126,15 @@ type ProductBasic struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Pid          string  `protobuf:"bytes,1,opt,name=pid,proto3" json:"pid,omitempty"`                                          // 商品id
-	Cover        string  `protobuf:"bytes,2,opt,name=cover,proto3" json:"cover,omitempty"`                                      // 封面图
-	Title        string  `protobuf:"bytes,3,opt,name=title,proto3" json:"title,omitempty"`                                      // 标题
-	Desc         string  `protobuf:"bytes,4,opt,name=desc,proto3" json:"desc,omitempty"`                                        // 描述
-	Price        float32 `protobuf:"fixed32,5,opt,name=price,proto3" json:"price,omitempty"`                                    // 价格
-	Brand        string  `protobuf:"bytes,6,opt,name=brand,proto3" json:"brand,omitempty"`                                      // 品牌
-	Stock        uint32  `protobuf:"varint,7,opt,name=stock,proto3" json:"stock,omitempty"`                                     // 库存数量
-	SaleStatus   uint32  `protobuf:"varint,101,opt,name=sale_status,json=saleStatus,proto3" json:"sale_status,omitempty"`       // 出售状态 SaleStatus
-	ReturnPolicy uint32  `protobuf:"varint,102,opt,name=return_policy,json=returnPolicy,proto3" json:"return_policy,omitempty"` // 退货条款 ReturnPolicy
+	Pid          string `protobuf:"bytes,1,opt,name=pid,proto3" json:"pid,omitempty"`                                          // 商品id
+	Cover        string `protobuf:"bytes,2,opt,name=cover,proto3" json:"cover,omitempty"`                                      // 封面图
+	Title        string `protobuf:"bytes,3,opt,name=title,proto3" json:"title,omitempty"`                                      // 标题
+	Desc         string `protobuf:"bytes,4,opt,name=desc,proto3" json:"desc,omitempty"`                                        // 描述
+	Price        int32  `protobuf:"varint,5,opt,name=price,proto3" json:"price,omitempty"`                                     // 价格(单位：分)
+	Brand        string `protobuf:"bytes,6,opt,name=brand,proto3" json:"brand,omitempty"`                                      // 品牌
+	Stock        uint32 `protobuf:"varint,7,opt,name=stock,proto3" json:"stock,omitempty"`                                     // 库存数量
+	SaleStatus   uint32 `protobuf:"varint,101,opt,name=sale_status,json=saleStatus,proto3" json:"sale_status,omitempty"`       // 出售状态 SaleStatus
+	ReturnPolicy uint32 `protobuf:"varint,102,opt,name=return_policy,json=returnPolicy,proto3" json:"return_policy,omitempty"` // 退货条款 ReturnPolicy
 }
 
 func (x *ProductBasic) Reset() {
@@ -197,7 +197,7 @@ func (x *ProductBasic) GetDesc() string {
 	return ""
 }
 
-func (x *ProductBasic) GetPrice() float32 {
+func (x *ProductBasic) GetPrice() int32 {
 	if x != nil {
 		return x.Price
 	}
@@ -668,7 +668,7 @@ var file_product_proto_rawDesc = []byte{
 	0x12, 0x14, 0x0a, 0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52,
 	0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x64, 0x65, 0x73, 0x63, 0x18, 0x04,
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x64, 0x65, 0x73, 0x63, 0x12, 0x14, 0x0a, 0x05, 0x70, 0x72,
-	0x69, 0x63, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x02, 0x52, 0x05, 0x70, 0x72, 0x69, 0x63, 0x65,
+	0x69, 0x63, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x70, 0x72, 0x69, 0x63, 0x65,
 	0x12, 0x14, 0x0a, 0x05, 0x62, 0x72, 0x61, 0x6e, 0x64, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52,
 	0x05, 0x62, 0x72, 0x61, 0x6e, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x73, 0x74, 0x6f, 0x63, 0x6b, 0x18,
 	0x07, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x05, 0x73, 0x74, 0x6f, 0x63, 0x6b, 0x12, 0x1f, 0x0a, 0x0b,

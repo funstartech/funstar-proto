@@ -11,24 +11,24 @@ enum OrderStatus {
 message OrderBasicInfo {
   uint64 id = 1;
   int64 create_time = 2;
-  uint32 status = 3; // 订单状态 OrderStatus
-  uint32 total_price = 4;
+  int32 status = 3; // 订单状态 OrderStatus
+  int32 total_price = 4; // (单位：分)
   string openid = 5;
 }
 
 message Collection {
   string cid = 1;
   uint32 count = 2;
-  uint32 price = 3;    // 请求方无需填写
-  uint32 discount = 4; // 请求方无需填写
+  int32 price = 3;    // (单位：分)请求方无需填写
+  int32 discount_price = 4; // (单位：分)请求方无需填写
   repeated string hit_pid_list = 5; // 命中的产品id列表，结果可展示时填入
 }
 
 message Product {
   string pid = 1;
   uint32 count = 2;
-  uint32 price = 3;    // 请求方无需填写
-  uint32 discount = 4; // 请求方无需填写
+  int32 price = 3;    // (单位：分)请求方无需填写
+  int32 discount_price = 4; // (单位：分)请求方无需填写
 }
 
 message Coupon {
@@ -74,7 +74,7 @@ message PreviewOrderRsp {
   repeated Collection collection_list = 2;
   repeated Product product_list = 3;
   repeated Coupon coupon_list = 4;  // 可使用的优惠券列表
-  uint32 total_price = 5;
+  int32 total_price = 5; // (单位：分)
 }
 
 message GetOrderInfoReq {

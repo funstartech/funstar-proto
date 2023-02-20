@@ -8,7 +8,7 @@ message ProductBasic {
   string cover = 2; // 封面图
   string title = 3; // 标题
   string desc = 4; // 描述
-  float price = 5; // 价格
+  int32 price = 5; // 价格(单位：分)
   string brand = 6; // 品牌
   uint32 stock = 7; // 库存数量
 
