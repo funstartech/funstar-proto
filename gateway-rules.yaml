@@ -28,6 +28,10 @@ http:
     - selector: funstar.server.collection.CollectionSvr.GetCollectionDetail
       post: /collection/GetCollectionDetail
       body: "*"
+      # 抽奖
+    - selector: funstar.server.collection.CollectionSvr.Lottery
+      post: /collection/Lottery
+      body: "*"
 
       #----- product 商品服务 ----- #
       # 获取商品详情
