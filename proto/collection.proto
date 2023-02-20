@@ -38,11 +38,13 @@ message CollectionDetail {
 }
 
 message GetCollectionListReq {
-  uint32 page = 1;
+  string cookie = 1;
 }
 
 message GetCollectionListRsp {
   repeated CollectionBasic collections = 1;
+  string cookie = 2;
+  bool is_end = 3;
 }
 
 message GetCollectionDetailReq {
