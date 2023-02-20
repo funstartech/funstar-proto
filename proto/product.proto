@@ -65,7 +65,7 @@ message ProductStock {
 }
 
 message GetProductStockReq {
-  repeated string pid = 1;
+  repeated string pids = 1;
 }
 
 message GetProductStockRsp {
