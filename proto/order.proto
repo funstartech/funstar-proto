@@ -86,14 +86,13 @@ message GetOrderInfoRsp {
 }
 
 message GetUserOrderListReq {
-  string openid = 1;
-  uint32 seq = 2;   // 拉取第一页时填0，后续页信息填返回的next_seq
-  uint32 count = 3;
+  bytes cookie = 1;
 }
 
 message GetUserOrderListRsp {
   repeated OrderInfo order_info = 1;
-  uint32 next_seq = 2; // 后续页面带下
+  bytes cookie = 2;
+  bool is_end = 3;
 }
 
 service OrderSvr {
