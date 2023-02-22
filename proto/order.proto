@@ -33,7 +33,8 @@ message Collection {
 message Product {
   string pid = 1;
   uint32 count = 2;
-  ItemBasic basic = 3;
+  uint32 level = 3;
+  ItemBasic basic = 4;
 }
 
 message Coupon {
