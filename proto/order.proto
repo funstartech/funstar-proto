@@ -14,6 +14,9 @@ message OrderBasicInfo {
   uint32 status = 3; // 订单状态 OrderStatus
   int32 total_price = 4; // (单位：分)
   string openid = 5;
+  string title = 6;
+  string c_cover = 7;
+  string p_cover = 8; // 优先使用p_cover字段，p_cover为空或者不能访问，则用c_cover，将来支持翻转动画时，从c_cover翻转为p_cover
 }
 
 message ItemBasic {
