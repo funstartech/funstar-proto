@@ -99,7 +99,7 @@ message GetUserOrderListReq {
 }
 
 message GetUserOrderListRsp {
-  repeated OrderInfo order_info = 1;
+  repeated OrderBasicInfo order = 1;
   bytes cookie = 2;
   bool is_end = 3;
 }
