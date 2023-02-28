@@ -100,11 +100,17 @@ message GetUserOrdersRsp {
   bool is_end = 3;
 }
 
+enum CancelRes {
+  CANCEL_RES_OK = 0;
+  CANCEL_RES_NO_MATCH_ORDER = 1; // 没有匹配订单（openid不匹配或者找不到订单号或者状态为已完成不可取消）
+}
+
 message CancelOrderReq {
   uint64 order_id = 1;
 }
 
 message CancelOrderRsp {
+  uint32 res = 1; // CancelRes
 }
 
 service OrderSvr {
