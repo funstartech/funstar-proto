@@ -52,6 +52,10 @@ http:
     - selector: funstar.server.order.OrderSvr.GetUserOrders
       post: /order/GetUserOrders
       body: "*"
+      # 主动取消订单
+    - selector: funstar.server.order.OrderSvr.CancelOrder
+      post: /order/CancelOrder
+      body: "*"
 
       #----- storehouse 仓库服务 ----- #
       # 拉取用户仓库列表

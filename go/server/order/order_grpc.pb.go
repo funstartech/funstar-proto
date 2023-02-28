@@ -28,6 +28,8 @@ type OrderSvrClient interface {
 	GetOrderInfo(ctx context.Context, in *GetOrderInfoReq, opts ...grpc.CallOption) (*GetOrderInfoRsp, error)
 	// 查询用户订单
 	GetUserOrders(ctx context.Context, in *GetUserOrdersReq, opts ...grpc.CallOption) (*GetUserOrdersRsp, error)
+	// 取消订单
+	CancelOrder(ctx context.Context, in *CancelOrderReq, opts ...grpc.CallOption) (*CancelOrderRsp, error)
 }
 
 type orderSvrClient struct {
@@ -65,6 +67,15 @@ func (c *orderSvrClient) GetUserOrders(ctx context.Context, in *GetUserOrdersReq
 	return out, nil
 }
 
+func (c *orderSvrClient) CancelOrder(ctx context.Context, in *CancelOrderReq, opts ...grpc.CallOption) (*CancelOrderRsp, error) {
+	out := new(CancelOrderRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.order.OrderSvr/CancelOrder", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrderSvrServer is the server API for OrderSvr service.
 // All implementations must embed UnimplementedOrderSvrServer
 // for forward compatibility
@@ -75,6 +86,8 @@ type OrderSvrServer interface {
 	GetOrderInfo(context.Context, *GetOrderInfoReq) (*GetOrderInfoRsp, error)
 	// 查询用户订单
 	GetUserOrders(context.Context, *GetUserOrdersReq) (*GetUserOrdersRsp, error)
+	// 取消订单
+	CancelOrder(context.Context, *CancelOrderReq) (*CancelOrderRsp, error)
 	mustEmbedUnimplementedOrderSvrServer()
 }
 
@@ -90,6 +103,9 @@ func (UnimplementedOrderSvrServer) GetOrderInfo(context.Context, *GetOrderInfoRe
 }
 func (UnimplementedOrderSvrServer) GetUserOrders(context.Context, *GetUserOrdersReq) (*GetUserOrdersRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserOrders not implemented")
+}
+func (UnimplementedOrderSvrServer) CancelOrder(context.Context, *CancelOrderReq) (*CancelOrderRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CancelOrder not implemented")
 }
 func (UnimplementedOrderSvrServer) mustEmbedUnimplementedOrderSvrServer() {}
 
@@ -158,6 +174,24 @@ func _OrderSvr_GetUserOrders_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrderSvr_CancelOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CancelOrderReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderSvrServer).CancelOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.order.OrderSvr/CancelOrder",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderSvrServer).CancelOrder(ctx, req.(*CancelOrderReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrderSvr_ServiceDesc is the grpc.ServiceDesc for OrderSvr service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -176,6 +210,10 @@ var OrderSvr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserOrders",
 			Handler:    _OrderSvr_GetUserOrders_Handler,
+		},
+		{
+			MethodName: "CancelOrder",
+			Handler:    _OrderSvr_CancelOrder_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
