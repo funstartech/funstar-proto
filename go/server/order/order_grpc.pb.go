@@ -22,14 +22,12 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OrderSvrClient interface {
-	// 正式创建订单
+	// 创建订单
 	CreateOrder(ctx context.Context, in *CreateOrderReq, opts ...grpc.CallOption) (*CreateOrderRsp, error)
-	// 订单预览
-	PreviewOrder(ctx context.Context, in *PreviewOrderReq, opts ...grpc.CallOption) (*PreviewOrderRsp, error)
 	// 查询订单信息
 	GetOrderInfo(ctx context.Context, in *GetOrderInfoReq, opts ...grpc.CallOption) (*GetOrderInfoRsp, error)
-	// 查询用户指定序号之前指定数量的订单
-	GetUserOrderList(ctx context.Context, in *GetUserOrderListReq, opts ...grpc.CallOption) (*GetUserOrderListRsp, error)
+	// 查询用户订单
+	GetUserOrders(ctx context.Context, in *GetUserOrdersReq, opts ...grpc.CallOption) (*GetUserOrdersRsp, error)
 }
 
 type orderSvrClient struct {
@@ -49,15 +47,6 @@ func (c *orderSvrClient) CreateOrder(ctx context.Context, in *CreateOrderReq, op
 	return out, nil
 }
 
-func (c *orderSvrClient) PreviewOrder(ctx context.Context, in *PreviewOrderReq, opts ...grpc.CallOption) (*PreviewOrderRsp, error) {
-	out := new(PreviewOrderRsp)
-	err := c.cc.Invoke(ctx, "/funstar.server.order.OrderSvr/PreviewOrder", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *orderSvrClient) GetOrderInfo(ctx context.Context, in *GetOrderInfoReq, opts ...grpc.CallOption) (*GetOrderInfoRsp, error) {
 	out := new(GetOrderInfoRsp)
 	err := c.cc.Invoke(ctx, "/funstar.server.order.OrderSvr/GetOrderInfo", in, out, opts...)
@@ -67,9 +56,9 @@ func (c *orderSvrClient) GetOrderInfo(ctx context.Context, in *GetOrderInfoReq, 
 	return out, nil
 }
 
-func (c *orderSvrClient) GetUserOrderList(ctx context.Context, in *GetUserOrderListReq, opts ...grpc.CallOption) (*GetUserOrderListRsp, error) {
-	out := new(GetUserOrderListRsp)
-	err := c.cc.Invoke(ctx, "/funstar.server.order.OrderSvr/GetUserOrderList", in, out, opts...)
+func (c *orderSvrClient) GetUserOrders(ctx context.Context, in *GetUserOrdersReq, opts ...grpc.CallOption) (*GetUserOrdersRsp, error) {
+	out := new(GetUserOrdersRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.order.OrderSvr/GetUserOrders", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -80,14 +69,12 @@ func (c *orderSvrClient) GetUserOrderList(ctx context.Context, in *GetUserOrderL
 // All implementations must embed UnimplementedOrderSvrServer
 // for forward compatibility
 type OrderSvrServer interface {
-	// 正式创建订单
+	// 创建订单
 	CreateOrder(context.Context, *CreateOrderReq) (*CreateOrderRsp, error)
-	// 订单预览
-	PreviewOrder(context.Context, *PreviewOrderReq) (*PreviewOrderRsp, error)
 	// 查询订单信息
 	GetOrderInfo(context.Context, *GetOrderInfoReq) (*GetOrderInfoRsp, error)
-	// 查询用户指定序号之前指定数量的订单
-	GetUserOrderList(context.Context, *GetUserOrderListReq) (*GetUserOrderListRsp, error)
+	// 查询用户订单
+	GetUserOrders(context.Context, *GetUserOrdersReq) (*GetUserOrdersRsp, error)
 	mustEmbedUnimplementedOrderSvrServer()
 }
 
@@ -98,14 +85,11 @@ type UnimplementedOrderSvrServer struct {
 func (UnimplementedOrderSvrServer) CreateOrder(context.Context, *CreateOrderReq) (*CreateOrderRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateOrder not implemented")
 }
-func (UnimplementedOrderSvrServer) PreviewOrder(context.Context, *PreviewOrderReq) (*PreviewOrderRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PreviewOrder not implemented")
-}
 func (UnimplementedOrderSvrServer) GetOrderInfo(context.Context, *GetOrderInfoReq) (*GetOrderInfoRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrderInfo not implemented")
 }
-func (UnimplementedOrderSvrServer) GetUserOrderList(context.Context, *GetUserOrderListReq) (*GetUserOrderListRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserOrderList not implemented")
+func (UnimplementedOrderSvrServer) GetUserOrders(context.Context, *GetUserOrdersReq) (*GetUserOrdersRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserOrders not implemented")
 }
 func (UnimplementedOrderSvrServer) mustEmbedUnimplementedOrderSvrServer() {}
 
@@ -138,24 +122,6 @@ func _OrderSvr_CreateOrder_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OrderSvr_PreviewOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PreviewOrderReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrderSvrServer).PreviewOrder(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/funstar.server.order.OrderSvr/PreviewOrder",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrderSvrServer).PreviewOrder(ctx, req.(*PreviewOrderReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _OrderSvr_GetOrderInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetOrderInfoReq)
 	if err := dec(in); err != nil {
@@ -174,20 +140,20 @@ func _OrderSvr_GetOrderInfo_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OrderSvr_GetUserOrderList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserOrderListReq)
+func _OrderSvr_GetUserOrders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserOrdersReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OrderSvrServer).GetUserOrderList(ctx, in)
+		return srv.(OrderSvrServer).GetUserOrders(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/funstar.server.order.OrderSvr/GetUserOrderList",
+		FullMethod: "/funstar.server.order.OrderSvr/GetUserOrders",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrderSvrServer).GetUserOrderList(ctx, req.(*GetUserOrderListReq))
+		return srv.(OrderSvrServer).GetUserOrders(ctx, req.(*GetUserOrdersReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -204,16 +170,12 @@ var OrderSvr_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OrderSvr_CreateOrder_Handler,
 		},
 		{
-			MethodName: "PreviewOrder",
-			Handler:    _OrderSvr_PreviewOrder_Handler,
-		},
-		{
 			MethodName: "GetOrderInfo",
 			Handler:    _OrderSvr_GetOrderInfo_Handler,
 		},
 		{
-			MethodName: "GetUserOrderList",
-			Handler:    _OrderSvr_GetUserOrderList_Handler,
+			MethodName: "GetUserOrders",
+			Handler:    _OrderSvr_GetUserOrders_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

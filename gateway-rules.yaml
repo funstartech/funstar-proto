@@ -44,15 +44,11 @@ http:
     - selector: funstar.server.order.OrderSvr.CreateOrder
       post: /order/CreateOrder
       body: "*"
-      # 预览订单
-    - selector: funstar.server.order.OrderSvr.PreviewOrder
-      post: /order/PreviewOrder
-      body: "*"
       # 查询订单信息
     - selector: funstar.server.order.OrderSvr.GetOrderInfo
       post: /order/GetOrderInfo
       body: "*"
-      # 查询用户指定序号之前指定数量的订单
-    - selector: funstar.server.order.OrderSvr.GetUserOrderList
-      post: /order/GetUserOrderList
+      # 查询用户订单
+    - selector: funstar.server.order.OrderSvr.GetUserOrders
+      post: /order/GetUserOrders
       body: "*"

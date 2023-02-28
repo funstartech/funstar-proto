@@ -8,7 +8,7 @@ enum OrderStatus {
   ORDER_STATUS_CANCEL = 2; // 已取消
 }
 
-message OrderBasicInfo {
+message OrderBasic {
   uint64 id = 1;
   int64 create_time = 2;
   uint32 status = 3; // 订单状态 OrderStatus
@@ -45,6 +45,13 @@ message Coupon {
   uint32 count = 2;
 }
 
+message OrderDetail {
+  repeated Collection collections = 1;
+  repeated Product products = 2;
+  repeated Coupon coupons = 3;
+
+}
+
 enum OrderRes {
   ORDER_RES_OK = 0; // 订单状态符合预期
   ORDER_RES_NO_ENOUGH_COUNT = 1; // 部分商品数量不足
@@ -54,36 +61,18 @@ enum OrderRes {
 }
 
 message OrderInfo {
-  OrderBasicInfo order_basic_info = 1; // 订单基础信息
-  repeated Collection collection_list = 2;
-  repeated Product product_list = 3;
-  repeated Coupon coupon_list = 4;  // 使用的优惠券列表
+  OrderBasic basic = 1;
+  OrderDetail detail = 2;
 }
 
 message CreateOrderReq {
-  repeated Collection collection_list = 1;
-  repeated Product product_list = 2;
-  repeated Coupon coupon_list = 3;  // 申请使用的优惠券列表
+    OrderDetail detail = 1;
 }
 
 message CreateOrderRsp {
   OrderInfo order_info = 1;
 
   uint32 res = 20; // 下单结果 OrderRes
-}
-
-message PreviewOrderReq {
-  repeated Collection collection_list = 1;
-  repeated Product product_list = 2;
-  repeated Coupon coupon_list = 3;  // 申请使用的优惠券列表
-}
-
-message PreviewOrderRsp {
-  uint64 res = 1; // 同 OrderRes
-  repeated Collection collection_list = 2;
-  repeated Product product_list = 3;
-  repeated Coupon coupon_list = 4;  // 可使用的优惠券列表
-  int32 total_price = 5; // (单位：分)
 }
 
 message GetOrderInfoReq {
@@ -94,23 +83,28 @@ message GetOrderInfoRsp {
   OrderInfo order_info = 1;
 }
 
-message GetUserOrderListReq {
-  bytes cookie = 1;
+enum FetchOrderType {
+  FETCH_ORDER_TYPE_UNKNOWN = 0;
+  FETCH_ORDER_TYPE_COMPLETED = 1; // 已完成
+  FETCH_ORDER_TYPE_UNCOMPLETED = 2; // 未完成
 }
 
-message GetUserOrderListRsp {
-  repeated OrderBasicInfo order = 1;
+message GetUserOrdersReq {
+  uint32 type = 1; // FetchOrderType
+  bytes cookie = 2;
+}
+
+message GetUserOrdersRsp {
+  repeated OrderBasic orders = 1;
   bytes cookie = 2;
   bool is_end = 3;
 }
 
 service OrderSvr {
-  // 正式创建订单
+  // 创建订单
   rpc CreateOrder (CreateOrderReq) returns (CreateOrderRsp);
-  // 订单预览
-  rpc PreviewOrder (PreviewOrderReq) returns (PreviewOrderRsp);
   // 查询订单信息
   rpc GetOrderInfo (GetOrderInfoReq) returns (GetOrderInfoRsp);
-  // 查询用户指定序号之前指定数量的订单
-  rpc GetUserOrderList (GetUserOrderListReq) returns (GetUserOrderListRsp);
+  // 查询用户订单
+  rpc GetUserOrders (GetUserOrdersReq) returns (GetUserOrdersRsp);
 }
