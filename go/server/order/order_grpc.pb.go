@@ -8,6 +8,7 @@ package order
 
 import (
 	context "context"
+	common "github.com/funstartech/funstar-proto/go/common"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -30,6 +31,8 @@ type OrderSvrClient interface {
 	GetUserOrders(ctx context.Context, in *GetUserOrdersReq, opts ...grpc.CallOption) (*GetUserOrdersRsp, error)
 	// 取消订单
 	CancelOrder(ctx context.Context, in *CancelOrderReq, opts ...grpc.CallOption) (*CancelOrderRsp, error)
+	// 微信支付回调
+	PayCallback(ctx context.Context, in *common.WxOrderCallback, opts ...grpc.CallOption) (*PayCallbackRsp, error)
 }
 
 type orderSvrClient struct {
@@ -76,6 +79,15 @@ func (c *orderSvrClient) CancelOrder(ctx context.Context, in *CancelOrderReq, op
 	return out, nil
 }
 
+func (c *orderSvrClient) PayCallback(ctx context.Context, in *common.WxOrderCallback, opts ...grpc.CallOption) (*PayCallbackRsp, error) {
+	out := new(PayCallbackRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.order.OrderSvr/PayCallback", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrderSvrServer is the server API for OrderSvr service.
 // All implementations must embed UnimplementedOrderSvrServer
 // for forward compatibility
@@ -88,6 +100,8 @@ type OrderSvrServer interface {
 	GetUserOrders(context.Context, *GetUserOrdersReq) (*GetUserOrdersRsp, error)
 	// 取消订单
 	CancelOrder(context.Context, *CancelOrderReq) (*CancelOrderRsp, error)
+	// 微信支付回调
+	PayCallback(context.Context, *common.WxOrderCallback) (*PayCallbackRsp, error)
 	mustEmbedUnimplementedOrderSvrServer()
 }
 
@@ -106,6 +120,9 @@ func (UnimplementedOrderSvrServer) GetUserOrders(context.Context, *GetUserOrders
 }
 func (UnimplementedOrderSvrServer) CancelOrder(context.Context, *CancelOrderReq) (*CancelOrderRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CancelOrder not implemented")
+}
+func (UnimplementedOrderSvrServer) PayCallback(context.Context, *common.WxOrderCallback) (*PayCallbackRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PayCallback not implemented")
 }
 func (UnimplementedOrderSvrServer) mustEmbedUnimplementedOrderSvrServer() {}
 
@@ -192,6 +209,24 @@ func _OrderSvr_CancelOrder_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrderSvr_PayCallback_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(common.WxOrderCallback)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderSvrServer).PayCallback(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.order.OrderSvr/PayCallback",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderSvrServer).PayCallback(ctx, req.(*common.WxOrderCallback))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrderSvr_ServiceDesc is the grpc.ServiceDesc for OrderSvr service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -214,6 +249,10 @@ var OrderSvr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CancelOrder",
 			Handler:    _OrderSvr_CancelOrder_Handler,
+		},
+		{
+			MethodName: "PayCallback",
+			Handler:    _OrderSvr_PayCallback_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

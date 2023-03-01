@@ -116,6 +116,10 @@ message CancelOrderRsp {
   uint32 res = 1; // CancelRes
 }
 
+message PayCallbackRsp {
+
+}
+
 service OrderSvr {
   // 创建订单
   rpc CreateOrder (CreateOrderReq) returns (CreateOrderRsp);
@@ -125,4 +129,6 @@ service OrderSvr {
   rpc GetUserOrders (GetUserOrdersReq) returns (GetUserOrdersRsp);
   // 取消订单
   rpc CancelOrder (CancelOrderReq) returns (CancelOrderRsp);
+  // 微信支付回调
+  rpc PayCallback (funstar.common.WxOrderCallback) returns (PayCallbackRsp);
 }

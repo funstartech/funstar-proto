@@ -56,6 +56,10 @@ http:
     - selector: funstar.server.order.OrderSvr.CancelOrder
       post: /order/CancelOrder
       body: "*"
+      # 微信支付回调
+    - selector: funstar.server.order.OrderSvr.PayCallback
+      post: /order/PayCallback
+      body: "*"
 
       #----- storehouse 仓库服务 ----- #
       # 拉取用户仓库列表
