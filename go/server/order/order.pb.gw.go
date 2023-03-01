@@ -13,7 +13,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/funstartech/funstar-proto/go/common"
+	"github.com/funstartech/funstar-proto/go/wxpay"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/utilities"
 	"google.golang.org/grpc"
@@ -169,7 +169,7 @@ func local_request_OrderSvr_CancelOrder_0(ctx context.Context, marshaler runtime
 }
 
 func request_OrderSvr_WxPayCallback_0(ctx context.Context, marshaler runtime.Marshaler, client OrderSvrClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq common.WxPayCallbackReq
+	var protoReq wxpay.WxPayCallbackReq
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -186,7 +186,7 @@ func request_OrderSvr_WxPayCallback_0(ctx context.Context, marshaler runtime.Mar
 }
 
 func local_request_OrderSvr_WxPayCallback_0(ctx context.Context, marshaler runtime.Marshaler, server OrderSvrServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq common.WxPayCallbackReq
+	var protoReq wxpay.WxPayCallbackReq
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)

@@ -8,7 +8,7 @@ package order
 
 import (
 	context "context"
-	common "github.com/funstartech/funstar-proto/go/common"
+	wxpay "github.com/funstartech/funstar-proto/go/wxpay"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -32,7 +32,7 @@ type OrderSvrClient interface {
 	// 取消订单
 	CancelOrder(ctx context.Context, in *CancelOrderReq, opts ...grpc.CallOption) (*CancelOrderRsp, error)
 	// 微信支付付款回调
-	WxPayCallback(ctx context.Context, in *common.WxPayCallbackReq, opts ...grpc.CallOption) (*WxPayCallbackRsp, error)
+	WxPayCallback(ctx context.Context, in *wxpay.WxPayCallbackReq, opts ...grpc.CallOption) (*wxpay.WxPayCallbackRsp, error)
 }
 
 type orderSvrClient struct {
@@ -79,8 +79,8 @@ func (c *orderSvrClient) CancelOrder(ctx context.Context, in *CancelOrderReq, op
 	return out, nil
 }
 
-func (c *orderSvrClient) WxPayCallback(ctx context.Context, in *common.WxPayCallbackReq, opts ...grpc.CallOption) (*WxPayCallbackRsp, error) {
-	out := new(WxPayCallbackRsp)
+func (c *orderSvrClient) WxPayCallback(ctx context.Context, in *wxpay.WxPayCallbackReq, opts ...grpc.CallOption) (*wxpay.WxPayCallbackRsp, error) {
+	out := new(wxpay.WxPayCallbackRsp)
 	err := c.cc.Invoke(ctx, "/funstar.server.order.OrderSvr/WxPayCallback", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -101,7 +101,7 @@ type OrderSvrServer interface {
 	// 取消订单
 	CancelOrder(context.Context, *CancelOrderReq) (*CancelOrderRsp, error)
 	// 微信支付付款回调
-	WxPayCallback(context.Context, *common.WxPayCallbackReq) (*WxPayCallbackRsp, error)
+	WxPayCallback(context.Context, *wxpay.WxPayCallbackReq) (*wxpay.WxPayCallbackRsp, error)
 	mustEmbedUnimplementedOrderSvrServer()
 }
 
@@ -121,7 +121,7 @@ func (UnimplementedOrderSvrServer) GetUserOrders(context.Context, *GetUserOrders
 func (UnimplementedOrderSvrServer) CancelOrder(context.Context, *CancelOrderReq) (*CancelOrderRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CancelOrder not implemented")
 }
-func (UnimplementedOrderSvrServer) WxPayCallback(context.Context, *common.WxPayCallbackReq) (*WxPayCallbackRsp, error) {
+func (UnimplementedOrderSvrServer) WxPayCallback(context.Context, *wxpay.WxPayCallbackReq) (*wxpay.WxPayCallbackRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method WxPayCallback not implemented")
 }
 func (UnimplementedOrderSvrServer) mustEmbedUnimplementedOrderSvrServer() {}
@@ -210,7 +210,7 @@ func _OrderSvr_CancelOrder_Handler(srv interface{}, ctx context.Context, dec fun
 }
 
 func _OrderSvr_WxPayCallback_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(common.WxPayCallbackReq)
+	in := new(wxpay.WxPayCallbackReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -222,7 +222,7 @@ func _OrderSvr_WxPayCallback_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: "/funstar.server.order.OrderSvr/WxPayCallback",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrderSvrServer).WxPayCallback(ctx, req.(*common.WxPayCallbackReq))
+		return srv.(OrderSvrServer).WxPayCallback(ctx, req.(*wxpay.WxPayCallbackReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }

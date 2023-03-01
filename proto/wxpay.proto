@@ -1,0 +1,52 @@
+syntax = "proto3";
+package funstar.wxpay;
+option go_package = "github.com/funstartech/funstar-proto/go/wxpay";
+
+message WxPayment {
+  string appId = 1;
+  string timeStamp = 2;
+  string nonceStr = 3;
+  string package = 4;
+  string signType = 5;
+  string paySign = 6;
+}
+
+// https://developers.weixin.qq.com/miniprogram/dev/wxcloudrun/src/development/pay/callback/
+message WxPayCallbackReq {
+  string appid = 1;
+  string mchId = 2;
+  string deviceInfo = 3;
+  string nonceStr = 4;
+  string sign = 5;
+  string signType = 6;
+  string resultCode = 7;
+  string errCode = 8;
+  string errCodeDes = 9;
+  string openid = 10;
+  string isSubscribe = 11;
+  string tradeType = 12;
+  string bankType = 13;
+  int32 totalFee = 14;
+  int32 settlementTotalFee = 15;
+  string feeType = 16;
+  int32 cashFee = 17;
+  string cashFeeType = 18;
+  int32 couponFee = 19;
+  int32 couponCount = 20;
+  string transactionId = 21;
+  string outTradeNo = 22;
+  string attach = 23;
+  string timeEnd = 24;
+
+  string subAppid = 50;
+  string subMchId = 51;
+  string subOpenid = 52;
+  string subIsSubscribe = 53;
+
+  string returnCode = 101;
+  string returnMsg = 102;
+}
+
+message WxPayCallbackRsp {
+
+}
