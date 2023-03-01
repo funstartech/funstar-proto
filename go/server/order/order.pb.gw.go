@@ -168,8 +168,8 @@ func local_request_OrderSvr_CancelOrder_0(ctx context.Context, marshaler runtime
 
 }
 
-func request_OrderSvr_PayCallback_0(ctx context.Context, marshaler runtime.Marshaler, client OrderSvrClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq common.WxOrderCallback
+func request_OrderSvr_WxPayCallback_0(ctx context.Context, marshaler runtime.Marshaler, client OrderSvrClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq common.WxPayCallbackReq
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -180,13 +180,13 @@ func request_OrderSvr_PayCallback_0(ctx context.Context, marshaler runtime.Marsh
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.PayCallback(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.WxPayCallback(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_OrderSvr_PayCallback_0(ctx context.Context, marshaler runtime.Marshaler, server OrderSvrServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq common.WxOrderCallback
+func local_request_OrderSvr_WxPayCallback_0(ctx context.Context, marshaler runtime.Marshaler, server OrderSvrServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq common.WxPayCallbackReq
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -197,7 +197,7 @@ func local_request_OrderSvr_PayCallback_0(ctx context.Context, marshaler runtime
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.PayCallback(ctx, &protoReq)
+	msg, err := server.WxPayCallback(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -308,7 +308,7 @@ func RegisterOrderSvrHandlerServer(ctx context.Context, mux *runtime.ServeMux, s
 
 	})
 
-	mux.Handle("POST", pattern_OrderSvr_PayCallback_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_OrderSvr_WxPayCallback_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -316,12 +316,12 @@ func RegisterOrderSvrHandlerServer(ctx context.Context, mux *runtime.ServeMux, s
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/funstar.server.order.OrderSvr/PayCallback", runtime.WithHTTPPathPattern("/order/PayCallback"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/funstar.server.order.OrderSvr/WxPayCallback", runtime.WithHTTPPathPattern("/order/WxPayCallback"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_OrderSvr_PayCallback_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_OrderSvr_WxPayCallback_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -329,7 +329,7 @@ func RegisterOrderSvrHandlerServer(ctx context.Context, mux *runtime.ServeMux, s
 			return
 		}
 
-		forward_OrderSvr_PayCallback_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_OrderSvr_WxPayCallback_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -462,25 +462,25 @@ func RegisterOrderSvrHandlerClient(ctx context.Context, mux *runtime.ServeMux, c
 
 	})
 
-	mux.Handle("POST", pattern_OrderSvr_PayCallback_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_OrderSvr_WxPayCallback_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/funstar.server.order.OrderSvr/PayCallback", runtime.WithHTTPPathPattern("/order/PayCallback"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/funstar.server.order.OrderSvr/WxPayCallback", runtime.WithHTTPPathPattern("/order/WxPayCallback"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_OrderSvr_PayCallback_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_OrderSvr_WxPayCallback_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_OrderSvr_PayCallback_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_OrderSvr_WxPayCallback_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -496,7 +496,7 @@ var (
 
 	pattern_OrderSvr_CancelOrder_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"order", "CancelOrder"}, ""))
 
-	pattern_OrderSvr_PayCallback_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"order", "PayCallback"}, ""))
+	pattern_OrderSvr_WxPayCallback_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"order", "WxPayCallback"}, ""))
 )
 
 var (
@@ -508,5 +508,5 @@ var (
 
 	forward_OrderSvr_CancelOrder_0 = runtime.ForwardResponseMessage
 
-	forward_OrderSvr_PayCallback_0 = runtime.ForwardResponseMessage
+	forward_OrderSvr_WxPayCallback_0 = runtime.ForwardResponseMessage
 )

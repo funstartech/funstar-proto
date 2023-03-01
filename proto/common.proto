@@ -16,7 +16,7 @@ message WxPayment {
 }
 
 // https://developers.weixin.qq.com/miniprogram/dev/wxcloudrun/src/development/pay/callback/
-message WxOrderCallback {
+message WxPayCallbackReq {
   string appid = 1;
   string mchId = 2;
   string deviceInfo = 3;
