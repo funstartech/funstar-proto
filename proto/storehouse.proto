@@ -55,6 +55,7 @@ message CreatePickUpOrderReq {
 message CreatePickUpOrderRsp {
   PickUpOrderInfo order_info = 1;
   funstar.wxpay.WxPayment payment = 2;
+  bool free_shipping = 3;
 }
 
 message GetUserPickUpOrdersReq {
