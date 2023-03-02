@@ -22,11 +22,11 @@ message PickUpProduct {
   uint32 count = 3;
 }
 
-message GetUserStoreListReq {
+message GetUserStoresReq {
   bytes cookie = 1;
 }
 
-message GetUserStoreListRsp {
+message GetUserStoresRsp {
   repeated StoreProducts stores = 1;
   bytes cookie = 2;
   bool is_end = 3;
@@ -72,8 +72,8 @@ message GetUserPickUpOrdersRsp {
 }
 
 service StorehouseSvr {
-  // 拉取用户仓库列表
-  rpc GetUserStoreList (GetUserStoreListReq) returns (GetUserStoreListRsp);
+  // 拉取用户仓库
+  rpc GetUserStores (GetUserStoresReq) returns (GetUserStoresRsp);
   // 创建提货单
   rpc CreatePickUpOrder (CreatePickUpOrderReq) returns (CreatePickUpOrderRsp);
   // 查询用户提货单

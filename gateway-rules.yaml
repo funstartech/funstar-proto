@@ -63,8 +63,8 @@ http:
 
       #----- storehouse 仓库服务 ----- #
       # 拉取用户仓库列表
-    - selector: funstar.server.storehouse.StorehouseSvr.GetUserStoreList
-      post: /storehouse/GetUserStoreList
+    - selector: funstar.server.storehouse.StorehouseSvr.GetUserStores
+      post: /storehouse/GetUserStores
       body: "*"
       # 创建提货单
     - selector: funstar.server.storehouse.StorehouseSvr.CreatePickUpOrder

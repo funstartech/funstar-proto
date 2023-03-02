@@ -22,8 +22,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type StorehouseSvrClient interface {
-	// 拉取用户仓库列表
-	GetUserStoreList(ctx context.Context, in *GetUserStoreListReq, opts ...grpc.CallOption) (*GetUserStoreListRsp, error)
+	// 拉取用户仓库
+	GetUserStores(ctx context.Context, in *GetUserStoresReq, opts ...grpc.CallOption) (*GetUserStoresRsp, error)
 	// 创建提货单
 	CreatePickUpOrder(ctx context.Context, in *CreatePickUpOrderReq, opts ...grpc.CallOption) (*CreatePickUpOrderRsp, error)
 	// 查询用户提货单
@@ -38,9 +38,9 @@ func NewStorehouseSvrClient(cc grpc.ClientConnInterface) StorehouseSvrClient {
 	return &storehouseSvrClient{cc}
 }
 
-func (c *storehouseSvrClient) GetUserStoreList(ctx context.Context, in *GetUserStoreListReq, opts ...grpc.CallOption) (*GetUserStoreListRsp, error) {
-	out := new(GetUserStoreListRsp)
-	err := c.cc.Invoke(ctx, "/funstar.server.storehouse.StorehouseSvr/GetUserStoreList", in, out, opts...)
+func (c *storehouseSvrClient) GetUserStores(ctx context.Context, in *GetUserStoresReq, opts ...grpc.CallOption) (*GetUserStoresRsp, error) {
+	out := new(GetUserStoresRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.storehouse.StorehouseSvr/GetUserStores", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -69,8 +69,8 @@ func (c *storehouseSvrClient) GetUserPickUpOrders(ctx context.Context, in *GetUs
 // All implementations must embed UnimplementedStorehouseSvrServer
 // for forward compatibility
 type StorehouseSvrServer interface {
-	// 拉取用户仓库列表
-	GetUserStoreList(context.Context, *GetUserStoreListReq) (*GetUserStoreListRsp, error)
+	// 拉取用户仓库
+	GetUserStores(context.Context, *GetUserStoresReq) (*GetUserStoresRsp, error)
 	// 创建提货单
 	CreatePickUpOrder(context.Context, *CreatePickUpOrderReq) (*CreatePickUpOrderRsp, error)
 	// 查询用户提货单
@@ -82,8 +82,8 @@ type StorehouseSvrServer interface {
 type UnimplementedStorehouseSvrServer struct {
 }
 
-func (UnimplementedStorehouseSvrServer) GetUserStoreList(context.Context, *GetUserStoreListReq) (*GetUserStoreListRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserStoreList not implemented")
+func (UnimplementedStorehouseSvrServer) GetUserStores(context.Context, *GetUserStoresReq) (*GetUserStoresRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserStores not implemented")
 }
 func (UnimplementedStorehouseSvrServer) CreatePickUpOrder(context.Context, *CreatePickUpOrderReq) (*CreatePickUpOrderRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreatePickUpOrder not implemented")
@@ -104,20 +104,20 @@ func RegisterStorehouseSvrServer(s grpc.ServiceRegistrar, srv StorehouseSvrServe
 	s.RegisterService(&StorehouseSvr_ServiceDesc, srv)
 }
 
-func _StorehouseSvr_GetUserStoreList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserStoreListReq)
+func _StorehouseSvr_GetUserStores_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserStoresReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(StorehouseSvrServer).GetUserStoreList(ctx, in)
+		return srv.(StorehouseSvrServer).GetUserStores(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/funstar.server.storehouse.StorehouseSvr/GetUserStoreList",
+		FullMethod: "/funstar.server.storehouse.StorehouseSvr/GetUserStores",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StorehouseSvrServer).GetUserStoreList(ctx, req.(*GetUserStoreListReq))
+		return srv.(StorehouseSvrServer).GetUserStores(ctx, req.(*GetUserStoresReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -166,8 +166,8 @@ var StorehouseSvr_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*StorehouseSvrServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetUserStoreList",
-			Handler:    _StorehouseSvr_GetUserStoreList_Handler,
+			MethodName: "GetUserStores",
+			Handler:    _StorehouseSvr_GetUserStores_Handler,
 		},
 		{
 			MethodName: "CreatePickUpOrder",

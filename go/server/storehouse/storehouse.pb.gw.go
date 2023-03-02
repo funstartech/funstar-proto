@@ -31,8 +31,8 @@ var _ = runtime.String
 var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
-func request_StorehouseSvr_GetUserStoreList_0(ctx context.Context, marshaler runtime.Marshaler, client StorehouseSvrClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetUserStoreListReq
+func request_StorehouseSvr_GetUserStores_0(ctx context.Context, marshaler runtime.Marshaler, client StorehouseSvrClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq GetUserStoresReq
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -43,13 +43,13 @@ func request_StorehouseSvr_GetUserStoreList_0(ctx context.Context, marshaler run
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.GetUserStoreList(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.GetUserStores(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_StorehouseSvr_GetUserStoreList_0(ctx context.Context, marshaler runtime.Marshaler, server StorehouseSvrServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetUserStoreListReq
+func local_request_StorehouseSvr_GetUserStores_0(ctx context.Context, marshaler runtime.Marshaler, server StorehouseSvrServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq GetUserStoresReq
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -60,7 +60,7 @@ func local_request_StorehouseSvr_GetUserStoreList_0(ctx context.Context, marshal
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.GetUserStoreList(ctx, &protoReq)
+	msg, err := server.GetUserStores(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -139,7 +139,7 @@ func local_request_StorehouseSvr_GetUserPickUpOrders_0(ctx context.Context, mars
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterStorehouseSvrHandlerFromEndpoint instead.
 func RegisterStorehouseSvrHandlerServer(ctx context.Context, mux *runtime.ServeMux, server StorehouseSvrServer) error {
 
-	mux.Handle("POST", pattern_StorehouseSvr_GetUserStoreList_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_StorehouseSvr_GetUserStores_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -147,12 +147,12 @@ func RegisterStorehouseSvrHandlerServer(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/funstar.server.storehouse.StorehouseSvr/GetUserStoreList", runtime.WithHTTPPathPattern("/storehouse/GetUserStoreList"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/funstar.server.storehouse.StorehouseSvr/GetUserStores", runtime.WithHTTPPathPattern("/storehouse/GetUserStores"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_StorehouseSvr_GetUserStoreList_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_StorehouseSvr_GetUserStores_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -160,7 +160,7 @@ func RegisterStorehouseSvrHandlerServer(ctx context.Context, mux *runtime.ServeM
 			return
 		}
 
-		forward_StorehouseSvr_GetUserStoreList_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_StorehouseSvr_GetUserStores_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -255,25 +255,25 @@ func RegisterStorehouseSvrHandler(ctx context.Context, mux *runtime.ServeMux, co
 // "StorehouseSvrClient" to call the correct interceptors.
 func RegisterStorehouseSvrHandlerClient(ctx context.Context, mux *runtime.ServeMux, client StorehouseSvrClient) error {
 
-	mux.Handle("POST", pattern_StorehouseSvr_GetUserStoreList_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_StorehouseSvr_GetUserStores_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/funstar.server.storehouse.StorehouseSvr/GetUserStoreList", runtime.WithHTTPPathPattern("/storehouse/GetUserStoreList"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/funstar.server.storehouse.StorehouseSvr/GetUserStores", runtime.WithHTTPPathPattern("/storehouse/GetUserStores"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_StorehouseSvr_GetUserStoreList_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_StorehouseSvr_GetUserStores_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_StorehouseSvr_GetUserStoreList_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_StorehouseSvr_GetUserStores_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -325,7 +325,7 @@ func RegisterStorehouseSvrHandlerClient(ctx context.Context, mux *runtime.ServeM
 }
 
 var (
-	pattern_StorehouseSvr_GetUserStoreList_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"storehouse", "GetUserStoreList"}, ""))
+	pattern_StorehouseSvr_GetUserStores_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"storehouse", "GetUserStores"}, ""))
 
 	pattern_StorehouseSvr_CreatePickUpOrder_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"storehouse", "CreatePickUpOrder"}, ""))
 
@@ -333,7 +333,7 @@ var (
 )
 
 var (
-	forward_StorehouseSvr_GetUserStoreList_0 = runtime.ForwardResponseMessage
+	forward_StorehouseSvr_GetUserStores_0 = runtime.ForwardResponseMessage
 
 	forward_StorehouseSvr_CreatePickUpOrder_0 = runtime.ForwardResponseMessage
 
