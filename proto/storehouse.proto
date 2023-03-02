@@ -4,6 +4,11 @@ option go_package = "github.com/funstartech/funstar-proto/go/server/storehouse";
 
 import "product.proto";
 
+enum StoreProductStatus {
+  STORE_STATUS_UNPICK_UP = 0; // 未提货
+  STORE_STATUS_PICK_UP = 1; //已提货
+}
+
 message StoreProducts {
   funstar.server.product.ProductBasic product = 1;
   uint32 level = 2; // CollectionProductLevel
@@ -53,7 +58,7 @@ message CreatePickUpOrderReq {
 }
 
 message CreatePickUpOrderRsp {
-    PickUpOrderInfo order_info = 1;
+  PickUpOrderInfo order_info = 1;
 }
 
 message GetUserPickUpOrdersReq {
