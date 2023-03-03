@@ -3,7 +3,7 @@ package funstar.server.collection;
 option go_package = "github.com/funstartech/funstar-proto/go/server/collection";
 
 import "product.proto";
-import "order.proto";
+import "common.proto";
 
 // 商品等级
 enum CollectionProductLevel {
@@ -65,11 +65,11 @@ message BatchGetCollectionBasicRsp {
 }
 
 message LotteryReq {
-  repeated funstar.server.order.Collection collections = 1;
+  repeated funstar.common.Collection collections = 1;
 }
 
 message LotteryRsp {
-  repeated funstar.server.order.Collection collections = 1;
+  repeated funstar.common.Collection collections = 1;
 }
 
 service CollectionSvr {

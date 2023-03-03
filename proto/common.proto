@@ -5,3 +5,29 @@ option go_package = "github.com/funstartech/funstar-proto/go/common";
 message Cookie {
   uint32 seq = 1;
 }
+
+message ItemBasic {
+  string title = 1;
+  string cover = 2;
+  int32 price = 3;    // (单位：分)请求方无需填写
+  int32 discount_price = 4; // (单位：分)请求方无需填写
+}
+
+message Collection {
+  string cid = 1;
+  uint32 count = 2;
+  ItemBasic collection_basic = 3; // 赏基础信息
+  repeated Product products = 4; // 命中商品列表
+}
+
+message Product {
+  string pid = 1;
+  uint32 count = 2;
+  uint32 level = 3;
+  ItemBasic basic = 4;
+}
+
+message Coupon {
+  string coupon_id = 1;
+  uint32 count = 2;
+}

@@ -2,8 +2,8 @@ syntax = "proto3";
 package funstar.server.storehouse;
 option go_package = "github.com/funstartech/funstar-proto/go/server/storehouse";
 
-import "product.proto";
 import "wxpay.proto";
+import "common.proto";
 
 enum StoreProductStatus {
   STORE_STATUS_UNPICK_UP = 0; // 未提货
@@ -12,10 +12,8 @@ enum StoreProductStatus {
 
 message StoreProduct {
   uint64 store_id = 1;
-  funstar.server.product.ProductBasic product = 2;
-  uint32 level = 3; // CollectionProductLevel 如合并时有不同等级，取最高
-  uint32 count = 4;
-  int64 ts = 5;
+  funstar.common.Product product = 2;
+  int64 ts = 3;
 }
 
 message GetUserStoresReq {
@@ -36,20 +34,30 @@ enum PickUpOrderStatus {
 }
 
 message PickUpOrderInfo {
+  PickUpOrderBasic basic = 1;
+  PickUpOrderDetail detail = 2;
+}
+
+message PickUpOrderBasic {
   uint64 id = 1;
   int64 create_time = 2;
   uint32 status = 3; // 订单状态 PickUpOrderStatus
   int32 total_price = 4; // (单位：分)
   string openid = 5;
-  repeated StoreProduct products = 6; // 商品列表
-  string address = 7; // 详细地址
-  string shipping_method = 8; // 物流公司
-  string shipping_number = 9 ;// 物流单号
+  string pids = 6; // 商品列表
+  uint32 count = 7;
+  string address = 8; // 详细地址
+  string shipping_method = 9; // 物流公司
+  string shipping_number = 10 ;// 物流单号
+}
+
+message PickUpOrderDetail {
+  repeated funstar.common.Product products = 1;
 }
 
 message CreatePickUpOrderReq {
   repeated uint64 store_ids = 1;
-  uint32 address_id = 2;
+  string address = 2;
 }
 
 message CreatePickUpOrderRsp {
