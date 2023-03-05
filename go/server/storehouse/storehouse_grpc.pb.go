@@ -28,6 +28,8 @@ type StorehouseSvrClient interface {
 	CreatePickUpOrder(ctx context.Context, in *CreatePickUpOrderReq, opts ...grpc.CallOption) (*CreatePickUpOrderRsp, error)
 	// 查询用户提货单
 	GetUserPickUpOrders(ctx context.Context, in *GetUserPickUpOrdersReq, opts ...grpc.CallOption) (*GetUserPickUpOrdersRsp, error)
+	// 取消提货单
+	CancelPickUpOrder(ctx context.Context, in *CancelPickUpOrderReq, opts ...grpc.CallOption) (*CancelPickUpOrderRsp, error)
 }
 
 type storehouseSvrClient struct {
@@ -65,6 +67,15 @@ func (c *storehouseSvrClient) GetUserPickUpOrders(ctx context.Context, in *GetUs
 	return out, nil
 }
 
+func (c *storehouseSvrClient) CancelPickUpOrder(ctx context.Context, in *CancelPickUpOrderReq, opts ...grpc.CallOption) (*CancelPickUpOrderRsp, error) {
+	out := new(CancelPickUpOrderRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.storehouse.StorehouseSvr/CancelPickUpOrder", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StorehouseSvrServer is the server API for StorehouseSvr service.
 // All implementations must embed UnimplementedStorehouseSvrServer
 // for forward compatibility
@@ -75,6 +86,8 @@ type StorehouseSvrServer interface {
 	CreatePickUpOrder(context.Context, *CreatePickUpOrderReq) (*CreatePickUpOrderRsp, error)
 	// 查询用户提货单
 	GetUserPickUpOrders(context.Context, *GetUserPickUpOrdersReq) (*GetUserPickUpOrdersRsp, error)
+	// 取消提货单
+	CancelPickUpOrder(context.Context, *CancelPickUpOrderReq) (*CancelPickUpOrderRsp, error)
 	mustEmbedUnimplementedStorehouseSvrServer()
 }
 
@@ -90,6 +103,9 @@ func (UnimplementedStorehouseSvrServer) CreatePickUpOrder(context.Context, *Crea
 }
 func (UnimplementedStorehouseSvrServer) GetUserPickUpOrders(context.Context, *GetUserPickUpOrdersReq) (*GetUserPickUpOrdersRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserPickUpOrders not implemented")
+}
+func (UnimplementedStorehouseSvrServer) CancelPickUpOrder(context.Context, *CancelPickUpOrderReq) (*CancelPickUpOrderRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CancelPickUpOrder not implemented")
 }
 func (UnimplementedStorehouseSvrServer) mustEmbedUnimplementedStorehouseSvrServer() {}
 
@@ -158,6 +174,24 @@ func _StorehouseSvr_GetUserPickUpOrders_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorehouseSvr_CancelPickUpOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CancelPickUpOrderReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorehouseSvrServer).CancelPickUpOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.storehouse.StorehouseSvr/CancelPickUpOrder",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorehouseSvrServer).CancelPickUpOrder(ctx, req.(*CancelPickUpOrderReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StorehouseSvr_ServiceDesc is the grpc.ServiceDesc for StorehouseSvr service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -176,6 +210,10 @@ var StorehouseSvr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserPickUpOrders",
 			Handler:    _StorehouseSvr_GetUserPickUpOrders_Handler,
+		},
+		{
+			MethodName: "CancelPickUpOrder",
+			Handler:    _StorehouseSvr_CancelPickUpOrder_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

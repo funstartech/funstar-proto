@@ -76,6 +76,19 @@ message GetUserPickUpOrdersRsp {
   bool is_end = 3;
 }
 
+enum CancelRes {
+  CANCEL_RES_OK = 0;
+  CANCEL_RES_NO_MATCH_ORDER = 1; // 没有匹配订单（openid不匹配或者找不到订单号或者状态为已完成不可取消）
+}
+
+message CancelPickUpOrderReq {
+  uint64 pickup_id = 1;
+}
+
+message CancelPickUpOrderRsp {
+  uint32 res = 1; // CancelRes
+}
+
 service StorehouseSvr {
   // 拉取用户仓库
   rpc GetUserStores (GetUserStoresReq) returns (GetUserStoresRsp);
@@ -83,4 +96,6 @@ service StorehouseSvr {
   rpc CreatePickUpOrder (CreatePickUpOrderReq) returns (CreatePickUpOrderRsp);
   // 查询用户提货单
   rpc GetUserPickUpOrders (GetUserPickUpOrdersReq) returns (GetUserPickUpOrdersRsp);
+  // 取消提货单
+  rpc CancelPickUpOrder (CancelPickUpOrderReq) returns (CancelPickUpOrderRsp);
 }

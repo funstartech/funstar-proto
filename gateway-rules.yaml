@@ -74,3 +74,7 @@ http:
     - selector: funstar.server.storehouse.StorehouseSvr.GetUserPickUpOrders
       post: /storehouse/GetUserPickUpOrders
       body: "*"
+      # 主动取消提货单
+    - selector: funstar.server.storehouse.StorehouseSvr.CancelPickUpOrder
+      post: /storehouse/CancelPickUpOrder
+      body: "*"
