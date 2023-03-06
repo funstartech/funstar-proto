@@ -2,6 +2,16 @@ syntax = "proto3";
 package funstar.wxpay;
 option go_package = "github.com/funstartech/funstar-proto/go/wxpay";
 
+enum TradeState {
+  TRADE_STATE_SUCCESS = 0;
+  TRADE_STATE_REFUND = 1;
+  TRADE_STATE_NOTPAY = 2;
+  TRADE_STATE_CLOSED = 3;
+  TRADE_STATE_REVOKED = 4;
+  TRADE_STATE_USERPAYING = 5;
+  TRADE_STATE_PAYERROR = 6;
+}
+
 message WxPayment {
   string appId = 1;
   string timeStamp = 2;
