@@ -2,6 +2,9 @@ syntax = "proto3";
 package funstar.delivery;
 option go_package = "github.com/funstartech/funstar-proto/go/server/delivery";
 
+// https://www.kdniao.com/api-monitor
+// https://www.kdniao.com/file/%E5%BF%AB%E9%80%92%E9%B8%9F%E6%8E%A5%E5%8F%A3%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3v6.0.pdf
+
 message DeliveryTrace {
   string AcceptTime = 1;
   string AcceptStation = 2;
