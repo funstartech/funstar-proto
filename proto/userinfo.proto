@@ -27,8 +27,7 @@ message UpdateUserInfoRsp {
 }
 
 message SetShareKeyReq {
-  string openid = 1;
-  string share_key = 2;
+  string share_key = 1;
 }
 
 message SetShareKeyRsp {
