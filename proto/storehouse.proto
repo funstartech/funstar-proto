@@ -4,6 +4,7 @@ option go_package = "github.com/funstartech/funstar-proto/go/server/storehouse";
 
 import "wxpay.proto";
 import "common.proto";
+import "delivery.proto";
 
 enum StoreProductStatus {
   STORE_STATUS_UNPICK_UP = 0; // 未提货
@@ -90,6 +91,14 @@ message CancelPickUpOrderRsp {
   uint32 res = 1; // CancelRes
 }
 
+message GetDeliveryInfoReq {
+  uint64 pickup_id = 1;
+}
+
+message GetDeliveryInfoRsp {
+  repeated funstar.delivery.PickUpDeliveryInfo infos = 1;
+}
+
 service StorehouseSvr {
   // 拉取用户仓库
   rpc GetUserStores (GetUserStoresReq) returns (GetUserStoresRsp);
@@ -99,4 +108,6 @@ service StorehouseSvr {
   rpc GetUserPickUpOrders (GetUserPickUpOrdersReq) returns (GetUserPickUpOrdersRsp);
   // 取消提货单
   rpc CancelPickUpOrder (CancelPickUpOrderReq) returns (CancelPickUpOrderRsp);
+  // 查询物流信息
+  rpc GetDeliveryInfo (GetDeliveryInfoReq) returns (GetDeliveryInfoRsp);
 }

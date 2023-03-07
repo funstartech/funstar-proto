@@ -78,3 +78,8 @@ http:
     - selector: funstar.server.storehouse.StorehouseSvr.CancelPickUpOrder
       post: /storehouse/CancelPickUpOrder
       body: "*"
+      # 查询物流信息
+    - selector: funstar.server.storehouse.StorehouseSvr.GetDeliveryInfo
+      post: /storehouse/GetDeliveryInfo
+      body: "*"
+
