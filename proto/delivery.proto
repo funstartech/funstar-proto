@@ -1,0 +1,39 @@
+syntax = "proto3";
+package funstar.delivery;
+option go_package = "github.com/funstartech/funstar-proto/go/server/delivery";
+
+message DeliveryTrace {
+  string AcceptTime = 1;
+  string AcceptStation = 2;
+  string Location = 3;
+  string Action = 4;
+  string Remark = 5;
+}
+
+message DeliveryDetail {
+  string EBusinessID = 1;
+  string OrderCode = 2;
+  string ShipperCode = 3;
+  string LogisticCode = 4;
+  string Callback = 5;
+  bool Success = 6;
+  string Reason = 7;
+  string State = 8;
+  string StateEx = 9;
+  string Location = 10;
+
+  string Station = 20;
+  string StationTel = 21;
+  string StationAdd = 22;
+  string DeliveryMan = 23;
+  string DeliveryManTel = 24;
+  string NextCity = 25;
+
+  repeated DeliveryTrace traces = 50;
+}
+
+message PickUpDeliveryInfo {
+  string shipping_method = 1;
+  string shipping_number = 2;
+  DeliveryDetail detail = 3;
+}
