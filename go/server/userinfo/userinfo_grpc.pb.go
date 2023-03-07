@@ -26,6 +26,8 @@ type UserInfoSvrClient interface {
 	GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoRsp, error)
 	// 更新用户信息
 	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UpdateUserInfoRsp, error)
+	// 设置分销码（非对外）
+	SetShareKey(ctx context.Context, in *SetShareKeyReq, opts ...grpc.CallOption) (*SetShareKeyRsp, error)
 }
 
 type userInfoSvrClient struct {
@@ -54,6 +56,15 @@ func (c *userInfoSvrClient) UpdateUserInfo(ctx context.Context, in *UpdateUserIn
 	return out, nil
 }
 
+func (c *userInfoSvrClient) SetShareKey(ctx context.Context, in *SetShareKeyReq, opts ...grpc.CallOption) (*SetShareKeyRsp, error) {
+	out := new(SetShareKeyRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.UserInfoSvr/SetShareKey", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserInfoSvrServer is the server API for UserInfoSvr service.
 // All implementations must embed UnimplementedUserInfoSvrServer
 // for forward compatibility
@@ -62,6 +73,8 @@ type UserInfoSvrServer interface {
 	GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoRsp, error)
 	// 更新用户信息
 	UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UpdateUserInfoRsp, error)
+	// 设置分销码（非对外）
+	SetShareKey(context.Context, *SetShareKeyReq) (*SetShareKeyRsp, error)
 	mustEmbedUnimplementedUserInfoSvrServer()
 }
 
@@ -74,6 +87,9 @@ func (UnimplementedUserInfoSvrServer) GetUserInfo(context.Context, *GetUserInfoR
 }
 func (UnimplementedUserInfoSvrServer) UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UpdateUserInfoRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserInfo not implemented")
+}
+func (UnimplementedUserInfoSvrServer) SetShareKey(context.Context, *SetShareKeyReq) (*SetShareKeyRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetShareKey not implemented")
 }
 func (UnimplementedUserInfoSvrServer) mustEmbedUnimplementedUserInfoSvrServer() {}
 
@@ -124,6 +140,24 @@ func _UserInfoSvr_UpdateUserInfo_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserInfoSvr_SetShareKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetShareKeyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserInfoSvrServer).SetShareKey(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.userinfo.UserInfoSvr/SetShareKey",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserInfoSvrServer).SetShareKey(ctx, req.(*SetShareKeyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserInfoSvr_ServiceDesc is the grpc.ServiceDesc for UserInfoSvr service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -138,6 +172,10 @@ var UserInfoSvr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateUserInfo",
 			Handler:    _UserInfoSvr_UpdateUserInfo_Handler,
+		},
+		{
+			MethodName: "SetShareKey",
+			Handler:    _UserInfoSvr_SetShareKey_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

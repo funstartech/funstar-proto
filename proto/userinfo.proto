@@ -26,9 +26,19 @@ message UpdateUserInfoReq {
 message UpdateUserInfoRsp {
 }
 
+message SetShareKeyReq {
+  string openid = 1;
+  string share_key = 2;
+}
+
+message SetShareKeyRsp {
+}
+
 service UserInfoSvr {
   // 获取用户信息
   rpc GetUserInfo (GetUserInfoReq) returns (GetUserInfoRsp);
   // 更新用户信息
   rpc UpdateUserInfo (UpdateUserInfoReq) returns (UpdateUserInfoRsp);
+  // 设置分销码（非对外）
+  rpc SetShareKey (SetShareKeyReq) returns (SetShareKeyRsp);
 }
