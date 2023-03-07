@@ -45,7 +45,8 @@ message OrderInfo {
 }
 
 message CreateOrderReq {
-    OrderDetail detail = 1;
+  OrderDetail detail = 1;
+  string share_key = 2;
 }
 
 message CreateOrderRsp {

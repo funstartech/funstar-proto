@@ -6,11 +6,10 @@ message UserInfo {
   string openid = 1;
   string avatar = 2;
   string nickname = 3;
-  string register_share_key = 50;
+  string share_key = 50;
 }
 
 message GetUserInfoReq {
-  string share_key = 1;
 }
 
 message GetUserInfoRsp {
