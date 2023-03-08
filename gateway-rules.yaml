@@ -14,6 +14,10 @@ http:
     - selector: funstar.server.userinfo.UserInfoSvr.GetUserInfo
       post: /userinfo/GetUserInfo
       body: "*"
+    # 批量获取用户信息
+    - selector: funstar.server.userinfo.UserInfoSvr.BatchGetUserInfo
+      post: /userinfo/BatchGetUserInfo
+      body: "*"
       # 更新用户信息
     - selector: funstar.server.userinfo.UserInfoSvr.UpdateUserInfo
       post: /userinfo/UpdateUserInfo
