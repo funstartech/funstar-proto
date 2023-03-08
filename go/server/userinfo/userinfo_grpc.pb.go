@@ -24,6 +24,8 @@ const _ = grpc.SupportPackageIsVersion7
 type UserInfoSvrClient interface {
 	// 获取用户信息
 	GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoRsp, error)
+	// 批量获取用户信息
+	BatchGetUserInfo(ctx context.Context, in *BatchGetUserInfoReq, opts ...grpc.CallOption) (*BatchGetUserInfoRsp, error)
 	// 更新用户信息
 	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UpdateUserInfoRsp, error)
 	// 设置分销码（非对外）
@@ -41,6 +43,15 @@ func NewUserInfoSvrClient(cc grpc.ClientConnInterface) UserInfoSvrClient {
 func (c *userInfoSvrClient) GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoRsp, error) {
 	out := new(GetUserInfoRsp)
 	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.UserInfoSvr/GetUserInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userInfoSvrClient) BatchGetUserInfo(ctx context.Context, in *BatchGetUserInfoReq, opts ...grpc.CallOption) (*BatchGetUserInfoRsp, error) {
+	out := new(BatchGetUserInfoRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.UserInfoSvr/BatchGetUserInfo", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -71,6 +82,8 @@ func (c *userInfoSvrClient) SetShareKey(ctx context.Context, in *SetShareKeyReq,
 type UserInfoSvrServer interface {
 	// 获取用户信息
 	GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoRsp, error)
+	// 批量获取用户信息
+	BatchGetUserInfo(context.Context, *BatchGetUserInfoReq) (*BatchGetUserInfoRsp, error)
 	// 更新用户信息
 	UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UpdateUserInfoRsp, error)
 	// 设置分销码（非对外）
@@ -84,6 +97,9 @@ type UnimplementedUserInfoSvrServer struct {
 
 func (UnimplementedUserInfoSvrServer) GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
+}
+func (UnimplementedUserInfoSvrServer) BatchGetUserInfo(context.Context, *BatchGetUserInfoReq) (*BatchGetUserInfoRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchGetUserInfo not implemented")
 }
 func (UnimplementedUserInfoSvrServer) UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UpdateUserInfoRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserInfo not implemented")
@@ -118,6 +134,24 @@ func _UserInfoSvr_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserInfoSvrServer).GetUserInfo(ctx, req.(*GetUserInfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserInfoSvr_BatchGetUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchGetUserInfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserInfoSvrServer).BatchGetUserInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.userinfo.UserInfoSvr/BatchGetUserInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserInfoSvrServer).BatchGetUserInfo(ctx, req.(*BatchGetUserInfoReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -168,6 +202,10 @@ var UserInfoSvr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserInfo",
 			Handler:    _UserInfoSvr_GetUserInfo_Handler,
+		},
+		{
+			MethodName: "BatchGetUserInfo",
+			Handler:    _UserInfoSvr_BatchGetUserInfo_Handler,
 		},
 		{
 			MethodName: "UpdateUserInfo",

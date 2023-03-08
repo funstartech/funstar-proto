@@ -16,6 +16,14 @@ message GetUserInfoRsp {
     UserInfo userinfo = 1;
 }
 
+message BatchGetUserInfoReq {
+  repeated string openid = 1;
+}
+
+message BatchGetUserInfoRsp {
+  repeated UserInfo userinfo = 1;
+}
+
 message UpdateUserInfoReq {
   UserInfo user = 1;
 
@@ -36,6 +44,8 @@ message SetShareKeyRsp {
 service UserInfoSvr {
   // 获取用户信息
   rpc GetUserInfo (GetUserInfoReq) returns (GetUserInfoRsp);
+  // 批量获取用户信息
+  rpc BatchGetUserInfo (BatchGetUserInfoReq) returns (BatchGetUserInfoRsp);
   // 更新用户信息
   rpc UpdateUserInfo (UpdateUserInfoReq) returns (UpdateUserInfoRsp);
   // 设置分销码（非对外）

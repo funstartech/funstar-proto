@@ -4,6 +4,7 @@ option go_package = "github.com/funstartech/funstar-proto/go/server/collection";
 
 import "product.proto";
 import "common.proto";
+import "userinfo.proto";
 
 // 商品等级
 enum CollectionProductLevel {
@@ -72,6 +73,23 @@ message LotteryRsp {
   repeated funstar.common.Collection collections = 1;
 }
 
+message GetLotteryHistoryReq {
+  string cid = 1;
+  bytes cookie = 2;
+}
+
+message LotteryHistory {
+  funstar.server.userinfo.UserInfo user = 1;
+  funstar.common.Product product = 2;
+  int64 ts = 3;
+}
+
+message GetLotteryHistoryRsp {
+  repeated LotteryHistory history = 1;
+  bytes cookie = 2;
+  bool is_end = 3;
+}
+
 service CollectionSvr {
   // 拉取赏排序流列表
   rpc GetCollectionList (GetCollectionListReq) returns (GetCollectionListRsp);
@@ -81,4 +99,6 @@ service CollectionSvr {
   rpc GetCollectionDetail (GetCollectionDetailReq) returns (GetCollectionDetailRsp);
   // 抽奖（支持多抽）
   rpc Lottery (LotteryReq) returns (LotteryRsp);
+  // 获取抽奖记录
+  rpc GetLotteryHistory (GetLotteryHistoryReq) returns (GetLotteryHistoryRsp);
 }
