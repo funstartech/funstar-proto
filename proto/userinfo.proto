@@ -17,11 +17,11 @@ message GetUserInfoRsp {
 }
 
 message BatchGetUserInfoReq {
-  repeated string openid = 1;
+  repeated string openids = 1;
 }
 
 message BatchGetUserInfoRsp {
-  repeated UserInfo userinfo = 1;
+  repeated UserInfo userinfos = 1;
 }
 
 message UpdateUserInfoReq {
