@@ -99,6 +99,7 @@ message OrderFinishHistory {
   string openid = 1;
   string pid = 2;
   uint32 level = 3;
+  int64 ts = 4;
 }
 
 message GetOrderFinishHistoryReq {
