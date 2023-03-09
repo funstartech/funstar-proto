@@ -20,9 +20,10 @@ message OrderBasic {
   string title = 6;
   string c_cover = 7;
   string p_cover = 8; // 优先使用p_cover字段，p_cover为空或者不能访问，则用c_cover，将来支持翻转动画时，从c_cover翻转为p_cover
-  uint32 count = 9;
-  string pids = 10;
-  string share_key = 11;
+  string cid = 9;
+  uint32 count = 10;
+  string pids = 11;
+  string share_key = 12;
 }
 
 message OrderDetail {
