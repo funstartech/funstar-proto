@@ -33,6 +33,8 @@ type OrderSvrClient interface {
 	CancelOrder(ctx context.Context, in *CancelOrderReq, opts ...grpc.CallOption) (*CancelOrderRsp, error)
 	// 微信支付付款回调
 	WxPayCallback(ctx context.Context, in *wxpay.WxPayCallbackReq, opts ...grpc.CallOption) (*wxpay.WxPayCallbackRsp, error)
+	// 获取订单完成记录
+	GetOrderFinishHistory(ctx context.Context, in *GetOrderFinishHistoryReq, opts ...grpc.CallOption) (*GetOrderFinishHistoryRsp, error)
 }
 
 type orderSvrClient struct {
@@ -88,6 +90,15 @@ func (c *orderSvrClient) WxPayCallback(ctx context.Context, in *wxpay.WxPayCallb
 	return out, nil
 }
 
+func (c *orderSvrClient) GetOrderFinishHistory(ctx context.Context, in *GetOrderFinishHistoryReq, opts ...grpc.CallOption) (*GetOrderFinishHistoryRsp, error) {
+	out := new(GetOrderFinishHistoryRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.order.OrderSvr/GetOrderFinishHistory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrderSvrServer is the server API for OrderSvr service.
 // All implementations must embed UnimplementedOrderSvrServer
 // for forward compatibility
@@ -102,6 +113,8 @@ type OrderSvrServer interface {
 	CancelOrder(context.Context, *CancelOrderReq) (*CancelOrderRsp, error)
 	// 微信支付付款回调
 	WxPayCallback(context.Context, *wxpay.WxPayCallbackReq) (*wxpay.WxPayCallbackRsp, error)
+	// 获取订单完成记录
+	GetOrderFinishHistory(context.Context, *GetOrderFinishHistoryReq) (*GetOrderFinishHistoryRsp, error)
 	mustEmbedUnimplementedOrderSvrServer()
 }
 
@@ -123,6 +136,9 @@ func (UnimplementedOrderSvrServer) CancelOrder(context.Context, *CancelOrderReq)
 }
 func (UnimplementedOrderSvrServer) WxPayCallback(context.Context, *wxpay.WxPayCallbackReq) (*wxpay.WxPayCallbackRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method WxPayCallback not implemented")
+}
+func (UnimplementedOrderSvrServer) GetOrderFinishHistory(context.Context, *GetOrderFinishHistoryReq) (*GetOrderFinishHistoryRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrderFinishHistory not implemented")
 }
 func (UnimplementedOrderSvrServer) mustEmbedUnimplementedOrderSvrServer() {}
 
@@ -227,6 +243,24 @@ func _OrderSvr_WxPayCallback_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrderSvr_GetOrderFinishHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOrderFinishHistoryReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderSvrServer).GetOrderFinishHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.order.OrderSvr/GetOrderFinishHistory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderSvrServer).GetOrderFinishHistory(ctx, req.(*GetOrderFinishHistoryReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrderSvr_ServiceDesc is the grpc.ServiceDesc for OrderSvr service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -253,6 +287,10 @@ var OrderSvr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "WxPayCallback",
 			Handler:    _OrderSvr_WxPayCallback_Handler,
+		},
+		{
+			MethodName: "GetOrderFinishHistory",
+			Handler:    _OrderSvr_GetOrderFinishHistory_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

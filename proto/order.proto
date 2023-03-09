@@ -95,6 +95,23 @@ message CancelOrderRsp {
   uint32 res = 1; // CancelRes
 }
 
+message OrderFinishHistory {
+  string openid = 1;
+  string pid = 2;
+  uint32 level = 3;
+}
+
+message GetOrderFinishHistoryReq {
+  string cid = 1;
+  bytes cookie = 2;
+}
+
+message GetOrderFinishHistoryRsp {
+  repeated OrderFinishHistory history = 1;
+  bytes cookie = 2;
+  bool is_end = 3;
+}
+
 service OrderSvr {
   // 创建订单
   rpc CreateOrder (CreateOrderReq) returns (CreateOrderRsp);
@@ -106,4 +123,6 @@ service OrderSvr {
   rpc CancelOrder (CancelOrderReq) returns (CancelOrderRsp);
   // 微信支付付款回调
   rpc WxPayCallback (funstar.wxpay.WxPayCallbackReq) returns (funstar.wxpay.WxPayCallbackRsp);
+  // 获取订单完成记录
+  rpc GetOrderFinishHistory (GetOrderFinishHistoryReq) returns (GetOrderFinishHistoryRsp);
 }
