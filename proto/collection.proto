@@ -52,9 +52,15 @@ message GetCollectionDetailReq {
   string cid = 1;
 }
 
+message CollectionOnline {
+  uint32 total_count = 1; // 总人数
+  repeated string avatar = 2; // 头像列表
+}
+
 message GetCollectionDetailRsp {
   CollectionBasic basic = 1; // 基础信息
   CollectionDetail detail = 2; // 详情
+  CollectionOnline online = 3; // 当前在线
 }
 
 message BatchGetCollectionBasicReq {
