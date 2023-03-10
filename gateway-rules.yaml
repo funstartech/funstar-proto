@@ -90,4 +90,8 @@ http:
     - selector: funstar.server.storehouse.StorehouseSvr.GetDeliveryInfo
       post: /storehouse/GetDeliveryInfo
       body: "*"
+      # 微信支付付款回调
+    - selector: funstar.server.storehouse.StorehouseSvr.WxPayCallback
+      post: /storehouse/WxPayCallback
+      body: "*"
 

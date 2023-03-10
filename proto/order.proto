@@ -123,8 +123,8 @@ service OrderSvr {
   rpc GetUserOrders (GetUserOrdersReq) returns (GetUserOrdersRsp);
   // 取消订单
   rpc CancelOrder (CancelOrderReq) returns (CancelOrderRsp);
-  // 微信支付付款回调
-  rpc WxPayCallback (funstar.wxpay.WxPayCallbackReq) returns (funstar.wxpay.WxPayCallbackRsp);
   // 获取订单完成记录
   rpc GetOrderFinishHistory (GetOrderFinishHistoryReq) returns (GetOrderFinishHistoryRsp);
+  // 微信支付付款回调
+  rpc WxPayCallback (funstar.wxpay.WxPayCallbackReq) returns (funstar.wxpay.WxPayCallbackRsp);
 }

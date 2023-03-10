@@ -8,6 +8,7 @@ package storehouse
 
 import (
 	context "context"
+	wxpay "github.com/funstartech/funstar-proto/go/wxpay"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -32,6 +33,8 @@ type StorehouseSvrClient interface {
 	CancelPickUpOrder(ctx context.Context, in *CancelPickUpOrderReq, opts ...grpc.CallOption) (*CancelPickUpOrderRsp, error)
 	// 查询物流信息
 	GetDeliveryInfo(ctx context.Context, in *GetDeliveryInfoReq, opts ...grpc.CallOption) (*GetDeliveryInfoRsp, error)
+	// 微信支付付款回调
+	WxPayCallback(ctx context.Context, in *wxpay.WxPayCallbackReq, opts ...grpc.CallOption) (*wxpay.WxPayCallbackRsp, error)
 }
 
 type storehouseSvrClient struct {
@@ -87,6 +90,15 @@ func (c *storehouseSvrClient) GetDeliveryInfo(ctx context.Context, in *GetDelive
 	return out, nil
 }
 
+func (c *storehouseSvrClient) WxPayCallback(ctx context.Context, in *wxpay.WxPayCallbackReq, opts ...grpc.CallOption) (*wxpay.WxPayCallbackRsp, error) {
+	out := new(wxpay.WxPayCallbackRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.storehouse.StorehouseSvr/WxPayCallback", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StorehouseSvrServer is the server API for StorehouseSvr service.
 // All implementations must embed UnimplementedStorehouseSvrServer
 // for forward compatibility
@@ -101,6 +113,8 @@ type StorehouseSvrServer interface {
 	CancelPickUpOrder(context.Context, *CancelPickUpOrderReq) (*CancelPickUpOrderRsp, error)
 	// 查询物流信息
 	GetDeliveryInfo(context.Context, *GetDeliveryInfoReq) (*GetDeliveryInfoRsp, error)
+	// 微信支付付款回调
+	WxPayCallback(context.Context, *wxpay.WxPayCallbackReq) (*wxpay.WxPayCallbackRsp, error)
 	mustEmbedUnimplementedStorehouseSvrServer()
 }
 
@@ -122,6 +136,9 @@ func (UnimplementedStorehouseSvrServer) CancelPickUpOrder(context.Context, *Canc
 }
 func (UnimplementedStorehouseSvrServer) GetDeliveryInfo(context.Context, *GetDeliveryInfoReq) (*GetDeliveryInfoRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDeliveryInfo not implemented")
+}
+func (UnimplementedStorehouseSvrServer) WxPayCallback(context.Context, *wxpay.WxPayCallbackReq) (*wxpay.WxPayCallbackRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method WxPayCallback not implemented")
 }
 func (UnimplementedStorehouseSvrServer) mustEmbedUnimplementedStorehouseSvrServer() {}
 
@@ -226,6 +243,24 @@ func _StorehouseSvr_GetDeliveryInfo_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorehouseSvr_WxPayCallback_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(wxpay.WxPayCallbackReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorehouseSvrServer).WxPayCallback(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.storehouse.StorehouseSvr/WxPayCallback",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorehouseSvrServer).WxPayCallback(ctx, req.(*wxpay.WxPayCallbackReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StorehouseSvr_ServiceDesc is the grpc.ServiceDesc for StorehouseSvr service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -252,6 +287,10 @@ var StorehouseSvr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetDeliveryInfo",
 			Handler:    _StorehouseSvr_GetDeliveryInfo_Handler,
+		},
+		{
+			MethodName: "WxPayCallback",
+			Handler:    _StorehouseSvr_WxPayCallback_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

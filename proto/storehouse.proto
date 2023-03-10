@@ -110,4 +110,6 @@ service StorehouseSvr {
   rpc CancelPickUpOrder (CancelPickUpOrderReq) returns (CancelPickUpOrderRsp);
   // 查询物流信息
   rpc GetDeliveryInfo (GetDeliveryInfoReq) returns (GetDeliveryInfoRsp);
+  // 微信支付付款回调
+  rpc WxPayCallback (funstar.wxpay.WxPayCallbackReq) returns (funstar.wxpay.WxPayCallbackRsp);
 }
