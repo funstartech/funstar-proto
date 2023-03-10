@@ -54,7 +54,7 @@ message GetCollectionDetailReq {
 
 message CollectionOnline {
   uint32 total_count = 1; // 总人数
-  repeated string avatar = 2; // 头像列表
+  repeated string avatars = 2; // 头像列表
 }
 
 message GetCollectionDetailRsp {
