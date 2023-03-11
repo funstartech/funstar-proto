@@ -36,6 +36,8 @@ type UserInfoSvrClient interface {
 	GetDefaultAddress(ctx context.Context, in *GetDefaultAddressReq, opts ...grpc.CallOption) (*GetDefaultAddressRsp, error)
 	// 设置默认地址
 	SetDefaultAddress(ctx context.Context, in *SetDefaultAddressReq, opts ...grpc.CallOption) (*SetDefaultAddressRsp, error)
+	// 获取地址
+	GetAddress(ctx context.Context, in *GetAddressReq, opts ...grpc.CallOption) (*GetAddressRsp, error)
 	// 添加地址
 	AddAddress(ctx context.Context, in *AddAddressReq, opts ...grpc.CallOption) (*AddAddressRsp, error)
 	// 更新地址
@@ -115,6 +117,15 @@ func (c *userInfoSvrClient) SetDefaultAddress(ctx context.Context, in *SetDefaul
 	return out, nil
 }
 
+func (c *userInfoSvrClient) GetAddress(ctx context.Context, in *GetAddressReq, opts ...grpc.CallOption) (*GetAddressRsp, error) {
+	out := new(GetAddressRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.UserInfoSvr/GetAddress", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userInfoSvrClient) AddAddress(ctx context.Context, in *AddAddressReq, opts ...grpc.CallOption) (*AddAddressRsp, error) {
 	out := new(AddAddressRsp)
 	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.UserInfoSvr/AddAddress", in, out, opts...)
@@ -160,6 +171,8 @@ type UserInfoSvrServer interface {
 	GetDefaultAddress(context.Context, *GetDefaultAddressReq) (*GetDefaultAddressRsp, error)
 	// 设置默认地址
 	SetDefaultAddress(context.Context, *SetDefaultAddressReq) (*SetDefaultAddressRsp, error)
+	// 获取地址
+	GetAddress(context.Context, *GetAddressReq) (*GetAddressRsp, error)
 	// 添加地址
 	AddAddress(context.Context, *AddAddressReq) (*AddAddressRsp, error)
 	// 更新地址
@@ -193,6 +206,9 @@ func (UnimplementedUserInfoSvrServer) GetDefaultAddress(context.Context, *GetDef
 }
 func (UnimplementedUserInfoSvrServer) SetDefaultAddress(context.Context, *SetDefaultAddressReq) (*SetDefaultAddressRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetDefaultAddress not implemented")
+}
+func (UnimplementedUserInfoSvrServer) GetAddress(context.Context, *GetAddressReq) (*GetAddressRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAddress not implemented")
 }
 func (UnimplementedUserInfoSvrServer) AddAddress(context.Context, *AddAddressReq) (*AddAddressRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddAddress not implemented")
@@ -342,6 +358,24 @@ func _UserInfoSvr_SetDefaultAddress_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserInfoSvr_GetAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAddressReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserInfoSvrServer).GetAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.userinfo.UserInfoSvr/GetAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserInfoSvrServer).GetAddress(ctx, req.(*GetAddressReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserInfoSvr_AddAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AddAddressReq)
 	if err := dec(in); err != nil {
@@ -430,6 +464,10 @@ var UserInfoSvr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SetDefaultAddress",
 			Handler:    _UserInfoSvr_SetDefaultAddress_Handler,
+		},
+		{
+			MethodName: "GetAddress",
+			Handler:    _UserInfoSvr_GetAddress_Handler,
 		},
 		{
 			MethodName: "AddAddress",

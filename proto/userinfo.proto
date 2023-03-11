@@ -77,6 +77,14 @@ message SetDefaultAddressRsp {
 
 }
 
+message GetAddressReq {
+  uint64 address_id = 1;
+}
+
+message GetAddressRsp {
+  UserAddress address = 1;
+}
+
 message AddAddressReq {
   UserAddress address = 1; // 只需要填收货人、手机号、区域、地址、是否默认
 }
@@ -117,6 +125,8 @@ service UserInfoSvr {
   rpc GetDefaultAddress (GetDefaultAddressReq) returns (GetDefaultAddressRsp);
   // 设置默认地址
   rpc SetDefaultAddress (SetDefaultAddressReq) returns (SetDefaultAddressRsp);
+  // 获取地址
+  rpc GetAddress (GetAddressReq) returns (GetAddressRsp);
   // 添加地址
   rpc AddAddress (AddAddressReq) returns (AddAddressRsp);
   // 更新地址
