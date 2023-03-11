@@ -28,8 +28,20 @@ type UserInfoSvrClient interface {
 	BatchGetUserInfo(ctx context.Context, in *BatchGetUserInfoReq, opts ...grpc.CallOption) (*BatchGetUserInfoRsp, error)
 	// 更新用户信息
 	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UpdateUserInfoRsp, error)
-	// 设置分销码（非对外）
+	// 设置分销码
 	SetShareKey(ctx context.Context, in *SetShareKeyReq, opts ...grpc.CallOption) (*SetShareKeyRsp, error)
+	// 获取地址列表
+	GetAddressList(ctx context.Context, in *GetAddressListReq, opts ...grpc.CallOption) (*GetAddressListRsp, error)
+	// 获取默认地址
+	GetDefaultAddress(ctx context.Context, in *GetDefaultAddressReq, opts ...grpc.CallOption) (*GetDefaultAddressRsp, error)
+	// 设置默认地址
+	SetDefaultAddress(ctx context.Context, in *SetDefaultAddressReq, opts ...grpc.CallOption) (*SetDefaultAddressRsp, error)
+	// 添加地址
+	AddAddress(ctx context.Context, in *AddAddressReq, opts ...grpc.CallOption) (*AddAddressRsp, error)
+	// 更新地址
+	UpdateAddress(ctx context.Context, in *UpdateAddressReq, opts ...grpc.CallOption) (*UpdateAddressRsp, error)
+	// 删除地址
+	RemAddress(ctx context.Context, in *RemAddressReq, opts ...grpc.CallOption) (*RemAddressRsp, error)
 }
 
 type userInfoSvrClient struct {
@@ -76,6 +88,60 @@ func (c *userInfoSvrClient) SetShareKey(ctx context.Context, in *SetShareKeyReq,
 	return out, nil
 }
 
+func (c *userInfoSvrClient) GetAddressList(ctx context.Context, in *GetAddressListReq, opts ...grpc.CallOption) (*GetAddressListRsp, error) {
+	out := new(GetAddressListRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.UserInfoSvr/GetAddressList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userInfoSvrClient) GetDefaultAddress(ctx context.Context, in *GetDefaultAddressReq, opts ...grpc.CallOption) (*GetDefaultAddressRsp, error) {
+	out := new(GetDefaultAddressRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.UserInfoSvr/GetDefaultAddress", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userInfoSvrClient) SetDefaultAddress(ctx context.Context, in *SetDefaultAddressReq, opts ...grpc.CallOption) (*SetDefaultAddressRsp, error) {
+	out := new(SetDefaultAddressRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.UserInfoSvr/SetDefaultAddress", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userInfoSvrClient) AddAddress(ctx context.Context, in *AddAddressReq, opts ...grpc.CallOption) (*AddAddressRsp, error) {
+	out := new(AddAddressRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.UserInfoSvr/AddAddress", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userInfoSvrClient) UpdateAddress(ctx context.Context, in *UpdateAddressReq, opts ...grpc.CallOption) (*UpdateAddressRsp, error) {
+	out := new(UpdateAddressRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.UserInfoSvr/UpdateAddress", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userInfoSvrClient) RemAddress(ctx context.Context, in *RemAddressReq, opts ...grpc.CallOption) (*RemAddressRsp, error) {
+	out := new(RemAddressRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.UserInfoSvr/RemAddress", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserInfoSvrServer is the server API for UserInfoSvr service.
 // All implementations must embed UnimplementedUserInfoSvrServer
 // for forward compatibility
@@ -86,8 +152,20 @@ type UserInfoSvrServer interface {
 	BatchGetUserInfo(context.Context, *BatchGetUserInfoReq) (*BatchGetUserInfoRsp, error)
 	// 更新用户信息
 	UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UpdateUserInfoRsp, error)
-	// 设置分销码（非对外）
+	// 设置分销码
 	SetShareKey(context.Context, *SetShareKeyReq) (*SetShareKeyRsp, error)
+	// 获取地址列表
+	GetAddressList(context.Context, *GetAddressListReq) (*GetAddressListRsp, error)
+	// 获取默认地址
+	GetDefaultAddress(context.Context, *GetDefaultAddressReq) (*GetDefaultAddressRsp, error)
+	// 设置默认地址
+	SetDefaultAddress(context.Context, *SetDefaultAddressReq) (*SetDefaultAddressRsp, error)
+	// 添加地址
+	AddAddress(context.Context, *AddAddressReq) (*AddAddressRsp, error)
+	// 更新地址
+	UpdateAddress(context.Context, *UpdateAddressReq) (*UpdateAddressRsp, error)
+	// 删除地址
+	RemAddress(context.Context, *RemAddressReq) (*RemAddressRsp, error)
 	mustEmbedUnimplementedUserInfoSvrServer()
 }
 
@@ -106,6 +184,24 @@ func (UnimplementedUserInfoSvrServer) UpdateUserInfo(context.Context, *UpdateUse
 }
 func (UnimplementedUserInfoSvrServer) SetShareKey(context.Context, *SetShareKeyReq) (*SetShareKeyRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetShareKey not implemented")
+}
+func (UnimplementedUserInfoSvrServer) GetAddressList(context.Context, *GetAddressListReq) (*GetAddressListRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAddressList not implemented")
+}
+func (UnimplementedUserInfoSvrServer) GetDefaultAddress(context.Context, *GetDefaultAddressReq) (*GetDefaultAddressRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDefaultAddress not implemented")
+}
+func (UnimplementedUserInfoSvrServer) SetDefaultAddress(context.Context, *SetDefaultAddressReq) (*SetDefaultAddressRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetDefaultAddress not implemented")
+}
+func (UnimplementedUserInfoSvrServer) AddAddress(context.Context, *AddAddressReq) (*AddAddressRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddAddress not implemented")
+}
+func (UnimplementedUserInfoSvrServer) UpdateAddress(context.Context, *UpdateAddressReq) (*UpdateAddressRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAddress not implemented")
+}
+func (UnimplementedUserInfoSvrServer) RemAddress(context.Context, *RemAddressReq) (*RemAddressRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemAddress not implemented")
 }
 func (UnimplementedUserInfoSvrServer) mustEmbedUnimplementedUserInfoSvrServer() {}
 
@@ -192,6 +288,114 @@ func _UserInfoSvr_SetShareKey_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserInfoSvr_GetAddressList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAddressListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserInfoSvrServer).GetAddressList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.userinfo.UserInfoSvr/GetAddressList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserInfoSvrServer).GetAddressList(ctx, req.(*GetAddressListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserInfoSvr_GetDefaultAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDefaultAddressReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserInfoSvrServer).GetDefaultAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.userinfo.UserInfoSvr/GetDefaultAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserInfoSvrServer).GetDefaultAddress(ctx, req.(*GetDefaultAddressReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserInfoSvr_SetDefaultAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetDefaultAddressReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserInfoSvrServer).SetDefaultAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.userinfo.UserInfoSvr/SetDefaultAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserInfoSvrServer).SetDefaultAddress(ctx, req.(*SetDefaultAddressReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserInfoSvr_AddAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddAddressReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserInfoSvrServer).AddAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.userinfo.UserInfoSvr/AddAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserInfoSvrServer).AddAddress(ctx, req.(*AddAddressReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserInfoSvr_UpdateAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAddressReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserInfoSvrServer).UpdateAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.userinfo.UserInfoSvr/UpdateAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserInfoSvrServer).UpdateAddress(ctx, req.(*UpdateAddressReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserInfoSvr_RemAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemAddressReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserInfoSvrServer).RemAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.userinfo.UserInfoSvr/RemAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserInfoSvrServer).RemAddress(ctx, req.(*RemAddressReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserInfoSvr_ServiceDesc is the grpc.ServiceDesc for UserInfoSvr service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -215,283 +419,29 @@ var UserInfoSvr_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "SetShareKey",
 			Handler:    _UserInfoSvr_SetShareKey_Handler,
 		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "userinfo.proto",
-}
-
-// AddressSvrClient is the client API for AddressSvr service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type AddressSvrClient interface {
-	// 获取地址列表
-	GetAddressList(ctx context.Context, in *GetAddressListReq, opts ...grpc.CallOption) (*GetAddressListRsp, error)
-	// 获取默认地址
-	GetDefaultAddress(ctx context.Context, in *GetDefaultAddressReq, opts ...grpc.CallOption) (*GetDefaultAddressRsp, error)
-	// 设置默认地址
-	SetDefaultAddress(ctx context.Context, in *SetDefaultAddressReq, opts ...grpc.CallOption) (*SetDefaultAddressRsp, error)
-	// 添加地址
-	AddAddress(ctx context.Context, in *AddAddressReq, opts ...grpc.CallOption) (*AddAddressRsp, error)
-	// 更新地址
-	UpdateAddress(ctx context.Context, in *UpdateAddressReq, opts ...grpc.CallOption) (*UpdateAddressRsp, error)
-	// 删除地址
-	RemAddress(ctx context.Context, in *RemAddressReq, opts ...grpc.CallOption) (*RemAddressRsp, error)
-}
-
-type addressSvrClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewAddressSvrClient(cc grpc.ClientConnInterface) AddressSvrClient {
-	return &addressSvrClient{cc}
-}
-
-func (c *addressSvrClient) GetAddressList(ctx context.Context, in *GetAddressListReq, opts ...grpc.CallOption) (*GetAddressListRsp, error) {
-	out := new(GetAddressListRsp)
-	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.AddressSvr/GetAddressList", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *addressSvrClient) GetDefaultAddress(ctx context.Context, in *GetDefaultAddressReq, opts ...grpc.CallOption) (*GetDefaultAddressRsp, error) {
-	out := new(GetDefaultAddressRsp)
-	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.AddressSvr/GetDefaultAddress", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *addressSvrClient) SetDefaultAddress(ctx context.Context, in *SetDefaultAddressReq, opts ...grpc.CallOption) (*SetDefaultAddressRsp, error) {
-	out := new(SetDefaultAddressRsp)
-	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.AddressSvr/SetDefaultAddress", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *addressSvrClient) AddAddress(ctx context.Context, in *AddAddressReq, opts ...grpc.CallOption) (*AddAddressRsp, error) {
-	out := new(AddAddressRsp)
-	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.AddressSvr/AddAddress", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *addressSvrClient) UpdateAddress(ctx context.Context, in *UpdateAddressReq, opts ...grpc.CallOption) (*UpdateAddressRsp, error) {
-	out := new(UpdateAddressRsp)
-	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.AddressSvr/UpdateAddress", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *addressSvrClient) RemAddress(ctx context.Context, in *RemAddressReq, opts ...grpc.CallOption) (*RemAddressRsp, error) {
-	out := new(RemAddressRsp)
-	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.AddressSvr/RemAddress", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// AddressSvrServer is the server API for AddressSvr service.
-// All implementations must embed UnimplementedAddressSvrServer
-// for forward compatibility
-type AddressSvrServer interface {
-	// 获取地址列表
-	GetAddressList(context.Context, *GetAddressListReq) (*GetAddressListRsp, error)
-	// 获取默认地址
-	GetDefaultAddress(context.Context, *GetDefaultAddressReq) (*GetDefaultAddressRsp, error)
-	// 设置默认地址
-	SetDefaultAddress(context.Context, *SetDefaultAddressReq) (*SetDefaultAddressRsp, error)
-	// 添加地址
-	AddAddress(context.Context, *AddAddressReq) (*AddAddressRsp, error)
-	// 更新地址
-	UpdateAddress(context.Context, *UpdateAddressReq) (*UpdateAddressRsp, error)
-	// 删除地址
-	RemAddress(context.Context, *RemAddressReq) (*RemAddressRsp, error)
-	mustEmbedUnimplementedAddressSvrServer()
-}
-
-// UnimplementedAddressSvrServer must be embedded to have forward compatible implementations.
-type UnimplementedAddressSvrServer struct {
-}
-
-func (UnimplementedAddressSvrServer) GetAddressList(context.Context, *GetAddressListReq) (*GetAddressListRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAddressList not implemented")
-}
-func (UnimplementedAddressSvrServer) GetDefaultAddress(context.Context, *GetDefaultAddressReq) (*GetDefaultAddressRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetDefaultAddress not implemented")
-}
-func (UnimplementedAddressSvrServer) SetDefaultAddress(context.Context, *SetDefaultAddressReq) (*SetDefaultAddressRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SetDefaultAddress not implemented")
-}
-func (UnimplementedAddressSvrServer) AddAddress(context.Context, *AddAddressReq) (*AddAddressRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddAddress not implemented")
-}
-func (UnimplementedAddressSvrServer) UpdateAddress(context.Context, *UpdateAddressReq) (*UpdateAddressRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateAddress not implemented")
-}
-func (UnimplementedAddressSvrServer) RemAddress(context.Context, *RemAddressReq) (*RemAddressRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RemAddress not implemented")
-}
-func (UnimplementedAddressSvrServer) mustEmbedUnimplementedAddressSvrServer() {}
-
-// UnsafeAddressSvrServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to AddressSvrServer will
-// result in compilation errors.
-type UnsafeAddressSvrServer interface {
-	mustEmbedUnimplementedAddressSvrServer()
-}
-
-func RegisterAddressSvrServer(s grpc.ServiceRegistrar, srv AddressSvrServer) {
-	s.RegisterService(&AddressSvr_ServiceDesc, srv)
-}
-
-func _AddressSvr_GetAddressList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetAddressListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AddressSvrServer).GetAddressList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/funstar.server.userinfo.AddressSvr/GetAddressList",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AddressSvrServer).GetAddressList(ctx, req.(*GetAddressListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AddressSvr_GetDefaultAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetDefaultAddressReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AddressSvrServer).GetDefaultAddress(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/funstar.server.userinfo.AddressSvr/GetDefaultAddress",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AddressSvrServer).GetDefaultAddress(ctx, req.(*GetDefaultAddressReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AddressSvr_SetDefaultAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SetDefaultAddressReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AddressSvrServer).SetDefaultAddress(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/funstar.server.userinfo.AddressSvr/SetDefaultAddress",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AddressSvrServer).SetDefaultAddress(ctx, req.(*SetDefaultAddressReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AddressSvr_AddAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddAddressReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AddressSvrServer).AddAddress(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/funstar.server.userinfo.AddressSvr/AddAddress",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AddressSvrServer).AddAddress(ctx, req.(*AddAddressReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AddressSvr_UpdateAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateAddressReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AddressSvrServer).UpdateAddress(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/funstar.server.userinfo.AddressSvr/UpdateAddress",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AddressSvrServer).UpdateAddress(ctx, req.(*UpdateAddressReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AddressSvr_RemAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RemAddressReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AddressSvrServer).RemAddress(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/funstar.server.userinfo.AddressSvr/RemAddress",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AddressSvrServer).RemAddress(ctx, req.(*RemAddressReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-// AddressSvr_ServiceDesc is the grpc.ServiceDesc for AddressSvr service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var AddressSvr_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "funstar.server.userinfo.AddressSvr",
-	HandlerType: (*AddressSvrServer)(nil),
-	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "GetAddressList",
-			Handler:    _AddressSvr_GetAddressList_Handler,
+			Handler:    _UserInfoSvr_GetAddressList_Handler,
 		},
 		{
 			MethodName: "GetDefaultAddress",
-			Handler:    _AddressSvr_GetDefaultAddress_Handler,
+			Handler:    _UserInfoSvr_GetDefaultAddress_Handler,
 		},
 		{
 			MethodName: "SetDefaultAddress",
-			Handler:    _AddressSvr_SetDefaultAddress_Handler,
+			Handler:    _UserInfoSvr_SetDefaultAddress_Handler,
 		},
 		{
 			MethodName: "AddAddress",
-			Handler:    _AddressSvr_AddAddress_Handler,
+			Handler:    _UserInfoSvr_AddAddress_Handler,
 		},
 		{
 			MethodName: "UpdateAddress",
-			Handler:    _AddressSvr_UpdateAddress_Handler,
+			Handler:    _UserInfoSvr_UpdateAddress_Handler,
 		},
 		{
 			MethodName: "RemAddress",
-			Handler:    _AddressSvr_RemAddress_Handler,
+			Handler:    _UserInfoSvr_RemAddress_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

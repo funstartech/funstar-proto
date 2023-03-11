@@ -24,27 +24,27 @@ http:
       body: "*"
 
       # 获取地址列表
-    - selector: funstar.server.userinfo.AddressSvr.GetAddressList
+    - selector: funstar.server.userinfo.UserInfoSvr.GetAddressList
       post: /userinfo/GetAddressList
       body: "*"
       # 获取默认地址
-    - selector: funstar.server.userinfo.AddressSvr.GetDefaultAddress
+    - selector: funstar.server.userinfo.UserInfoSvr.GetDefaultAddress
       post: /userinfo/GetDefaultAddress
       body: "*"
       # 设置默认地址
-    - selector: funstar.server.userinfo.AddressSvr.SetDefaultAddress
+    - selector: funstar.server.userinfo.UserInfoSvr.SetDefaultAddress
       post: /userinfo/SetDefaultAddress
       body: "*"
       # 添加地址
-    - selector: funstar.server.userinfo.AddressSvr.AddAddress
+    - selector: funstar.server.userinfo.UserInfoSvr.AddAddress
       post: /userinfo/AddAddress
       body: "*"
       # 更新地址
-    - selector: funstar.server.userinfo.AddressSvr.UpdateAddress
+    - selector: funstar.server.userinfo.UserInfoSvr.UpdateAddress
       post: /userinfo/UpdateAddress
       body: "*"
       # 删除地址
-    - selector: funstar.server.userinfo.AddressSvr.RemAddress
+    - selector: funstar.server.userinfo.UserInfoSvr.RemAddress
       post: /userinfo/RemAddress
       body: "*"
 
