@@ -51,3 +51,78 @@ service UserInfoSvr {
   // 设置分销码（非对外）
   rpc SetShareKey (SetShareKeyReq) returns (SetShareKeyRsp);
 }
+
+message UserAddress {
+  uint64 id = 1;
+  string openid = 2;
+
+  string receiver = 10; // 收货人
+  string phone = 11; // 手机号
+  string district = 12; // 区域
+  string address = 13; // 详细地址
+
+  bool is_default = 20; // 是否是默认地址
+  int64 update_ts = 21; // 更新时间
+}
+
+message GetAddressListReq {
+
+}
+
+message GetAddressListRsp {
+  repeated UserAddress address_list = 1;
+}
+
+message GetDefaultAddressReq {
+}
+
+message GetDefaultAddressRsp {
+    UserAddress address = 1;
+}
+
+message SetDefaultAddressReq {
+  uint64 address_id = 1;
+}
+
+message SetDefaultAddressRsp {
+
+}
+
+message AddAddressReq {
+  UserAddress address = 1; // 只需要填收货人、手机号、区域、地址、是否默认
+}
+
+message AddAddressRsp {
+
+}
+
+message UpdateAddressReq {
+  UserAddress address = 1;
+}
+
+message UpdateAddressRsp {
+
+}
+
+message RemAddressReq {
+  uint64 address_id = 1;
+}
+
+message RemAddressRsp {
+
+}
+
+service AddressSvr {
+  // 获取地址列表
+  rpc GetAddressList (GetAddressListReq) returns (GetAddressListRsp);
+  // 获取默认地址
+  rpc GetDefaultAddress (GetDefaultAddressReq) returns (GetDefaultAddressRsp);
+  // 设置默认地址
+  rpc SetDefaultAddress (SetDefaultAddressReq) returns (SetDefaultAddressRsp);
+  // 添加地址
+  rpc AddAddress (AddAddressReq) returns (AddAddressRsp);
+  // 更新地址
+  rpc UpdateAddress (UpdateAddressReq) returns (UpdateAddressRsp);
+  // 删除地址
+  rpc RemAddress (RemAddressReq) returns (RemAddressRsp);
+}

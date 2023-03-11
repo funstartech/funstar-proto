@@ -14,13 +14,38 @@ http:
     - selector: funstar.server.userinfo.UserInfoSvr.GetUserInfo
       post: /userinfo/GetUserInfo
       body: "*"
-    # 批量获取用户信息
+      # 批量获取用户信息
     - selector: funstar.server.userinfo.UserInfoSvr.BatchGetUserInfo
       post: /userinfo/BatchGetUserInfo
       body: "*"
       # 更新用户信息
     - selector: funstar.server.userinfo.UserInfoSvr.UpdateUserInfo
       post: /userinfo/UpdateUserInfo
+      body: "*"
+
+      # 获取地址列表
+    - selector: funstar.server.userinfo.AddressSvr.GetAddressList
+      post: /userinfo/GetAddressList
+      body: "*"
+      # 获取默认地址
+    - selector: funstar.server.userinfo.AddressSvr.GetDefaultAddress
+      post: /userinfo/GetDefaultAddress
+      body: "*"
+      # 设置默认地址
+    - selector: funstar.server.userinfo.AddressSvr.SetDefaultAddress
+      post: /userinfo/SetDefaultAddress
+      body: "*"
+      # 添加地址
+    - selector: funstar.server.userinfo.AddressSvr.AddAddress
+      post: /userinfo/AddAddress
+      body: "*"
+      # 更新地址
+    - selector: funstar.server.userinfo.AddressSvr.UpdateAddress
+      post: /userinfo/UpdateAddress
+      body: "*"
+      # 删除地址
+    - selector: funstar.server.userinfo.AddressSvr.RemAddress
+      post: /userinfo/RemAddress
       body: "*"
 
       #----- collection 赏服务 ----- #
