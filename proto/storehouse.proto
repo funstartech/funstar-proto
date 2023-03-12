@@ -14,7 +14,7 @@ enum StoreProductStatus {
 message StoreProduct {
   uint64 store_id = 1;
   funstar.common.Product product = 2;
-  int64 create_time = 3;
+  int64 update_ts = 3;
 }
 
 message GetUserStoresReq {
