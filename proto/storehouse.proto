@@ -46,8 +46,9 @@ message PickUpOrderBasic {
   uint32 status = 3; // 订单状态 PickUpOrderStatus
   int32 total_price = 4; // (单位：分)
   string openid = 5;
-  string pids = 6; // 商品列表
-  uint32 count = 7; // 总数量
+  string store_ids = 6;
+  string pids = 7; // 商品列表
+  uint32 count = 8; // 总数量
 
   string receiver = 20; // 收货人
   string phone = 21; // 手机号
