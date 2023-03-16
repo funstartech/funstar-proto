@@ -23,7 +23,8 @@ message OrderBasic {
   string cid = 9;
   uint32 count = 10;
   string pids = 11;
-  string share_key = 12;
+  string level = 12;
+  string share_key = 13;
 }
 
 message OrderDetail {
