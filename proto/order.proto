@@ -25,6 +25,7 @@ message OrderBasic {
   string pids = 11;
   string level = 12;
   string share_key = 13;
+  string wx_transaction_id = 14;
 }
 
 message OrderDetail {
