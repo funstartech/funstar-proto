@@ -50,6 +50,7 @@ message PickUpOrderBasic {
   string store_ids = 7;
   string pids = 8; // 商品列表
   uint32 count = 9; // 总数量
+  string wx_transaction_id = 10;
 
   string receiver = 20; // 收货人
   string phone = 21; // 手机号
