@@ -43,12 +43,13 @@ message PickUpOrderInfo {
 message PickUpOrderBasic {
   uint64 id = 1;
   int64 create_time = 2;
-  uint32 status = 3; // 订单状态 PickUpOrderStatus
-  int32 total_price = 4; // (单位：分)
-  string openid = 5;
-  string store_ids = 6;
-  string pids = 7; // 商品列表
-  uint32 count = 8; // 总数量
+  int64 expire_time = 3;
+  uint32 status = 4; // 订单状态 PickUpOrderStatus
+  int32 total_price = 5; // (单位：分)
+  string openid = 6;
+  string store_ids = 7;
+  string pids = 8; // 商品列表
+  uint32 count = 9; // 总数量
 
   string receiver = 20; // 收货人
   string phone = 21; // 手机号
