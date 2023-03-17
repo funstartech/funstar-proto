@@ -26,6 +26,7 @@ message OrderBasic {
   uint32 level = 12;
   string share_key = 13;
   string wx_transaction_id = 14;
+  int64 expire_time = 15;
 }
 
 message OrderDetail {
