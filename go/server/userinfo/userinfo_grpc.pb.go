@@ -30,6 +30,8 @@ type UserInfoSvrClient interface {
 	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UpdateUserInfoRsp, error)
 	// 设置分销码
 	SetShareKey(ctx context.Context, in *SetShareKeyReq, opts ...grpc.CallOption) (*SetShareKeyRsp, error)
+	// 删除分销码
+	RemShareKey(ctx context.Context, in *RemShareKeyReq, opts ...grpc.CallOption) (*RemShareKeyRsp, error)
 	// 获取地址列表
 	GetAddressList(ctx context.Context, in *GetAddressListReq, opts ...grpc.CallOption) (*GetAddressListRsp, error)
 	// 获取默认地址
@@ -84,6 +86,15 @@ func (c *userInfoSvrClient) UpdateUserInfo(ctx context.Context, in *UpdateUserIn
 func (c *userInfoSvrClient) SetShareKey(ctx context.Context, in *SetShareKeyReq, opts ...grpc.CallOption) (*SetShareKeyRsp, error) {
 	out := new(SetShareKeyRsp)
 	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.UserInfoSvr/SetShareKey", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userInfoSvrClient) RemShareKey(ctx context.Context, in *RemShareKeyReq, opts ...grpc.CallOption) (*RemShareKeyRsp, error) {
+	out := new(RemShareKeyRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.UserInfoSvr/RemShareKey", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -165,6 +176,8 @@ type UserInfoSvrServer interface {
 	UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UpdateUserInfoRsp, error)
 	// 设置分销码
 	SetShareKey(context.Context, *SetShareKeyReq) (*SetShareKeyRsp, error)
+	// 删除分销码
+	RemShareKey(context.Context, *RemShareKeyReq) (*RemShareKeyRsp, error)
 	// 获取地址列表
 	GetAddressList(context.Context, *GetAddressListReq) (*GetAddressListRsp, error)
 	// 获取默认地址
@@ -197,6 +210,9 @@ func (UnimplementedUserInfoSvrServer) UpdateUserInfo(context.Context, *UpdateUse
 }
 func (UnimplementedUserInfoSvrServer) SetShareKey(context.Context, *SetShareKeyReq) (*SetShareKeyRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetShareKey not implemented")
+}
+func (UnimplementedUserInfoSvrServer) RemShareKey(context.Context, *RemShareKeyReq) (*RemShareKeyRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemShareKey not implemented")
 }
 func (UnimplementedUserInfoSvrServer) GetAddressList(context.Context, *GetAddressListReq) (*GetAddressListRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAddressList not implemented")
@@ -300,6 +316,24 @@ func _UserInfoSvr_SetShareKey_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserInfoSvrServer).SetShareKey(ctx, req.(*SetShareKeyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserInfoSvr_RemShareKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemShareKeyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserInfoSvrServer).RemShareKey(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.userinfo.UserInfoSvr/RemShareKey",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserInfoSvrServer).RemShareKey(ctx, req.(*RemShareKeyReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -452,6 +486,10 @@ var UserInfoSvr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SetShareKey",
 			Handler:    _UserInfoSvr_SetShareKey_Handler,
+		},
+		{
+			MethodName: "RemShareKey",
+			Handler:    _UserInfoSvr_RemShareKey_Handler,
 		},
 		{
 			MethodName: "GetAddressList",

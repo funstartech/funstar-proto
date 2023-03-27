@@ -41,6 +41,12 @@ message SetShareKeyReq {
 message SetShareKeyRsp {
 }
 
+message RemShareKeyReq {
+}
+
+message RemShareKeyRsp {
+}
+
 message UserAddress {
   uint64 id = 1;
   string openid = 2;
@@ -118,6 +124,8 @@ service UserInfoSvr {
   rpc UpdateUserInfo (UpdateUserInfoReq) returns (UpdateUserInfoRsp);
   // 设置分销码
   rpc SetShareKey (SetShareKeyReq) returns (SetShareKeyRsp);
+  // 删除分销码
+  rpc RemShareKey (RemShareKeyReq) returns (RemShareKeyRsp);
 
   // 获取地址列表
   rpc GetAddressList (GetAddressListReq) returns (GetAddressListRsp);

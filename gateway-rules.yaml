@@ -22,6 +22,10 @@ http:
     - selector: funstar.server.userinfo.UserInfoSvr.UpdateUserInfo
       post: /userinfo/UpdateUserInfo
       body: "*"
+      # 删除分销码
+    - selector: funstar.server.userinfo.UserInfoSvr.RemShareKey
+      post: /userinfo/RemShareKey
+      body: "*"
 
       # 获取地址列表
     - selector: funstar.server.userinfo.UserInfoSvr.GetAddressList
