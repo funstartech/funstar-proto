@@ -11,6 +11,7 @@ message ProductBasic {
   int32 price = 5; // 价格(单位：分)
   string brand = 6; // 品牌
   uint32 stock = 7; // 库存数量
+  float package_weight = 8; // 包装权重
 
   uint32 sale_status = 101; // 出售状态 SaleStatus
   uint32 return_policy = 102; // 退货条款 ReturnPolicy
