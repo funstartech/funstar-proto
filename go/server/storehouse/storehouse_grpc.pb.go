@@ -35,6 +35,10 @@ type StorehouseSvrClient interface {
 	GetDeliveryInfo(ctx context.Context, in *GetDeliveryInfoReq, opts ...grpc.CallOption) (*GetDeliveryInfoRsp, error)
 	// 微信支付付款回调
 	WxPayCallback(ctx context.Context, in *wxpay.WxPayCallbackReq, opts ...grpc.CallOption) (*wxpay.WxPayCallbackRsp, error)
+	// 获取进阶池
+	GetLevelUpPool(ctx context.Context, in *GetLevelUpPoolReq, opts ...grpc.CallOption) (*GetLevelUpPoolRsp, error)
+	// 仓库商品进阶
+	LevelUp(ctx context.Context, in *LevelUpReq, opts ...grpc.CallOption) (*LevelUpRsp, error)
 }
 
 type storehouseSvrClient struct {
@@ -99,6 +103,24 @@ func (c *storehouseSvrClient) WxPayCallback(ctx context.Context, in *wxpay.WxPay
 	return out, nil
 }
 
+func (c *storehouseSvrClient) GetLevelUpPool(ctx context.Context, in *GetLevelUpPoolReq, opts ...grpc.CallOption) (*GetLevelUpPoolRsp, error) {
+	out := new(GetLevelUpPoolRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.storehouse.StorehouseSvr/GetLevelUpPool", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storehouseSvrClient) LevelUp(ctx context.Context, in *LevelUpReq, opts ...grpc.CallOption) (*LevelUpRsp, error) {
+	out := new(LevelUpRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.storehouse.StorehouseSvr/LevelUp", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StorehouseSvrServer is the server API for StorehouseSvr service.
 // All implementations must embed UnimplementedStorehouseSvrServer
 // for forward compatibility
@@ -115,6 +137,10 @@ type StorehouseSvrServer interface {
 	GetDeliveryInfo(context.Context, *GetDeliveryInfoReq) (*GetDeliveryInfoRsp, error)
 	// 微信支付付款回调
 	WxPayCallback(context.Context, *wxpay.WxPayCallbackReq) (*wxpay.WxPayCallbackRsp, error)
+	// 获取进阶池
+	GetLevelUpPool(context.Context, *GetLevelUpPoolReq) (*GetLevelUpPoolRsp, error)
+	// 仓库商品进阶
+	LevelUp(context.Context, *LevelUpReq) (*LevelUpRsp, error)
 	mustEmbedUnimplementedStorehouseSvrServer()
 }
 
@@ -139,6 +165,12 @@ func (UnimplementedStorehouseSvrServer) GetDeliveryInfo(context.Context, *GetDel
 }
 func (UnimplementedStorehouseSvrServer) WxPayCallback(context.Context, *wxpay.WxPayCallbackReq) (*wxpay.WxPayCallbackRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method WxPayCallback not implemented")
+}
+func (UnimplementedStorehouseSvrServer) GetLevelUpPool(context.Context, *GetLevelUpPoolReq) (*GetLevelUpPoolRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLevelUpPool not implemented")
+}
+func (UnimplementedStorehouseSvrServer) LevelUp(context.Context, *LevelUpReq) (*LevelUpRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LevelUp not implemented")
 }
 func (UnimplementedStorehouseSvrServer) mustEmbedUnimplementedStorehouseSvrServer() {}
 
@@ -261,6 +293,42 @@ func _StorehouseSvr_WxPayCallback_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorehouseSvr_GetLevelUpPool_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetLevelUpPoolReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorehouseSvrServer).GetLevelUpPool(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.storehouse.StorehouseSvr/GetLevelUpPool",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorehouseSvrServer).GetLevelUpPool(ctx, req.(*GetLevelUpPoolReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorehouseSvr_LevelUp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LevelUpReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorehouseSvrServer).LevelUp(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.storehouse.StorehouseSvr/LevelUp",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorehouseSvrServer).LevelUp(ctx, req.(*LevelUpReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StorehouseSvr_ServiceDesc is the grpc.ServiceDesc for StorehouseSvr service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -291,6 +359,14 @@ var StorehouseSvr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "WxPayCallback",
 			Handler:    _StorehouseSvr_WxPayCallback_Handler,
+		},
+		{
+			MethodName: "GetLevelUpPool",
+			Handler:    _StorehouseSvr_GetLevelUpPool_Handler,
+		},
+		{
+			MethodName: "LevelUp",
+			Handler:    _StorehouseSvr_LevelUp_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

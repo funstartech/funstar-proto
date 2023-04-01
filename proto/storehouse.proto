@@ -107,6 +107,38 @@ message GetDeliveryInfoRsp {
   repeated funstar.delivery.PickUpDeliveryInfo infos = 1;
 }
 
+message GetLevelUpPoolReq {
+
+}
+
+message LevelUpTarget {
+  funstar.common.Product product = 1;
+  uint32 need_count = 2; // 进阶需要数量
+}
+
+message GetLevelUpPoolRsp {
+  repeated LevelUpTarget targets = 1;
+}
+
+message LevelUpItem {
+  uint64 store_id = 1;
+  uint32 count = 2;
+}
+
+enum LevelUpRes {
+  LEVEL_UP_OK = 0;
+  LEVEL_UP_ITEM_NOT_ENOUGH = 1; // 进阶需要商品不足
+  LEVEL_UP_TARGET_NOT_FOUND = 2; // 进阶目标不存在
+}
+
+message LevelUpReq {
+  repeated LevelUpItem items = 1;
+}
+
+message LevelUpRsp {
+  uint32 res = 1;
+}
+
 service StorehouseSvr {
   // 拉取用户仓库
   rpc GetUserStores (GetUserStoresReq) returns (GetUserStoresRsp);
@@ -120,4 +152,9 @@ service StorehouseSvr {
   rpc GetDeliveryInfo (GetDeliveryInfoReq) returns (GetDeliveryInfoRsp);
   // 微信支付付款回调
   rpc WxPayCallback (funstar.wxpay.WxPayCallbackReq) returns (funstar.wxpay.WxPayCallbackRsp);
+
+  // 获取进阶池
+  rpc GetLevelUpPool (GetLevelUpPoolReq) returns (GetLevelUpPoolRsp);
+  // 仓库商品进阶
+  rpc LevelUp (LevelUpReq) returns (LevelUpRsp);
 }
