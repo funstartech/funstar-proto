@@ -127,4 +127,12 @@ http:
     - selector: funstar.server.storehouse.StorehouseSvr.WxPayCallback
       post: /storehouse/WxPayCallback
       body: "*"
+      # 获取进阶池
+    - selector: funstar.server.storehouse.StorehouseSvr.GetLevelUpPool
+      post: /storehouse/GetLevelUpPool
+      body: "*"
+      # 仓库商品进阶
+    - selector: funstar.server.storehouse.StorehouseSvr.LevelUp
+      post: /storehouse/LevelUp
+      body: "*"
 
