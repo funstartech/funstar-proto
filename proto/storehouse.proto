@@ -122,6 +122,7 @@ message LevelUpItem {
 
 message LevelUpReq {
   repeated LevelUpItem items = 1;
+  string target_pid = 2;
 }
 
 message LevelUpRsp {
