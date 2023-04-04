@@ -18,7 +18,8 @@ message StoreProduct {
 }
 
 message GetUserStoresReq {
-  bytes cookie = 1;
+  bool can_level_up = 1;
+  bytes cookie = 2;
 }
 
 message GetUserStoresRsp {
