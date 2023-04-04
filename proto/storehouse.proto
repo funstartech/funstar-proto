@@ -87,17 +87,11 @@ message GetUserPickUpOrdersRsp {
   bool is_end = 3;
 }
 
-enum CancelRes {
-  CANCEL_RES_OK = 0;
-  CANCEL_RES_NO_MATCH_ORDER = 1; // 没有匹配订单（openid不匹配或者找不到订单号或者状态为已完成不可取消）
-}
-
 message CancelPickUpOrderReq {
   uint64 pickup_id = 1;
 }
 
 message CancelPickUpOrderRsp {
-  uint32 res = 1; // CancelRes
 }
 
 message GetDeliveryInfoReq {
@@ -126,18 +120,11 @@ message LevelUpItem {
   uint32 count = 2;
 }
 
-enum LevelUpRes {
-  LEVEL_UP_OK = 0;
-  LEVEL_UP_ITEM_NOT_ENOUGH = 1; // 进阶需要商品不足
-  LEVEL_UP_TARGET_NOT_FOUND = 2; // 进阶目标不存在
-}
-
 message LevelUpReq {
   repeated LevelUpItem items = 1;
 }
 
 message LevelUpRsp {
-  uint32 res = 1;
 }
 
 service StorehouseSvr {
