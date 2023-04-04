@@ -9,6 +9,7 @@ import "delivery.proto";
 enum StoreProductStatus {
   STORE_STATUS_UNPICK_UP = 0; // 未提货
   STORE_STATUS_PICK_UP = 1; //已提货
+  STORE_STATUS_EXCHANGED = 2; // 已兑换
 }
 
 message StoreProduct {
