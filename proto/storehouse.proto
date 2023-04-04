@@ -19,7 +19,7 @@ message StoreProduct {
 }
 
 message GetUserStoresReq {
-  bool can_level_up = 1;
+  bool level_up = 1;
   bytes cookie = 2;
 }
 
