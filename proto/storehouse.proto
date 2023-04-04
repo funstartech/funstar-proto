@@ -5,6 +5,7 @@ option go_package = "github.com/funstartech/funstar-proto/go/server/storehouse";
 import "wxpay.proto";
 import "common.proto";
 import "delivery.proto";
+import "product.proto";
 
 enum StoreProductStatus {
   STORE_STATUS_UNPICK_UP = 0; // 未提货
@@ -108,7 +109,7 @@ message GetLevelUpPoolReq {
 }
 
 message LevelUpTarget {
-  funstar.common.Product product = 1;
+  funstar.server.product.ProductBasic products = 1;
   uint32 need_count = 2; // 进阶需要数量
 }
 
