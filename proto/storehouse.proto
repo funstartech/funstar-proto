@@ -109,7 +109,7 @@ message GetLevelUpPoolReq {
 }
 
 message LevelUpTarget {
-  funstar.server.product.ProductBasic products = 1;
+  funstar.server.product.ProductBasic product = 1;
   uint32 need_count = 2; // 进阶需要数量
 }
 
