@@ -28,8 +28,9 @@ message CollectionBasic {
 
 message CollectionDetailProducts {
   uint32 level = 1; // CollectionProductLevel
-  float probability = 2;
+  float probability = 2; // 层级概率
   repeated funstar.server.product.ProductBasic products = 3;
+  repeated float product_probs = 4; // 商品在层级中的概率
 }
 
 // 赏详情结构
