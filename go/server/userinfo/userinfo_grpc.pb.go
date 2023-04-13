@@ -28,8 +28,8 @@ type UserInfoSvrClient interface {
 	BatchGetUserInfo(ctx context.Context, in *BatchGetUserInfoReq, opts ...grpc.CallOption) (*BatchGetUserInfoRsp, error)
 	// 更新用户信息
 	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UpdateUserInfoRsp, error)
-	// 设置分销码
-	SetShareKey(ctx context.Context, in *SetShareKeyReq, opts ...grpc.CallOption) (*SetShareKeyRsp, error)
+	// 更新付款信息
+	UpdatePayment(ctx context.Context, in *UpdatePaymentReq, opts ...grpc.CallOption) (*UpdatePaymentRsp, error)
 	// 删除分销码
 	RemShareKey(ctx context.Context, in *RemShareKeyReq, opts ...grpc.CallOption) (*RemShareKeyRsp, error)
 	// 获取地址列表
@@ -83,9 +83,9 @@ func (c *userInfoSvrClient) UpdateUserInfo(ctx context.Context, in *UpdateUserIn
 	return out, nil
 }
 
-func (c *userInfoSvrClient) SetShareKey(ctx context.Context, in *SetShareKeyReq, opts ...grpc.CallOption) (*SetShareKeyRsp, error) {
-	out := new(SetShareKeyRsp)
-	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.UserInfoSvr/SetShareKey", in, out, opts...)
+func (c *userInfoSvrClient) UpdatePayment(ctx context.Context, in *UpdatePaymentReq, opts ...grpc.CallOption) (*UpdatePaymentRsp, error) {
+	out := new(UpdatePaymentRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.UserInfoSvr/UpdatePayment", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -174,8 +174,8 @@ type UserInfoSvrServer interface {
 	BatchGetUserInfo(context.Context, *BatchGetUserInfoReq) (*BatchGetUserInfoRsp, error)
 	// 更新用户信息
 	UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UpdateUserInfoRsp, error)
-	// 设置分销码
-	SetShareKey(context.Context, *SetShareKeyReq) (*SetShareKeyRsp, error)
+	// 更新付款信息
+	UpdatePayment(context.Context, *UpdatePaymentReq) (*UpdatePaymentRsp, error)
 	// 删除分销码
 	RemShareKey(context.Context, *RemShareKeyReq) (*RemShareKeyRsp, error)
 	// 获取地址列表
@@ -208,8 +208,8 @@ func (UnimplementedUserInfoSvrServer) BatchGetUserInfo(context.Context, *BatchGe
 func (UnimplementedUserInfoSvrServer) UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UpdateUserInfoRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserInfo not implemented")
 }
-func (UnimplementedUserInfoSvrServer) SetShareKey(context.Context, *SetShareKeyReq) (*SetShareKeyRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SetShareKey not implemented")
+func (UnimplementedUserInfoSvrServer) UpdatePayment(context.Context, *UpdatePaymentReq) (*UpdatePaymentRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePayment not implemented")
 }
 func (UnimplementedUserInfoSvrServer) RemShareKey(context.Context, *RemShareKeyReq) (*RemShareKeyRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemShareKey not implemented")
@@ -302,20 +302,20 @@ func _UserInfoSvr_UpdateUserInfo_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserInfoSvr_SetShareKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SetShareKeyReq)
+func _UserInfoSvr_UpdatePayment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePaymentReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserInfoSvrServer).SetShareKey(ctx, in)
+		return srv.(UserInfoSvrServer).UpdatePayment(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/funstar.server.userinfo.UserInfoSvr/SetShareKey",
+		FullMethod: "/funstar.server.userinfo.UserInfoSvr/UpdatePayment",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserInfoSvrServer).SetShareKey(ctx, req.(*SetShareKeyReq))
+		return srv.(UserInfoSvrServer).UpdatePayment(ctx, req.(*UpdatePaymentReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -484,8 +484,8 @@ var UserInfoSvr_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserInfoSvr_UpdateUserInfo_Handler,
 		},
 		{
-			MethodName: "SetShareKey",
-			Handler:    _UserInfoSvr_SetShareKey_Handler,
+			MethodName: "UpdatePayment",
+			Handler:    _UserInfoSvr_UpdatePayment_Handler,
 		},
 		{
 			MethodName: "RemShareKey",
