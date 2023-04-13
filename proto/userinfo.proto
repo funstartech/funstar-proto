@@ -6,10 +6,12 @@ message UserInfo {
   string openid = 1;
   string avatar = 2;
   string nickname = 3;
-  string share_key = 50;
+  uint64 paid_amount = 10; // 已付款金额（分）
+  string share_key = 20; // 绑定分销码
 }
 
 message GetUserInfoReq {
+  string share_key = 1;
 }
 
 message GetUserInfoRsp {
@@ -34,11 +36,12 @@ message UpdateUserInfoReq {
 message UpdateUserInfoRsp {
 }
 
-message SetShareKeyReq {
-  string share_key = 1;
+message UpdatePaymentReq {
+  uint64 payment = 1;
+  string share_key = 2;
 }
 
-message SetShareKeyRsp {
+message UpdatePaymentRsp {
 }
 
 message RemShareKeyReq {
@@ -122,8 +125,8 @@ service UserInfoSvr {
   rpc BatchGetUserInfo (BatchGetUserInfoReq) returns (BatchGetUserInfoRsp);
   // 更新用户信息
   rpc UpdateUserInfo (UpdateUserInfoReq) returns (UpdateUserInfoRsp);
-  // 设置分销码
-  rpc SetShareKey (SetShareKeyReq) returns (SetShareKeyRsp);
+  // 更新付款信息
+  rpc UpdatePayment (UpdatePaymentReq) returns (UpdatePaymentRsp);
   // 删除分销码
   rpc RemShareKey (RemShareKeyReq) returns (RemShareKeyRsp);
 
