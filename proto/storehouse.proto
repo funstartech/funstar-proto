@@ -105,7 +105,7 @@ message GetDeliveryInfoRsp {
 }
 
 message GetLevelUpPoolReq {
-
+  bytes cookie = 1;
 }
 
 message LevelUpTarget {
@@ -116,6 +116,8 @@ message LevelUpTarget {
 
 message GetLevelUpPoolRsp {
   repeated LevelUpTarget targets = 1;
+  bytes cookie = 2;
+  bool is_end = 3;
 }
 
 message LevelUpItem {
