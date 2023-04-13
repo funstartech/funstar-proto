@@ -40,8 +40,10 @@ message UpdateUserInfoRsp {
 }
 
 message UpdatePaymentReq {
-  uint64 payment = 1;
-  string share_key = 2;
+  uint32 count = 1;
+  int64 payment = 2;
+  string share_key = 3;
+  int64 pay_time = 4;
 }
 
 message UpdatePaymentRsp {
