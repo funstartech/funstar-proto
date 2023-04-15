@@ -9,6 +9,8 @@ message UserInfo {
   uint32 paid_count = 10; // 已付款单数
   int64 paid_amount = 11; // 已付款金额（分）
   string share_key = 12; // 绑定分销码
+  string distributor_id = 13;
+
   int64 register_time = 20; // 注册时间
   int64 last_pay_time = 21; // 上次付款时间
 }
