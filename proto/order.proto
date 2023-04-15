@@ -25,8 +25,9 @@ message OrderBasic {
   uint32 count = 11;
   string pids = 12;
   uint32 level = 13;
-  string share_key = 14;
-  string wx_transaction_id = 15;
+  string wx_transaction_id = 14;
+  string share_key = 15;
+  string distributor_id = 16;
 }
 
 message OrderDetail {
