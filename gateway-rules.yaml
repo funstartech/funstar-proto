@@ -135,4 +135,12 @@ http:
     - selector: funstar.server.storehouse.StorehouseSvr.LevelUp
       post: /storehouse/LevelUp
       body: "*"
+      # 查询进阶记录
+    - selector: funstar.server.storehouse.StorehouseSvr.GetLevelUpRecords
+      post: /storehouse/GetLevelUpRecords
+      body: "*"
+      # 获取进阶记录详情
+    - selector: funstar.server.storehouse.StorehouseSvr.GetLevelUpRecordInfo
+      post: /storehouse/GetLevelUpRecordInfo
+      body: "*"
 
