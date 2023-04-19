@@ -9,11 +9,11 @@ import "userinfo.proto";
 // 商品等级
 enum CollectionProductLevel {
   PRODUCT_LEVEL_UNKNOWN = 0; // 未知
-  PRODUCT_LEVEL_L1 = 100; // 普通款
-  PRODUCT_LEVEL_L2 = 200; // 隐藏款
-  PRODUCT_LEVEL_L3 = 300; // 稀有款
-  PRODUCT_LEVEL_L4 = 400; // 欧皇款
-  PRODUCT_LEVEL_L5 = 500; // 超神款
+  PRODUCT_LEVEL_NORMAL = 100; // 普通款
+  PRODUCT_LEVEL_HIDDEN = 200; // 隐藏款
+  PRODUCT_LEVEL_RARE = 300; // 稀有款
+  PRODUCT_LEVEL_ULTRA = 400; // 欧皇款
+  PRODUCT_LEVEL_LEGENDARY = 500; // 超神款
 }
 
 // 赏基础信息结构
