@@ -65,7 +65,7 @@ message PickUpOrderBasic {
 }
 
 message PickUpOrderDetail {
-  uint64 store_id = 1;
+  repeated uint64 store_id = 1;
   repeated funstar.common.Product products = 2;
 }
 
@@ -139,8 +139,8 @@ message GetLevelUpRecordsReq {
 }
 
 message LevelUpRecordInfo {
-    LevelUpRecordBasic basic = 1;
-    LevelUpRecordDetail detail = 2;
+  LevelUpRecordBasic basic = 1;
+  LevelUpRecordDetail detail = 2;
 }
 
 message LevelUpRecordBasic {
@@ -156,7 +156,7 @@ message LevelUpRecordBasic {
 }
 
 message LevelUpRecordDetail {
-  uint64 store_id = 1;
+  repeated uint64 store_id = 1;
   repeated funstar.common.Product products = 2;
 }
 
