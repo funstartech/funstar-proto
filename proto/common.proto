@@ -24,7 +24,7 @@ message Product {
   string pid = 1;
   uint32 count = 2;
   uint32 level = 3;
-  ItemBasic basic = 5;
+  ItemBasic basic = 4;
 }
 
 message Coupon {
