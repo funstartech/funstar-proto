@@ -153,6 +153,7 @@ message LevelUpRecordBasic {
   uint32 level = 7;
   string store_ids = 8;
   string pids = 9;
+  uint32 count = 10;
 }
 
 message LevelUpRecordDetail {
