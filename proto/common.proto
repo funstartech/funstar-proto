@@ -24,7 +24,6 @@ message Product {
   string pid = 1;
   uint32 count = 2;
   uint32 level = 3;
-  uint64 store_id = 4;
   ItemBasic basic = 5;
 }
 
