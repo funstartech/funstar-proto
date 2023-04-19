@@ -65,7 +65,8 @@ message PickUpOrderBasic {
 }
 
 message PickUpOrderDetail {
-  repeated funstar.common.Product products = 1;
+  uint64 store_id = 1;
+  repeated funstar.common.Product products = 2;
 }
 
 message CreatePickUpOrderReq {
@@ -133,6 +134,46 @@ message LevelUpReq {
 message LevelUpRsp {
 }
 
+message GetLevelUpRecordsReq {
+  bytes cookie = 1;
+}
+
+message LevelUpRecordInfo {
+    LevelUpRecordBasic basic = 1;
+    LevelUpRecordDetail detail = 2;
+}
+
+message LevelUpRecordBasic {
+  uint64 id = 1;
+  int64 create_time = 2;
+  int32 total_price = 3; // (单位：分)
+  string openid = 4;
+  string title = 5;
+  string cover = 6;
+  uint32 level = 7;
+  string store_ids = 8;
+  string pids = 9;
+}
+
+message LevelUpRecordDetail {
+  uint64 store_id = 1;
+  repeated funstar.common.Product products = 2;
+}
+
+message GetLevelUpRecordsRsp {
+  repeated LevelUpRecordBasic records = 1;
+  bytes cookie = 2;
+  bool is_end = 3;
+}
+
+message GetLevelUpRecordInfoReq {
+  uint64 record_id = 1;
+}
+
+message GetLevelUpRecordInfoRsp {
+  LevelUpRecordInfo record_info = 1;
+}
+
 service StorehouseSvr {
   // 拉取用户仓库
   rpc GetUserStores (GetUserStoresReq) returns (GetUserStoresRsp);
@@ -151,4 +192,8 @@ service StorehouseSvr {
   rpc GetLevelUpPool (GetLevelUpPoolReq) returns (GetLevelUpPoolRsp);
   // 仓库商品进阶
   rpc LevelUp (LevelUpReq) returns (LevelUpRsp);
+  // 查询进阶记录
+  rpc GetLevelUpRecords (GetLevelUpRecordsReq) returns (GetLevelUpRecordsRsp);
+  // 获取进阶记录详情
+  rpc GetLevelUpRecordInfo (GetLevelUpRecordInfoReq) returns (GetLevelUpRecordInfoRsp);
 }

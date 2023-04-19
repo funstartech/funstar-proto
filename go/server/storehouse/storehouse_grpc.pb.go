@@ -39,6 +39,10 @@ type StorehouseSvrClient interface {
 	GetLevelUpPool(ctx context.Context, in *GetLevelUpPoolReq, opts ...grpc.CallOption) (*GetLevelUpPoolRsp, error)
 	// 仓库商品进阶
 	LevelUp(ctx context.Context, in *LevelUpReq, opts ...grpc.CallOption) (*LevelUpRsp, error)
+	// 查询进阶记录
+	GetLevelUpRecords(ctx context.Context, in *GetLevelUpRecordsReq, opts ...grpc.CallOption) (*GetLevelUpRecordsRsp, error)
+	// 获取进阶记录详情
+	GetLevelUpRecordInfo(ctx context.Context, in *GetLevelUpRecordInfoReq, opts ...grpc.CallOption) (*GetLevelUpRecordInfoRsp, error)
 }
 
 type storehouseSvrClient struct {
@@ -121,6 +125,24 @@ func (c *storehouseSvrClient) LevelUp(ctx context.Context, in *LevelUpReq, opts 
 	return out, nil
 }
 
+func (c *storehouseSvrClient) GetLevelUpRecords(ctx context.Context, in *GetLevelUpRecordsReq, opts ...grpc.CallOption) (*GetLevelUpRecordsRsp, error) {
+	out := new(GetLevelUpRecordsRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.storehouse.StorehouseSvr/GetLevelUpRecords", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storehouseSvrClient) GetLevelUpRecordInfo(ctx context.Context, in *GetLevelUpRecordInfoReq, opts ...grpc.CallOption) (*GetLevelUpRecordInfoRsp, error) {
+	out := new(GetLevelUpRecordInfoRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.storehouse.StorehouseSvr/GetLevelUpRecordInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StorehouseSvrServer is the server API for StorehouseSvr service.
 // All implementations must embed UnimplementedStorehouseSvrServer
 // for forward compatibility
@@ -141,6 +163,10 @@ type StorehouseSvrServer interface {
 	GetLevelUpPool(context.Context, *GetLevelUpPoolReq) (*GetLevelUpPoolRsp, error)
 	// 仓库商品进阶
 	LevelUp(context.Context, *LevelUpReq) (*LevelUpRsp, error)
+	// 查询进阶记录
+	GetLevelUpRecords(context.Context, *GetLevelUpRecordsReq) (*GetLevelUpRecordsRsp, error)
+	// 获取进阶记录详情
+	GetLevelUpRecordInfo(context.Context, *GetLevelUpRecordInfoReq) (*GetLevelUpRecordInfoRsp, error)
 	mustEmbedUnimplementedStorehouseSvrServer()
 }
 
@@ -171,6 +197,12 @@ func (UnimplementedStorehouseSvrServer) GetLevelUpPool(context.Context, *GetLeve
 }
 func (UnimplementedStorehouseSvrServer) LevelUp(context.Context, *LevelUpReq) (*LevelUpRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LevelUp not implemented")
+}
+func (UnimplementedStorehouseSvrServer) GetLevelUpRecords(context.Context, *GetLevelUpRecordsReq) (*GetLevelUpRecordsRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLevelUpRecords not implemented")
+}
+func (UnimplementedStorehouseSvrServer) GetLevelUpRecordInfo(context.Context, *GetLevelUpRecordInfoReq) (*GetLevelUpRecordInfoRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLevelUpRecordInfo not implemented")
 }
 func (UnimplementedStorehouseSvrServer) mustEmbedUnimplementedStorehouseSvrServer() {}
 
@@ -329,6 +361,42 @@ func _StorehouseSvr_LevelUp_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorehouseSvr_GetLevelUpRecords_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetLevelUpRecordsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorehouseSvrServer).GetLevelUpRecords(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.storehouse.StorehouseSvr/GetLevelUpRecords",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorehouseSvrServer).GetLevelUpRecords(ctx, req.(*GetLevelUpRecordsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorehouseSvr_GetLevelUpRecordInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetLevelUpRecordInfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorehouseSvrServer).GetLevelUpRecordInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.storehouse.StorehouseSvr/GetLevelUpRecordInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorehouseSvrServer).GetLevelUpRecordInfo(ctx, req.(*GetLevelUpRecordInfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StorehouseSvr_ServiceDesc is the grpc.ServiceDesc for StorehouseSvr service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -367,6 +435,14 @@ var StorehouseSvr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "LevelUp",
 			Handler:    _StorehouseSvr_LevelUp_Handler,
+		},
+		{
+			MethodName: "GetLevelUpRecords",
+			Handler:    _StorehouseSvr_GetLevelUpRecords_Handler,
+		},
+		{
+			MethodName: "GetLevelUpRecordInfo",
+			Handler:    _StorehouseSvr_GetLevelUpRecordInfo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
