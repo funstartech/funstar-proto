@@ -127,11 +127,25 @@ message RemAddressRsp {
 
 }
 
-message AddStarDustReq {
-  int32 stardust = 1;
+enum StardustRecordType {
+  STARDUST_RECORD_TYPE_UNKNOWN = 0;
+  STARDUST_RECORD_TYPE_INCOME = 1; // 收入
+  STARDUST_RECORD_TYPE_EXPENSE = 2; // 支出
+
 }
 
-message AddStarDustRsp {
+enum StardustSource {
+  STARDUST_SOURCE_UNKNOWN = 0;
+  STARDUST_SOURCE_DECOMPOSE = 1; // 分解
+  STARDUST_SOURCE_LOTTERY_ORDER = 10; // 抽奖订单消费
+}
+
+message AddStardustReq {
+  int32 stardust = 1;
+  uint32 source = 2; // 来源 StardustSource
+}
+
+message AddStardustRsp {
 
 }
 
@@ -143,20 +157,25 @@ message GetStardustRsp {
   uint64 stardust_available = 2; // 可用星尘
 }
 
-message GetStardustIncomeReq {
-
+message StardustRecordBasic {
+  uint64 id = 1;
+  int64 create_time = 2;
+  int32 stardust = 3;
+  // 收入字段
+  uint32 decompose_count = 10; // 分解数量
+  // 支出字段
+  uint64 order_id = 20; // 订单编号
 }
 
-message GetStardustIncomeRsp {
-
+message GetStardustRecordReq {
+  uint32 record_type = 1; // StardustRecordType
+  bytes cookie = 2;
 }
 
-message GetStardustExpenseReq {
-
-}
-
-message GetStardustExpenseRsp {
-
+message GetStardustRecordRsp {
+  repeated StardustRecordBasic records = 1;
+  bytes cookie = 2;
+  bool is_end = 3;
 }
 
 service UserInfoSvr {
@@ -187,11 +206,9 @@ service UserInfoSvr {
   rpc RemAddress (RemAddressReq) returns (RemAddressRsp);
 
   // 添加星尘
-  rpc AddStarDust (AddStarDustReq) returns (AddStarDustRsp);
+  rpc AddStardust (AddStardustReq) returns (AddStardustRsp);
   // 获取用户星尘数
   rpc GetStardust (GetStardustReq) returns (GetStardustRsp);
-  // 获取用户星尘收入
-  rpc GetStardustIncome (GetStardustIncomeReq) returns (GetStardustIncomeRsp);
-  // 获取用户星尘支出
-  rpc GetStardustExpense (GetStardustExpenseReq) returns (GetStardustExpenseRsp);
+  // 获取用户星尘记录
+  rpc GetStardustRecord (GetStardustRecordReq) returns (GetStardustRecordRsp);
 }

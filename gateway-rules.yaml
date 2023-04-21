@@ -61,12 +61,8 @@ http:
       post: /userinfo/GetStardust
       body: "*"
       # 获取用户星尘收入
-    - selector: funstar.server.userinfo.UserInfoSvr.GetStardustIncome
-      post: /userinfo/GetStardustIncome
-      body: "*"
-      # 获取用户星尘支出
-    - selector: funstar.server.userinfo.UserInfoSvr.GetStardustExpense
-      post: /userinfo/GetStardustExpense
+    - selector: funstar.server.userinfo.UserInfoSvr.GetStardustRecord
+      post: /userinfo/GetStardustRecord
       body: "*"
 
       #----- collection 赏服务 ----- #
