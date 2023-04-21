@@ -153,8 +153,8 @@ message GetStardustReq {
 }
 
 message GetStardustRsp {
-  uint64 stardust_total = 1; // 星尘总额
-  uint64 stardust_available = 2; // 可用星尘
+  uint64 stardust_available = 1; // 可用
+  uint64 stardust_freeze = 2; // 冻结
 }
 
 message StardustRecordBasic {
