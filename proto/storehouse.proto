@@ -192,6 +192,34 @@ message DecomposeRsp {
 
 }
 
+message DecomposeRecordInfo {
+  DecomposeRecordBasic basic = 1;
+  DecomposeRecordDetail detail = 2;
+}
+
+message DecomposeRecordBasic {
+  uint64 id = 1;
+  int64 create_time = 2;
+  string openid = 3;
+  string store_ids = 8;
+  string pids = 9;
+  uint32 count = 10;
+  int32 stardust = 11;
+}
+
+message DecomposeRecordDetail {
+  repeated uint64 store_ids = 1;
+  repeated funstar.common.Product products = 2;
+}
+
+message GetDecomposeRecordInfoReq {
+  uint64 record_id = 1;
+}
+
+message GetDecomposeRecordInfoRsp {
+  DecomposeRecordInfo record_info = 1;
+}
+
 service StorehouseSvr {
   // 拉取用户仓库
   rpc GetUserStores (GetUserStoresReq) returns (GetUserStoresRsp);
@@ -216,5 +244,7 @@ service StorehouseSvr {
   rpc GetLevelUpRecordInfo (GetLevelUpRecordInfoReq) returns (GetLevelUpRecordInfoRsp);
 
   // 仓库商品分解
-  rpc Decompose(DecomposeReq) returns (DecomposeRsp);
+  rpc Decompose (DecomposeReq) returns (DecomposeRsp);
+  // 获取分解记录详情
+  rpc GetDecomposeRecordInfo (GetDecomposeRecordInfoReq) returns (GetDecomposeRecordInfoRsp);
 }

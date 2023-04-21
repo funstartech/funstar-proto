@@ -45,6 +45,8 @@ type StorehouseSvrClient interface {
 	GetLevelUpRecordInfo(ctx context.Context, in *GetLevelUpRecordInfoReq, opts ...grpc.CallOption) (*GetLevelUpRecordInfoRsp, error)
 	// 仓库商品分解
 	Decompose(ctx context.Context, in *DecomposeReq, opts ...grpc.CallOption) (*DecomposeRsp, error)
+	// 获取分解记录详情
+	GetDecomposeRecordInfo(ctx context.Context, in *GetDecomposeRecordInfoReq, opts ...grpc.CallOption) (*GetDecomposeRecordInfoRsp, error)
 }
 
 type storehouseSvrClient struct {
@@ -154,6 +156,15 @@ func (c *storehouseSvrClient) Decompose(ctx context.Context, in *DecomposeReq, o
 	return out, nil
 }
 
+func (c *storehouseSvrClient) GetDecomposeRecordInfo(ctx context.Context, in *GetDecomposeRecordInfoReq, opts ...grpc.CallOption) (*GetDecomposeRecordInfoRsp, error) {
+	out := new(GetDecomposeRecordInfoRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.storehouse.StorehouseSvr/GetDecomposeRecordInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StorehouseSvrServer is the server API for StorehouseSvr service.
 // All implementations must embed UnimplementedStorehouseSvrServer
 // for forward compatibility
@@ -180,6 +191,8 @@ type StorehouseSvrServer interface {
 	GetLevelUpRecordInfo(context.Context, *GetLevelUpRecordInfoReq) (*GetLevelUpRecordInfoRsp, error)
 	// 仓库商品分解
 	Decompose(context.Context, *DecomposeReq) (*DecomposeRsp, error)
+	// 获取分解记录详情
+	GetDecomposeRecordInfo(context.Context, *GetDecomposeRecordInfoReq) (*GetDecomposeRecordInfoRsp, error)
 	mustEmbedUnimplementedStorehouseSvrServer()
 }
 
@@ -219,6 +232,9 @@ func (UnimplementedStorehouseSvrServer) GetLevelUpRecordInfo(context.Context, *G
 }
 func (UnimplementedStorehouseSvrServer) Decompose(context.Context, *DecomposeReq) (*DecomposeRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Decompose not implemented")
+}
+func (UnimplementedStorehouseSvrServer) GetDecomposeRecordInfo(context.Context, *GetDecomposeRecordInfoReq) (*GetDecomposeRecordInfoRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDecomposeRecordInfo not implemented")
 }
 func (UnimplementedStorehouseSvrServer) mustEmbedUnimplementedStorehouseSvrServer() {}
 
@@ -431,6 +447,24 @@ func _StorehouseSvr_Decompose_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorehouseSvr_GetDecomposeRecordInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDecomposeRecordInfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorehouseSvrServer).GetDecomposeRecordInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.storehouse.StorehouseSvr/GetDecomposeRecordInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorehouseSvrServer).GetDecomposeRecordInfo(ctx, req.(*GetDecomposeRecordInfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StorehouseSvr_ServiceDesc is the grpc.ServiceDesc for StorehouseSvr service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -481,6 +515,10 @@ var StorehouseSvr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Decompose",
 			Handler:    _StorehouseSvr_Decompose_Handler,
+		},
+		{
+			MethodName: "GetDecomposeRecordInfo",
+			Handler:    _StorehouseSvr_GetDecomposeRecordInfo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

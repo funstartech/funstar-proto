@@ -145,13 +145,14 @@ message AddStardustReq {
   uint32 source = 2; // 来源 StardustSource
 
   // 收入字段
-  uint32 decompose_count = 10; // 分解数量
+  uint64 decompose_id = 10; // 分解id
+  uint32 decompose_count = 11; // 分解数量
   // 支出字段
   uint64 order_id = 20; // 订单编号
 }
 
 message AddStardustRsp {
-
+  uint64 record_id = 1;
 }
 
 message GetStardustReq {
@@ -171,7 +172,8 @@ message StardustRecordBasic {
   uint32 record_type = 6;
 
   // 收入字段
-  uint32 decompose_count = 10; // 分解数量
+  uint64 decompose_id = 10; // 分解id
+  uint32 decompose_count = 11; // 分解数量
   // 支出字段
   uint64 order_id = 20; // 订单编号
 }

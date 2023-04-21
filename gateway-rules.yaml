@@ -136,6 +136,7 @@ http:
     - selector: funstar.server.storehouse.StorehouseSvr.WxPayCallback
       post: /storehouse/WxPayCallback
       body: "*"
+
       # 获取进阶池
     - selector: funstar.server.storehouse.StorehouseSvr.GetLevelUpPool
       post: /storehouse/GetLevelUpPool
@@ -151,9 +152,13 @@ http:
       # 获取进阶记录详情
     - selector: funstar.server.storehouse.StorehouseSvr.GetLevelUpRecordInfo
       post: /storehouse/GetLevelUpRecordInfo
+
       body: "*"
       # 仓库商品分解
     - selector: funstar.server.storehouse.StorehouseSvr.Decompose
       post: /storehouse/Decompose
       body: "*"
-
+      # 获取分解记录详情
+    - selector: funstar.server.storehouse.StorehouseSvr.GetDecomposeRecordInfo
+      post: /storehouse/GetDecomposeRecordInfo
+      body: "*"
