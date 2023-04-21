@@ -152,8 +152,8 @@ http:
       # 获取进阶记录详情
     - selector: funstar.server.storehouse.StorehouseSvr.GetLevelUpRecordInfo
       post: /storehouse/GetLevelUpRecordInfo
-
       body: "*"
+
       # 仓库商品分解
     - selector: funstar.server.storehouse.StorehouseSvr.Decompose
       post: /storehouse/Decompose
