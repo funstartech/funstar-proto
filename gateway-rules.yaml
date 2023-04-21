@@ -60,7 +60,7 @@ http:
     - selector: funstar.server.userinfo.UserInfoSvr.GetStardust
       post: /userinfo/GetStardust
       body: "*"
-      # 获取用户星尘收入
+      # 获取用户星尘记录
     - selector: funstar.server.userinfo.UserInfoSvr.GetStardustRecord
       post: /userinfo/GetStardustRecord
       body: "*"
