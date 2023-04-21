@@ -46,6 +46,7 @@ message OrderInfo {
 message CreateOrderReq {
   OrderDetail detail = 1;
   string share_key = 2;
+  bool use_stardust = 3;
 }
 
 message CreateOrderRsp {
