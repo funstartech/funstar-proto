@@ -52,6 +52,7 @@ message CreateOrderReq {
 message CreateOrderRsp {
   OrderInfo order_info = 1;
   funstar.wxpay.WxPayment payment = 2;
+  bool free = 3;
 }
 
 message GetOrderInfoReq {
