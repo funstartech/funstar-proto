@@ -160,7 +160,8 @@ message GetStardustRsp {
 message StardustRecordBasic {
   uint64 id = 1;
   int64 create_time = 2;
-  int32 stardust = 3;
+  uint32 source = 3;
+  int32 stardust = 4;
   // 收入字段
   uint32 decompose_count = 10; // 分解数量
   // 支出字段
