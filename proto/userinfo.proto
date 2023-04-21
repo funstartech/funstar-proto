@@ -7,7 +7,7 @@ message UserInfo {
   string avatar = 2;
   string nickname = 3;
   uint32 paid_count = 10; // 已付款单数
-  uint64 paid_amount = 11; // 已付款金额（分）
+  int64 paid_amount = 11; // 已付款金额（分）
   string share_key = 12; // 绑定分销码
   string distributor_id = 13;
   uint64 stardust = 14; // 星尘
