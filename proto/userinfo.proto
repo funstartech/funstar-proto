@@ -7,9 +7,10 @@ message UserInfo {
   string avatar = 2;
   string nickname = 3;
   uint32 paid_count = 10; // 已付款单数
-  int64 paid_amount = 11; // 已付款金额（分）
+  uint64 paid_amount = 11; // 已付款金额（分）
   string share_key = 12; // 绑定分销码
   string distributor_id = 13;
+  uint64 stardust = 14; // 星尘
 
   int64 register_time = 20; // 注册时间
   int64 last_pay_time = 21; // 上次付款时间
@@ -20,7 +21,7 @@ message GetUserInfoReq {
 }
 
 message GetUserInfoRsp {
-    UserInfo userinfo = 1;
+  UserInfo userinfo = 1;
 }
 
 message BatchGetUserInfoReq {
@@ -83,7 +84,7 @@ message GetDefaultAddressReq {
 }
 
 message GetDefaultAddressRsp {
-    UserAddress address = 1;
+  UserAddress address = 1;
 }
 
 message SetDefaultAddressReq {
@@ -126,6 +127,38 @@ message RemAddressRsp {
 
 }
 
+message AddStarDustReq {
+  int32 stardust = 1;
+}
+
+message AddStarDustRsp {
+
+}
+
+message GetStardustReq {
+}
+
+message GetStardustRsp {
+  uint64 stardust_total = 1; // 星尘总额
+  uint64 stardust_available = 2; // 可用星尘
+}
+
+message GetStardustIncomeReq {
+
+}
+
+message GetStardustIncomeRsp {
+
+}
+
+message GetStardustExpenseReq {
+
+}
+
+message GetStardustExpenseRsp {
+
+}
+
 service UserInfoSvr {
   // 获取用户信息
   rpc GetUserInfo (GetUserInfoReq) returns (GetUserInfoRsp);
@@ -152,4 +185,13 @@ service UserInfoSvr {
   rpc UpdateAddress (UpdateAddressReq) returns (UpdateAddressRsp);
   // 删除地址
   rpc RemAddress (RemAddressReq) returns (RemAddressRsp);
+
+  // 添加星尘
+  rpc AddStarDust (AddStarDustReq) returns (AddStarDustRsp);
+  // 获取用户星尘数
+  rpc GetStardust (GetStardustReq) returns (GetStardustRsp);
+  // 获取用户星尘收入
+  rpc GetStardustIncome (GetStardustIncomeReq) returns (GetStardustIncomeRsp);
+  // 获取用户星尘支出
+  rpc GetStardustExpense (GetStardustExpenseReq) returns (GetStardustExpenseRsp);
 }

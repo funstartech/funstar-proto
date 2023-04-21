@@ -46,6 +46,14 @@ type UserInfoSvrClient interface {
 	UpdateAddress(ctx context.Context, in *UpdateAddressReq, opts ...grpc.CallOption) (*UpdateAddressRsp, error)
 	// 删除地址
 	RemAddress(ctx context.Context, in *RemAddressReq, opts ...grpc.CallOption) (*RemAddressRsp, error)
+	// 添加星尘
+	AddStarDust(ctx context.Context, in *AddStarDustReq, opts ...grpc.CallOption) (*AddStarDustRsp, error)
+	// 获取用户星尘数
+	GetStardust(ctx context.Context, in *GetStardustReq, opts ...grpc.CallOption) (*GetStardustRsp, error)
+	// 获取用户星尘收入
+	GetStardustIncome(ctx context.Context, in *GetStardustIncomeReq, opts ...grpc.CallOption) (*GetStardustIncomeRsp, error)
+	// 获取用户星尘支出
+	GetStardustExpense(ctx context.Context, in *GetStardustExpenseReq, opts ...grpc.CallOption) (*GetStardustExpenseRsp, error)
 }
 
 type userInfoSvrClient struct {
@@ -164,6 +172,42 @@ func (c *userInfoSvrClient) RemAddress(ctx context.Context, in *RemAddressReq, o
 	return out, nil
 }
 
+func (c *userInfoSvrClient) AddStarDust(ctx context.Context, in *AddStarDustReq, opts ...grpc.CallOption) (*AddStarDustRsp, error) {
+	out := new(AddStarDustRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.UserInfoSvr/AddStarDust", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userInfoSvrClient) GetStardust(ctx context.Context, in *GetStardustReq, opts ...grpc.CallOption) (*GetStardustRsp, error) {
+	out := new(GetStardustRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.UserInfoSvr/GetStardust", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userInfoSvrClient) GetStardustIncome(ctx context.Context, in *GetStardustIncomeReq, opts ...grpc.CallOption) (*GetStardustIncomeRsp, error) {
+	out := new(GetStardustIncomeRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.UserInfoSvr/GetStardustIncome", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userInfoSvrClient) GetStardustExpense(ctx context.Context, in *GetStardustExpenseReq, opts ...grpc.CallOption) (*GetStardustExpenseRsp, error) {
+	out := new(GetStardustExpenseRsp)
+	err := c.cc.Invoke(ctx, "/funstar.server.userinfo.UserInfoSvr/GetStardustExpense", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserInfoSvrServer is the server API for UserInfoSvr service.
 // All implementations must embed UnimplementedUserInfoSvrServer
 // for forward compatibility
@@ -192,6 +236,14 @@ type UserInfoSvrServer interface {
 	UpdateAddress(context.Context, *UpdateAddressReq) (*UpdateAddressRsp, error)
 	// 删除地址
 	RemAddress(context.Context, *RemAddressReq) (*RemAddressRsp, error)
+	// 添加星尘
+	AddStarDust(context.Context, *AddStarDustReq) (*AddStarDustRsp, error)
+	// 获取用户星尘数
+	GetStardust(context.Context, *GetStardustReq) (*GetStardustRsp, error)
+	// 获取用户星尘收入
+	GetStardustIncome(context.Context, *GetStardustIncomeReq) (*GetStardustIncomeRsp, error)
+	// 获取用户星尘支出
+	GetStardustExpense(context.Context, *GetStardustExpenseReq) (*GetStardustExpenseRsp, error)
 	mustEmbedUnimplementedUserInfoSvrServer()
 }
 
@@ -234,6 +286,18 @@ func (UnimplementedUserInfoSvrServer) UpdateAddress(context.Context, *UpdateAddr
 }
 func (UnimplementedUserInfoSvrServer) RemAddress(context.Context, *RemAddressReq) (*RemAddressRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemAddress not implemented")
+}
+func (UnimplementedUserInfoSvrServer) AddStarDust(context.Context, *AddStarDustReq) (*AddStarDustRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddStarDust not implemented")
+}
+func (UnimplementedUserInfoSvrServer) GetStardust(context.Context, *GetStardustReq) (*GetStardustRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetStardust not implemented")
+}
+func (UnimplementedUserInfoSvrServer) GetStardustIncome(context.Context, *GetStardustIncomeReq) (*GetStardustIncomeRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetStardustIncome not implemented")
+}
+func (UnimplementedUserInfoSvrServer) GetStardustExpense(context.Context, *GetStardustExpenseReq) (*GetStardustExpenseRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetStardustExpense not implemented")
 }
 func (UnimplementedUserInfoSvrServer) mustEmbedUnimplementedUserInfoSvrServer() {}
 
@@ -464,6 +528,78 @@ func _UserInfoSvr_RemAddress_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserInfoSvr_AddStarDust_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddStarDustReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserInfoSvrServer).AddStarDust(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.userinfo.UserInfoSvr/AddStarDust",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserInfoSvrServer).AddStarDust(ctx, req.(*AddStarDustReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserInfoSvr_GetStardust_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetStardustReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserInfoSvrServer).GetStardust(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.userinfo.UserInfoSvr/GetStardust",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserInfoSvrServer).GetStardust(ctx, req.(*GetStardustReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserInfoSvr_GetStardustIncome_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetStardustIncomeReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserInfoSvrServer).GetStardustIncome(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.userinfo.UserInfoSvr/GetStardustIncome",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserInfoSvrServer).GetStardustIncome(ctx, req.(*GetStardustIncomeReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserInfoSvr_GetStardustExpense_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetStardustExpenseReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserInfoSvrServer).GetStardustExpense(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/funstar.server.userinfo.UserInfoSvr/GetStardustExpense",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserInfoSvrServer).GetStardustExpense(ctx, req.(*GetStardustExpenseReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserInfoSvr_ServiceDesc is the grpc.ServiceDesc for UserInfoSvr service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -518,6 +654,22 @@ var UserInfoSvr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RemAddress",
 			Handler:    _UserInfoSvr_RemAddress_Handler,
+		},
+		{
+			MethodName: "AddStarDust",
+			Handler:    _UserInfoSvr_AddStarDust_Handler,
+		},
+		{
+			MethodName: "GetStardust",
+			Handler:    _UserInfoSvr_GetStardust_Handler,
+		},
+		{
+			MethodName: "GetStardustIncome",
+			Handler:    _UserInfoSvr_GetStardustIncome_Handler,
+		},
+		{
+			MethodName: "GetStardustExpense",
+			Handler:    _UserInfoSvr_GetStardustExpense_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

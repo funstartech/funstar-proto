@@ -9,8 +9,9 @@ import "product.proto";
 
 enum StoreProductStatus {
   STORE_STATUS_UNPICK_UP = 0; // 未提货
-  STORE_STATUS_PICK_UP = 1; //已提货
+  STORE_STATUS_PICK_UP = 1; // 已提货
   STORE_STATUS_EXCHANGED = 2; // 已兑换
+  STORE_STATUS_DECOMPOSED = 3; // 已分解
 }
 
 enum StoreProductFrom {
@@ -27,8 +28,9 @@ message StoreProduct {
 }
 
 message GetUserStoresReq {
-  bool level_up = 1;
-  bytes cookie = 2;
+  bytes cookie = 1;
+  bool level_up = 2; // 是否进阶
+  bool decompose = 3; // 是否分解
 }
 
 message GetUserStoresRsp {
@@ -128,13 +130,13 @@ message GetLevelUpPoolRsp {
   bool is_end = 3;
 }
 
-message LevelUpItem {
+message StoreItem {
   uint64 store_id = 1;
   uint32 count = 2;
 }
 
 message LevelUpReq {
-  repeated LevelUpItem items = 1;
+  repeated StoreItem items = 1;
   string target_pid = 2;
 }
 
@@ -182,6 +184,14 @@ message GetLevelUpRecordInfoRsp {
   LevelUpRecordInfo record_info = 1;
 }
 
+message DecomposeReq {
+  repeated StoreItem items = 1;
+}
+
+message DecomposeRsp {
+
+}
+
 service StorehouseSvr {
   // 拉取用户仓库
   rpc GetUserStores (GetUserStoresReq) returns (GetUserStoresRsp);
@@ -204,4 +214,7 @@ service StorehouseSvr {
   rpc GetLevelUpRecords (GetLevelUpRecordsReq) returns (GetLevelUpRecordsRsp);
   // 获取进阶记录详情
   rpc GetLevelUpRecordInfo (GetLevelUpRecordInfoReq) returns (GetLevelUpRecordInfoRsp);
+
+  // 仓库商品分解
+  rpc Decompose(DecomposeReq) returns (DecomposeRsp);
 }

@@ -56,6 +56,19 @@ http:
       post: /userinfo/RemAddress
       body: "*"
 
+      # 获取用户星尘数
+    - selector: funstar.server.userinfo.UserInfoSvr.GetStardust
+      post: /userinfo/GetStardust
+      body: "*"
+      # 获取用户星尘收入
+    - selector: funstar.server.userinfo.UserInfoSvr.GetStardustIncome
+      post: /userinfo/GetStardustIncome
+      body: "*"
+      # 获取用户星尘支出
+    - selector: funstar.server.userinfo.UserInfoSvr.GetStardustExpense
+      post: /userinfo/GetStardustExpense
+      body: "*"
+
       #----- collection 赏服务 ----- #
       # 拉取赏排序流
     - selector: funstar.server.collection.CollectionSvr.GetCollectionList
@@ -142,5 +155,9 @@ http:
       # 获取进阶记录详情
     - selector: funstar.server.storehouse.StorehouseSvr.GetLevelUpRecordInfo
       post: /storehouse/GetLevelUpRecordInfo
+      body: "*"
+      # 仓库商品分解
+    - selector: funstar.server.storehouse.StorehouseSvr.Decompose
+      post: /storehouse/Decompose
       body: "*"
 
