@@ -166,8 +166,10 @@ message StardustRecordBasic {
   uint64 id = 1;
   string openid = 2;
   int64 create_time = 3;
-  uint32 source = 4;
-  int32 stardust = 5;
+  int32 stardust = 4;
+  uint32 source = 5;
+  uint32 record_type = 6;
+
   // 收入字段
   uint32 decompose_count = 10; // 分解数量
   // 支出字段
