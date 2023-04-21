@@ -143,6 +143,11 @@ enum StardustSource {
 message AddStardustReq {
   int32 stardust = 1;
   uint32 source = 2; // 来源 StardustSource
+  
+  // 收入字段
+  uint32 decompose_count = 10; // 分解数量
+  // 支出字段
+  uint64 order_id = 20; // 订单编号
 }
 
 message AddStardustRsp {
