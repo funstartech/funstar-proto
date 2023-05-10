@@ -138,6 +138,7 @@ enum StardustSource {
   STARDUST_SOURCE_UNKNOWN = 0;
   STARDUST_SOURCE_DECOMPOSE = 1; // 分解
   STARDUST_SOURCE_LOTTERY_ORDER = 10; // 抽奖订单消费
+  STARDUST_SOURCE_SYSTEM = 20; // 系统修改
 }
 
 message AddStardustReq {
