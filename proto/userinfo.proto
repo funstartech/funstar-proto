@@ -171,6 +171,7 @@ message StardustRecordBasic {
   int32 stardust = 4;
   uint32 source = 5;
   uint32 record_type = 6;
+  uint64 remain = 7; // 余额
 
   // 收入字段
   uint64 decompose_id = 10; // 分解id
